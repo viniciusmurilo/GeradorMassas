@@ -1,0 +1,439 @@
+Abatedouro - Industrialização
+Abrasivo - Artigo - Fábrica
+Abrasivo - Loja e Depósito
+Academias
+Ácidos em Geral - Depósito
+Ácidos em Geral - Fábrica
+Açougue / Casa de Carnes - Loja
+Açúcar - Depósito
+Açúcar, Usina sem Produção de Álcool
+Acumuladores Elétricos, Baterias e Pilhas - Fábrica
+Adesivo - Fábrica
+Adubo - Depósito
+Adubo, Origem Animal ou Vegetal
+Adubo, Origem Mineral
+Aeroporto
+Agência Correio
+Agências - Turismo
+Agências Bancárias, Lojas ou Cooperativas de Crédito, Casas de Câmbio
+Agropecuários, Produtos - Loja e Depósito
+Água - Loja e Depósito
+Água, Extração e Engarrafamento
+Álcool, Usina e Destilaria
+Algodão - Descascador, Descaroçador
+Algodão - Fiação
+Algodão - Tecelagem
+Algodão, Depósito de Matéria Prima
+Alimento para Animais - Fábrica
+Alimento para Animais - Loja e Depósito
+Alimento, Conservas - Loja e Depósito
+Animal - Criação e Reprodução
+Animal, Comércio
+Antiquário - Loja e Depósito
+Anúncios, Painéis e Letreiros - Ao Ar Livre
+Armarinho - Loja e Depósito
+Armas - Loja e Depósito
+Armazéns com Depósito de Inflamáveis - Sem Armazenamento de Algodão
+Armazéns sem Depósito de Inflamáveis - Sem Armazenamento de Algodão
+Arquivo de Documentos
+Arroz - Beneficiamento e Engenho
+Asfalto - Usina
+Asilo / Albergue / Creche
+Atelier, Artes
+Automóvel - Auto Elétrico
+Automóvel - Concessionária
+Automóvel - Loja, Depósito e Locadora - Excluindo-se: Desmanches; Venda de Peças e/ou Componentes Usados e Venda de Sucatas
+Automóvel - Loja, Depósito e Locadora - Permitindo-se: Desmanches; Venda de Peças e/ou Componentes Usados e Venda de Sucatas
+Automóvel - Mecânica e Funilaria
+Automóvel - Tapeçaria
+Automóvel - Vidros e Som, Instalação
+Autopeças - Loja e Depósito - Excluindo-se: Desmanches; Venda de Peças e/ou Componentes Usados e Venda de Sucatas
+Autopeças - Loja e Depósito - Permitindo-se: Desmanches; Venda de Peças e/ou Componentes Usados e Venda de Sucatas
+Avícola - Loja e Depósito
+Banca de Jornal e Revista
+Banner, Confecção
+Bar / Lanchonete
+Barco / Bote / Jet Ski - Loja e Depósito
+Bebida Alcóolica - Fábrica
+Bebidas - Distribuidora / Depósito
+Biblioteca
+Bicicleta - Loja, Depósito e Oficina
+Bijuteria - Loja e Depósito
+Bijuterias - Fábricas - Excluindo Metais, Artefatos, Joias, Pedras Preciosas
+Bilhar, Salão
+Bingo, Salão
+Biscoito / Bolacha - Fábrica
+Bolacha / Biscoito - Loja e Depósito
+Boliche, Salão
+Bolsa - Fábrica (Qualquer Material)
+Bolsas / Cintos / Congêneres - Loja e Depósito
+Bordado - Fábrica
+Borracha - Fábrica
+Borracha Recauchutagem
+Borracha, Artigo - Fábrica
+Borrachas, Artigos - Loja e Depósito
+Botão - Fábrica (Qualquer Material)
+Brechó
+Brinquedo - Loja e Depósito
+Buffet
+Cabaré
+Cabelo Natural - Loja e Depósito
+Cacau - Usina e Preparação
+Cadarço - Fábrica
+Café - Beneficiamento e Engenho
+Café - Torrefação e Moagem
+Café Solúvel
+Cafeteria - Loja e Depósito
+Calçado - Fábrica
+Calçado - Loja e Depósito
+Cama / Mesa / Banho, Artigos - Loja e Depósito
+Câmaras Frigoríficas
+Caneta - Fábrica
+Canteiro de Obras
+Caramelo - Fábrica
+Carbureto - Fábrica
+Carburetos - Loja e Depósito
+Carimbo - Fábrica
+Cartório
+Cartucho / Fitas para Impressão - Fábrica
+Carvão - Loja e Depósito
+Carvão Mineral - Extração
+Carvão Vegetal - Extração
+Casa de Show, Espetáculos
+Castanha do Pará - Beneficiamento
+Celulose - Depósito
+Celulose - Fábrica
+Cemitério, Vertical
+Cera - Fábrica
+Cerâmica, Artigo - Fábrica
+Cerâmica, Artigos - Loja e Depósito
+Cerveja e Refrigerantes - Fábrica
+Chapéu - Fábrica
+Chapéu - Loja e Depósito
+Chaveiro
+Cigarro / Charutaria / Tabacaria - Loja e Depósito
+Cigarro / Charuto - Fábrica
+Cimento - Loja e Depósito
+Cimento / Gesso - Fábrica
+Cimento / Gesso, Artigo - Loja e Depósito
+Cimento, Artigo - Fábrica
+Cine / Foto / Som - Loja e Depósito
+Cinema
+Cinematografia, Artigo - Loja e Depósito
+Cinematografia, Estúdios
+Circo
+Cirúrgico, Artigo - Fábrica
+Clube
+Clube de Tiros
+Cola com Inflamável - Fábrica
+Cola sem Inflamável - Fábrica
+Colchões - Fábrica
+Colchões - Loja e Depósito
+Compact Disc (CD) Fábrica
+Condimento - Preparação e Embalagem
+Consultório Dentário
+Consultório e Clínica com Imagem
+Consultório e Clínica Estética
+Consultório Médico
+Conveniência - Loja e Depósito
+Copiadora
+Cordoarias - Fábrica
+Cortiça, Artigo - Fábrica
+Cosmético - Fábrica
+Cosmético - Loja e Depósito
+Couro e Peles - Loja e Depósito
+Couro, Artigo - Fábrica
+Cozinha Industrial
+Crematório
+Curtume
+Danceteria
+Delegacia
+Dentário, Aparelhos - Fábrica
+Dentários, Artigos - Loja e Depósito
+Discos, Fitas e CD - Loja e Depósito
+Diversão, Eletrônica
+Doces / Chocolate - Fábrica
+Doces / Chocolates - Loja e Depósito
+Edificação Exclusivamente Residencial
+Edificação Vertical Exclusivamente Comercial
+Edifício, Construção ou Reforma
+Edifício, Desocupado
+Elétrico, Artigo - Fábrica
+Eletroeletrônicos, Aparelhos - Loja e Depósito
+Eletroeletrônicos, Aparelhos - Oficina
+Eletrônico, Artigo - Fábrica
+Empório
+Ervanaria - Loja e Depósito
+Ervas, Cascas e Plantas - Processamento / Depósito
+Escola - Autoescola
+Escola de Idiomas
+Escola de Informática
+Escola de Música e Conservatório
+Escola Particular
+Escola Pública
+Escolas Profissionalizantes
+Escritório
+Escritório - Transmissão Eletrônica
+Esmeril - Fábrica
+Esporte, Artigos - Loja e Depósito
+Espuma, Artigos - Fábrica
+Espuma, Artigos - Loja e Depósito
+Estação Ferroviária
+Estação Retransmissora de Rádio ou Televisão - Torre de Retransmissão
+Estação Rodoviária
+Estação Tratamento - Água e Esgoto
+Estacionamento
+Estaleiro
+Estamparia de Roupas / Tecidos
+Estofados / Tapeçaria - Oficina de Móveis
+Estopa - Fábrica
+Estúdio Fotográfico e/ou de Gravação de Som e Imagem
+Eventos e Feiras, Salão
+Explosivo - Fábrica
+Exposições
+Extintores, Recarga - Loja e Depósito
+Fábrica em Desmontagem sem Mercadoria
+Fábrica em Montagem sem Mercadoria
+Fábrica Parada / Desocupada sem Mercadoria
+Farinha - Beneficiamento e Moagem
+Farinha - Loja e Depósito
+Farmacêutico, Produtos - Fábrica
+Farmácia / Drogaria - Loja
+Fazenda - Estabelecimento Rural
+Ferragem e Ferramenta - Loja e Depósito
+Fibra Animal - Fiação / Demais Processos
+Fibra Animal - Tecelagem
+Fibra Artificial / Sintética - Filamento
+Fibra Artificial / Sintética - Tecelagem
+Fibras Vegetais - Beneficiamento / Processos
+Fibras Vegetais, Artigos - Loja e Depósito
+Filatelia
+Fitas, Rendas e Bordados - Loja e Depósito
+Floricultura
+Fogos de Artifício - Fábrica
+Fogos de Artifício - Loja e Depósito
+Fósforo - Fábrica
+Fotográfico, Artigo - Loja e Depósito
+Fotolito (Computadorizado)
+Fralda - Fábrica
+Fralda - Loja e Depósito
+Frigorifico
+Fruta - Beneficiamento e Embalagem
+Frutas - Loja e Depósito
+Fumo - Preparação / Beneficiamento
+Fumo Beneficiado - Loja e Depósito
+Fúnebres, Artigo - Lojas
+Garagem de Ônibus e Transportadora (Com Oficinas)
+Gás - Loja e Depósito
+Gás Combustível - Fábrica / Engarrafamento
+Gelo - Fábrica
+Gelo - Loja e Depósito
+Gesso, Artigo - Fábrica
+Gráfica / Tipografia
+Grãos em Geral - Beneficiamento / Depósito (Exceto Amendoim)
+Grãos em Geral - Loja
+Guarda-Chuva / Sol - Fábrica
+Guarda-Móveis
+Guarda-Sol / Chuva - Loja e Depósito
+Hangar
+Hidroterápico, Estabelecimento
+Hospital
+Hospitalares / Cirúrgicos, Artigos - Loja e Depósito
+Hospitalares, Aparelhos - Fábrica
+Hotel / Pousada / Motel
+Igreja
+Incenso - Fábrica
+Incinerador
+Inflamável - Depósito
+Inflamável, Produtos - Fábrica
+Informática, Equipamento - Loja e Depósito
+Informática, Equipamento - Oficina
+Informática, Suprimento - Loja e Depósito
+Instrumento Científico / Precisão - Loja e Depósito
+Instrumento Científico Precisão - Fábrica
+Internet Café
+Isopor - Fábrica
+Isopor - Loja e Depósito
+Isopor, Artigo - Fábrica
+Joalheria - Loja e Depósito
+Jogo, Salão De
+Joias - Fábrica
+Jornais / Revista - Oficina / Impressão
+Jornais e Revistas - Exceto Bancas
+Kart, Pista
+Laboratório de Análise
+Laboratório Farmacêutico
+Laboratório Fotográfico
+Laboratório Químico
+Ladrilho e Azulejos - Fábrica
+Laticínio - Fábrica
+Laticínios - Loja e Depósito
+Lavanderia de Roupas e Tecido
+Leite - Usina
+Lingerie / Espartilhos - Loja e Depósito
+Linha para Costura - Fábrica
+Linha, Lã e Fios Têxteis - Loja e Depósito
+Livraria (Exceto Depósito)
+Livros - Fábrica / Encadernadora
+Locadora de Fitas (K7 / VHS / Game / DVD)
+Loja de Departamentos
+Loja de Galerias
+Loja em Shopping (Exceto Lojas de Celular)
+Lona - Fábrica
+Lona, Artigos - Loja e Depósito
+Lotérica
+Louça, Artigo - Fábrica
+Louça, Artigos - Loja e Depósito
+Madeira, Artigo - Fábrica (Exceto Móveis)
+Madeira, Artigo - Loja e Depósito (Exceto Móveis)
+Malharia, Confecção
+Máquina - Loja e Depósito
+Máquinas - Oficina
+Máquinas Agrícolas - Loja e Depósito
+Máquinas Agrícolas - Oficina
+Marcenaria
+Marina
+Marmoraria
+Massa Alimentícia - Fábrica (Incluindo Panificação)
+Massas Alimentícias - Loja e Depósito
+Matadouro (Industrialização)
+Material de Construção - Loja e Depósito
+Material Elétrico - Loja e Depósito
+Meia - Fábrica
+Meia - Loja e Depósito
+Mercado Público
+Metal Não Ferroso, Artigos - Fábrica
+Metal, Artigos - Fábrica com Fundição
+Metal, Artigos - Fábrica com Galvanoplastia
+Metal, Artigos - Fábrica com Processo a Quente
+Metal, Artigos - Fábrica sem Processo a Quente
+Metal, Artigos - Loja e Depósito
+Metal, Tratamento Termoquímico
+Mineração
+Moinho - Moagem e Silo
+Moldura - Fábrica
+Moldura, Montagem - Loja e Depósito
+Motocicleta - Loja e Depósito
+Motocicleta - Oficina
+Móveis - Loja e Depósito
+Móveis de Madeira - Fábrica com Estofamento
+Móveis de Madeira - Fábrica sem Estofamento
+Multilet - Loja e Depósito
+Munição - Fábrica
+Museu
+Música, Instrumento - Fábrica
+Musical, Instrumento - Loja e Depósito
+Numismática
+Oficina, Manutenção - Geral
+Olaria
+Óleo Comestível - Fábrica
+Óleo Comestível - Loja e Depósito
+Óleo Lubrificante - Fábrica
+Óleo Lubrificante - Loja e Depósito
+Orfanato
+Ortopédico, Aparelho - Fábrica
+Ortopédicos, Artigos - Loja e Depósito
+Ossos e Chifres, Artigo - Fábrica
+Ótica - Loja e Depósito
+Ourives
+Padaria - Loja
+Papel - Aparas / Sucata - Beneficiamento
+Papel - Bobinas / Fardos / Resma - Depósito
+Papel / Papelão - Fábrica
+Papel / Papelão, Artigo - Fábrica
+Papel Carbono - Fábrica
+Papel, Artigos - Loja e Depósito
+Papelaria
+Parque, Diversão ou Temático
+Pedágio
+Peixaria
+Pensão
+Perfumaria - Fábrica
+Perfumaria - Loja e Depósito
+Pet Shop
+Pintura, Oficina
+Plantação
+Plástico, Artigo - Fábrica com Reciclagem
+Plástico, Artigo - Fábrica sem Reciclagem
+Plástico, Artigos - Loja e Depósito
+Plástico, Embalagem - Fábrica com Inflamável
+Plástico, Embalagem - Fábrica sem Inflamável
+Pneus e Câmaras de Ar - Fábrica
+Pneus e Câmaras de Ar - Loja e Depósito
+Pneus e Câmaras de Ar - Oficina
+Pó de Pedra - Fábrica
+Porto
+Posto de Serviço, com Venda de Combustíveis
+Posto de Serviço, sem Venda de Combustíveis
+Produto Alimentício - Origem Animal
+Produto Alimentício - Origem Vegetal
+Produto Químico, com Inflamável - Depósito
+Produto Químico, com Inflamável - Fábrica
+Produto Químico, sem Inflamável - Depósito
+Produto Químico, sem Inflamável - Fábrica
+Produtos Alimentícios - Loja e Depósito
+Produtos de Limpeza - Loja e Depósito
+Produtos Farmacêuticos sem Inflamável
+Prótese Dentária - Oficina
+Quartel
+Quitanda
+Rádio - Emissora
+Radiologia, Clínica e Consultório
+Refeição (Entrega)
+Religioso, Artigo - Loja e Depósito
+Relógio - Fábrica
+Relojoaria - Loja e Depósito
+Renda - Fábrica
+Residência Habitual
+Residência Veraneio
+Restaurante / Pizzaria
+Revistas e Jornais - Loja e Depósito
+Rotisserie
+Roupa - Fábrica e Oficina
+Roupa - Loja e Depósito
+Sabão / Sabonete / Saponáceo - Fábrica
+Sal - Extração e Beneficiamento
+Salão de Baile
+Salão, Instituto de Beleza / Barbearia
+Sauna
+Secos e Molhados - Loja e Depósito
+Self Storage
+Serraria
+Shopping Center
+Siderúrgica
+Sorvete - Fábrica
+Sorveteria - Loja e Depósito
+Stand de Vendas
+Supermercado / Hipermercado
+Tapete - Fábrica
+Tapete - Loja e Depósito
+Tatuagem - Estúdio
+Teatro
+Tecido - Corte
+Tecido - Loja e Depósito
+Teleférico
+Telefone - Fábrica
+Telefone - Loja e Depósito
+Televisão - Emissora
+Tempero - Preparação e Embalagem
+Templo
+Tinta, a Base de Inflamável - Fábrica
+Tinta, sem Inflamável - Fábrica
+Tintas e Vernizes - Loja e Depósito
+Tinturaria de Roupas e Tecidos
+Toucador, Artigo - Fábrica
+Toucador, Artigos - Loja e Depósito
+Transportadora - Sem Armazenamento de Algodão
+Universidades e Faculdades
+Usina de Concreto
+Usinas / Estações / Distribuidoras - Eletricidade
+Utilidades Domésticas - Loja
+Vela - Fábrica
+Vela - Loja e Depósito
+Velório
+Veterinário
+Vidro e/ou Artigos de Vidros - Fábrica
+Vidro e/ou Artigos de Vidros - Loja e Depósito
+Vime, Junco, Piaçaba, Juta, Artigo - Fábrica
+Vinagre - Fábrica
+Vinho - Fábrica
