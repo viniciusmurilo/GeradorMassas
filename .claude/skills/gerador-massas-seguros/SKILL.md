@@ -87,7 +87,11 @@ tipo de construção/objeto segurado restrito por atividade, e UF/CEP bloqueados
   dígitos). Nunca gere CPF/CNPJ/CEP você mesmo.
 - **Grupos** (proteção contra incêndio/roubo, indenização a valor de novo, equipamentos de
   proteção residencial): passe só as opções marcadas; o resto vira `<IGNORE>` automaticamente.
-  Grupo de escolha única com mais de uma opção no JSON = erro do script.
+  Todos são **obrigatórios** — o script recusa se um deles não aparecer em `grupos`; use o padrão
+  documentado no catálogo (`["NÃO"]` / `["Não informado..."]`) quando o usuário não especificar
+  nada. Grupo de escolha única com mais de uma opção no JSON = erro. Nos grupos de múltipla
+  escolha, a opção `Não informado...`/`Não informado` é exclusiva — não pode vir junto com outra
+  opção do mesmo grupo, também é erro do script.
 - Nenhuma célula de dado pode ficar vazia: o script garante que toda coluna reconhecida recebe
   valor ou `<IGNORE>`, e todo campo obrigatório (`campos`/`combos`/`texto`) tem que estar presente
   no JSON — ausência é erro, não default silencioso.
@@ -104,6 +108,7 @@ tipo de construção/objeto segurado restrito por atividade, e UF/CEP bloqueados
   reais você mesmo.
 - Características de risco e grupos de proteção: sorteie dentro das listas permitidas do ramo,
   respeitando as restrições de atividade/tipo de construção/objeto segurado da norma.
+- Atividade (empresarial): sorteie de `atividades.txt` sem repetir dentro do mesmo lote.
 
 ## Templates
 

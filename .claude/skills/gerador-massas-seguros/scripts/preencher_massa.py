@@ -16,7 +16,11 @@ Formato do JSON de entrada:
          "texto": {"Atividade": "Academias", "Valor em Risco - Danos Materiais": 10000000,
                    "Lucros Cessantes": 10000},
          "bool": ["Benefícios Bike"],
-         "grupos": {"Existem equipamentos de proteção contra incêndio?": ["Extintores"]},
+         "grupos": {
+           "Deseja contratar indenização a valor de novo?": ["NÃO"],
+           "Existem equipamentos de proteção contra incêndio?": ["Extintores"],
+           "Existem equipamentos de proteção contra roubo?": ["Sistema de alarme contra roubo"]
+         },
          "coberturas": [{"nome": "Danos Elétricos", "valor": 200000}]
        }
      ]}
@@ -25,6 +29,13 @@ O script LE o cabecalho (linha 2) do template em tempo de execucao e classifica 
 coluna (campo direto, combo, texto, bool, grupo RDB/CHK, cobertura, periodo indenitario).
 Nunca escreve por posicao: tudo e pareado pelo nome exato do cabecalho (comparacao
 tolerante a acento/caixa/pontuacao). Chave nao encontrada = erro, nunca "chute".
+
+Os 3-4 questionarios de grupo (indenizacao a valor de novo, protecao contra incendio,
+protecao contra roubo/equipamentos de protecao) sao OBRIGATORIOS: tem que aparecer em
+"grupos" em toda massa, mesmo que so com a opcao padrao ("NÃO" / "Não informado...").
+O modo de cada grupo (escolha unica vs multipla) e a exclusividade da opcao "Não
+informado" sao fixados em REGRAS_GRUPO — nao dependem do prefixo RDB/CHK do cabecalho,
+que nao e consistente entre os dois ramos.
 """
 
 import json
@@ -42,9 +53,35 @@ LINHA_DADOS = 3
 SIM = "sim"
 IGNORAR = "<IGNORE>"
 
-# Pares SIM/NAO tratados como grupo de escolha unica mesmo quando o prefixo do
-# cabecalho e "CHK" (o template nao e consistente entre os dois ramos aqui).
-OPCOES_UNICO_FORCADO = {"SIM", "NÃO", "NAO"}
+# O prefixo do cabecalho (RDB/CHK) NAO indica de forma confiavel se o grupo e de
+# escolha unica ou multipla (confirmado com o dono do produto): o grupo "Equipamentos
+# de Protecao" do residencial e RDB no cabecalho mas e multipla escolha na pratica, e
+# "protecao contra roubo" do empresarial e CHK mas tem opcao exclusiva. Por isso o modo
+# de cada grupo e fixado explicitamente aqui, por nome de grupo, em vez de inferido.
+#
+# modo="unico": no maximo 1 opcao marcada.
+# modo="multiplo": varias opcoes podem ser marcadas juntas.
+# nao_informado: se preenchido, essa opcao e exclusiva dentro do grupo — quando
+#   selecionada, nenhuma outra opcao do grupo pode vir junto.
+# obrigatorio: o grupo tem que aparecer em "grupos" no JSON de entrada (mesmo que so
+#   com a opcao padrao/"nao informado") — nunca fica implicitamente de fora.
+REGRAS_GRUPO = {
+    "Deseja contratar indenização a valor de novo?": {
+        "modo": "unico", "obrigatorio": True, "nao_informado": None,
+    },
+    "Existem equipamentos de proteção contra incêndio?": {
+        "modo": "unico", "obrigatorio": True,
+        "nao_informado": "Não informado sistema de proteção contra incêndio",
+    },
+    "Existem equipamentos de proteção contra roubo?": {
+        "modo": "multiplo", "obrigatorio": True,
+        "nao_informado": "Não informado sistema de proteção contra roubo",
+    },
+    "Equipamentos de Proteção": {
+        "modo": "multiplo", "obrigatorio": True, "nao_informado": "Não informado",
+    },
+}
+REGRA_GRUPO_PADRAO = {"modo": "multiplo", "obrigatorio": False, "nao_informado": None}
 
 
 def normalizar(texto):
@@ -109,7 +146,7 @@ def montar_mapa(ws):
     """Le a linha de cabecalho e devolve estrutura classificada por coluna."""
     campos, combos, textos, bools = {}, {}, {}, {}
     coberturas, periodos = {}, {}
-    grupos = {}  # grupo_nome -> {"prefixo":..., "opcoes": {opcao: col_letter}}
+    grupos = {}  # grupo_nome -> {"opcoes": {opcao: col_letter}} (modo/obrigatoriedade: ver REGRAS_GRUPO)
 
     for c in range(1, ws.max_column + 1):
         header = ws.cell(row=LINHA_CABECALHO, column=c).value
@@ -131,11 +168,8 @@ def montar_mapa(ws):
         elif tipo == "periodo":
             periodos[info["chave"]] = col
         elif tipo == "grupo":
-            g = grupos.setdefault(info["grupo"], {"prefixo": info["prefixo"], "opcoes": {}})
+            g = grupos.setdefault(info["grupo"], {"opcoes": {}})
             g["opcoes"][info["opcao"]] = col
-            # se o grupo tiver SIM/NAO, forca escolha unica independente do prefixo do cabecalho
-            if set(g["opcoes"]) & OPCOES_UNICO_FORCADO:
-                g["prefixo"] = "RDB"
 
     return {
         "campos": campos, "combos": combos, "textos": textos, "bools": bools,
@@ -177,12 +211,21 @@ def preencher_linha(ws, linha, massa, mapa):
     for nome, col in mapa["bools"].items():
         ws[f"{col}{linha}"] = SIM if nome in marcados_bool else IGNORAR
 
-    # --- grupos RDB/CHK ---
+    # --- grupos RDB/CHK (modo/obrigatoriedade fixados em REGRAS_GRUPO, nao no cabecalho) ---
     grupos_pedidos = massa.get("grupos", {})
     invalidos = set(grupos_pedidos) - set(mapa["grupos"])
     if invalidos:
         raise ValueError(f"linha {linha}: grupo inexistente: {sorted(invalidos)}")
+    obrigatorios_ausentes = [
+        nome for nome in mapa["grupos"]
+        if REGRAS_GRUPO.get(nome, REGRA_GRUPO_PADRAO)["obrigatorio"] and nome not in grupos_pedidos
+    ]
+    if obrigatorios_ausentes:
+        raise ValueError(
+            f"linha {linha}: questionario obrigatorio nao respondido: {sorted(obrigatorios_ausentes)}"
+        )
     for grupo_nome, ginfo in mapa["grupos"].items():
+        regra = REGRAS_GRUPO.get(grupo_nome, REGRA_GRUPO_PADRAO)
         selecionadas = grupos_pedidos.get(grupo_nome, [])
         idx_opcoes = _indice(ginfo["opcoes"])
         canon_selecionadas = []
@@ -194,10 +237,18 @@ def preencher_linha(ws, linha, massa, mapa):
                     f"(opcoes validas: {sorted(ginfo['opcoes'])})"
                 )
             canon_selecionadas.append(canon)
-        if ginfo["prefixo"] == "RDB" and len(canon_selecionadas) > 1:
+        if regra["modo"] == "unico" and len(canon_selecionadas) > 1:
             raise ValueError(
                 f"linha {linha}: grupo '{grupo_nome}' e de escolha unica, "
                 f"recebeu {canon_selecionadas}"
+            )
+        if (
+            regra["nao_informado"] and regra["nao_informado"] in canon_selecionadas
+            and len(canon_selecionadas) > 1
+        ):
+            raise ValueError(
+                f"linha {linha}: grupo '{grupo_nome}': '{regra['nao_informado']}' e exclusiva, "
+                f"nao pode vir com outras opcoes ({canon_selecionadas})"
             )
         marcadas = set(canon_selecionadas)
         for opcao, col in ginfo["opcoes"].items():

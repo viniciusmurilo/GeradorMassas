@@ -38,23 +38,29 @@ Residencial vazado no template Empresarial. Sempre fica `<IGNORE>` — o script 
 sozinho quando a massa não menciona nada em `bool`; **nunca** inclua esse nome em `bool` para
 uma massa empresarial.
 
-## Grupos de escolha (questionário/proteção) — chave `grupos`
+## Grupos de escolha (questionário/proteção) — chave `grupos`, **os 3 abaixo são obrigatórios**
 
-Cada grupo abaixo vira um conjunto de colunas `sim`/`<IGNORE>`. Passe só os nomes das opções
-marcadas; o script grava `<IGNORE>` nas demais automaticamente. Nome de grupo e de opção têm
-que bater com a lista abaixo (comparação tolera acento/caixa, mas não invente opção).
+Cada grupo vira um conjunto de colunas `sim`/`<IGNORE>`. Passe só os nomes das opções marcadas;
+o script grava `<IGNORE>` nas demais automaticamente. Nome de grupo e de opção têm que bater com
+a lista abaixo (comparação tolera acento/caixa, mas não invente opção).
 
-### `Deseja contratar indenização a valor de novo?` — escolha única
-Opções: `SIM` · `NÃO`. Lista vazia = pergunta não respondida (as duas colunas ficam `<IGNORE>`).
+Os 3 grupos a seguir são **obrigatórios em toda massa** — o script recusa se algum não aparecer
+em `grupos` (mesmo que vazio não vale; tem que ter uma opção escolhida). Se o usuário não disser
+nada sobre proteção/indenização, use o padrão indicado em cada um.
 
-### `Existem equipamentos de proteção contra incêndio?` — escolha única (tiers, não cumulativo)
-Opções: `Extintores` · `Extintores e Hidrantes` · `Extintores, hidrantes e sistema de detecção ou alarme de incêndio` · `Extintores, hidrantes e sprinklers` · `Não informado sistema de proteção contra incêndio`
+### `Deseja contratar indenização a valor de novo?` — escolha única, obrigatório
+Opções: `SIM` · `NÃO`. Padrão quando o usuário não especificar: `["NÃO"]`.
 
-### `Existem equipamentos de proteção contra roubo?` — múltipla escolha
-Opções: `Sistema de alarme contra roubo` · `Grades de proteção e fechaduras tipo tetra` · `Vigilância armada ou desarmada com cobertura exclusiva 24 horas` · `Edificação comercial com elevador e controle de acesso por porteiro 24 horas` · `Não informado sistema de proteção contra roubo`
+### `Existem equipamentos de proteção contra incêndio?` — escolha única, obrigatório
+Opções: `Extintores` · `Extintores e Hidrantes` · `Extintores, hidrantes e sistema de detecção ou alarme de incêndio` · `Extintores, hidrantes e sprinklers` · `Não informado sistema de proteção contra incêndio`.
+Padrão: `["Não informado sistema de proteção contra incêndio"]`.
 
-Pode marcar mais de uma (ex.: alarme + grades), **exceto** `Não informado...`, que é exclusiva —
-se usada, não marque mais nada no grupo.
+### `Existem equipamentos de proteção contra roubo?` — múltipla escolha, obrigatório
+Opções: `Sistema de alarme contra roubo` · `Grades de proteção e fechaduras tipo tetra` · `Vigilância armada ou desarmada com cobertura exclusiva 24 horas` · `Edificação comercial com elevador e controle de acesso por porteiro 24 horas` · `Não informado sistema de proteção contra roubo`.
+Padrão: `["Não informado sistema de proteção contra roubo"]`.
+
+Pode marcar mais de uma opção (ex.: alarme + grades), **exceto** `Não informado...`, que é
+exclusiva — o script recusa se ela vier junto com qualquer outra opção do grupo.
 
 Ver `references/normas_empresarial.md` §Protecionais Mínimos para atividades que **exigem**
 proteção mínima de incêndio/roubo acima de determinado valor — numa massa válida, respeite esse

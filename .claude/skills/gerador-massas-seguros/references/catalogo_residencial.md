@@ -34,14 +34,21 @@ Cada um é um `sim`/`<IGNORE>` isolado (não fazem parte de grupo — pode marca
 `Residencial Benefícios Essenciais` · `Benefícios Bike` · `Benefícios Pet` · `Inspeção Kids` ·
 `Inspeção para Acessibilidade` · `Inspeção Sênior` · `Limpeza de Placa Solar`
 
-## Grupos de escolha — chave `grupos`
+## Grupos de escolha — chave `grupos`, **os 2 abaixo são obrigatórios**
 
-### `Deseja contratar indenização a valor de novo?` — escolha única
-Opções: `SIM` · `NÃO`.
+O script recusa se algum dos dois não aparecer em `grupos`. Se o usuário não disser nada sobre
+proteção/indenização, use o padrão indicado em cada um.
 
-### `Equipamentos de Proteção` — escolha única
+### `Deseja contratar indenização a valor de novo?` — escolha única, obrigatório
+Opções: `SIM` · `NÃO`. Padrão quando o usuário não especificar: `["NÃO"]`.
+
+### `Equipamentos de Proteção` — múltipla escolha, obrigatório
 Opções: `Alarme` · `Grades Metálicas em Janelas` · `Inexistência de terreno baldio` ·
-`Porteiro Eletrônico` · `Vigilância exclusiva e permanente` · `Extintores` · `Não informado`
+`Porteiro Eletrônico` · `Vigilância exclusiva e permanente` · `Extintores` · `Não informado`.
+Padrão: `["Não informado"]`.
+
+Pode marcar mais de uma ao mesmo tempo (ex.: `Alarme` + `Extintores`), **exceto** `Não informado`,
+que é exclusiva — o script recusa se ela vier junto com qualquer outra opção do grupo.
 
 ## Coberturas — chave `coberturas`
 
@@ -86,6 +93,10 @@ coluna de valor normal e pode ser usada livremente.
 - **Responsabilidade Civil**: "Danos Morais" ≠ "Empregados Domésticos" ≠ "Familiar" ≠
   "Prática de Esporte" ≠ "hole-in-one" ≠ "tacos de golfe". Só "RC" → pergunte.
 - **Roubo/Furto Qualificado de Bens** (da residência) ≠ "...de Bicicleta Fora da Residência".
+- **Bicicletas** (cobre a bicicleta em si, dentro da residência) ≠
+  **Roubo E/ou Furto Qualificado de Bicicleta Fora da Residência** (cobre o roubo/furto quando a
+  bicicleta está fora de casa). Pedido genérico de "cobertura de bicicleta" sem dizer onde →
+  pergunte qual das duas (ou as duas).
 - **"Indenização a valor de novo"** aqui é também uma **cobertura própria** (linha da lista, com
   valor) — não confundir com o grupo booleano `Deseja contratar indenização a valor de novo?`
   (SIM/NÃO), que é outro campo.
