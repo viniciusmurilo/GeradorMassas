@@ -315,6 +315,14 @@ def preencher(dados, caminho_template, caminho_saida):
             cel.fill = est["fill"]
             cel.number_format = est["number_format"]
 
+    # O template original tem linhas de exemplo ja preenchidas (referencia de formato)
+    # que podem ir alem do numero de massas pedidas agora. Sem isso, a copia de saida
+    # ficaria com "massas fantasma" do exemplo original misturadas com as geradas.
+    primeira_linha_sobrando = LINHA_DADOS + len(resumo)
+    for linha in range(primeira_linha_sobrando, ws.max_row + 1):
+        for c in range(1, max_col + 1):
+            ws.cell(row=linha, column=c).value = None
+
     wb.save(caminho_saida)
     return resumo
 
