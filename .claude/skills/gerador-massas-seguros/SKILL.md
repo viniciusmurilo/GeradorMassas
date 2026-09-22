@@ -119,8 +119,9 @@ espera os templates em `templates/`:
 - `templates/template_residencial.xlsx`
 
 Os arquivos já vêm com algumas linhas de exemplo preenchidas (referência de formatação) — o
-script sempre escreve a partir da **linha 3** na cópia de saída, sobrescrevendo o que estiver lá;
-o template original em `templates/` nunca é tocado.
+script sempre escreve a partir da **linha 3** na cópia de saída e **limpa qualquer linha de
+exemplo que sobrar** além das massas pedidas (nunca deixa "massa fantasma" do template original
+misturada no arquivo de saída); o template original em `templates/` nunca é tocado.
 
 Se algum desses arquivos não existir em `templates/`, pergunte ao usuário onde estão antes de
 rodar o script — nunca crie um template do zero.
