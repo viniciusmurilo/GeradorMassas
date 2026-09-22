@@ -29,7 +29,7 @@ viole de propósito quando o pedido for testar aquele erro específico.
 | Responsabilidade Civil - Empregados Domésticos | 600.000,00 |
 | Danos Elétricos | 1.000.000,00 |
 | Responsabilidade Civil - Danos Morais | 300.000,00 |
-| Vendaval, Furacão, Ciclone, Tornado, Granizo e Impacto de Veículos - para Bens Ao Ar Livre | 150.000,00 |
+| Vendaval, furacão, ciclone, tornado, granizo e fumaça para bens ao ar livre | 150.000,00 |
 
 Cobertura fora desta tabela: sem teto documentado — use bom senso.
 
@@ -65,8 +65,8 @@ em Risco") até esse teto.
 ## UF / CEP bloqueados ou restritos
 
 - **UF com aceitação restrita para Vendaval Ao Ar Livre**: PR, RS, SC — evite a cobertura
-  `Vendaval, Furacão, Ciclone, Tornado, Granizo e Impacto de Veículos - para Bens Ao Ar Livre` (ou
-  as variantes de vendaval do ramo) em massa com risco nesses estados.
+  `Vendaval, furacão, ciclone, tornado, granizo e fumaça para bens ao ar livre` (ou as outras
+  variantes de vendaval do ramo) em massa com risco nesses estados.
 - **CEP bloqueado para Vendaval**: existe bloqueio de CEP específico para essa mesma cobertura
   (CEP exato não detalhado na fonte — se o pedido citar um CEP do Sul do país junto com cobertura
   de vendaval, trate como risco de violar a norma e avise/pergunte).

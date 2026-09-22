@@ -176,8 +176,10 @@ pontuação/traço) em vez do token.
 
 ## Overlap com Residencial
 
-8 nomes de cobertura existem nos dois catálogos com grafia idêntica: `Alagamento`,
+7 nomes de cobertura existem nos dois catálogos com grafia idêntica: `Alagamento`,
 `Danos Elétricos`, `Desmoronamento`, `Quebra de Vidros`, `Responsabilidade Civil - Danos Morais`,
-`Roubo E/ou Furto Qualificado de Bens`, `Tumultos, Greves e Lockout`,
-`Vendaval, Furacão, Ciclone, Tornado, Granizo e Impacto de Veículos - para Bens Ao Ar Livre`.
-Os demais são exclusivos de cada ramo — **nunca misture os catálogos**.
+`Roubo E/ou Furto Qualificado de Bens`, `Tumultos, Greves e Lockout`.
+Os demais são exclusivos de cada ramo — **nunca misture os catálogos**. Em particular,
+`Vendaval, Furacão, Ciclone, Tornado, Granizo e Impacto de Veículos - para Bens Ao Ar Livre` é
+**só do empresarial**: existia por engano também no template residencial e foi removida de lá
+(ver `catalogo_residencial.md` §Correção do template) — não use esse nome numa massa residencial.

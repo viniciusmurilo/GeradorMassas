@@ -52,14 +52,14 @@ que é exclusiva — o script recusa se ela vier junto com qualquer outra opçã
 
 ## Coberturas — chave `coberturas`
 
-31 coberturas com coluna `TXT "<nome>" Valor da Cobertura`. **Nenhuma tem Período Indenitário**
+30 coberturas com coluna `TXT "<nome>" Valor da Cobertura`. **Nenhuma tem Período Indenitário**
 neste ramo — nunca envie `periodo_indenitario` numa massa residencial (o script rejeita).
 
 **Duas coberturas existem na planilha mas NÃO podem ser usadas numa massa válida** (banidas por
 norma — ver `references/normas_residencial.md` §Coberturas não permitidas): `Alagamento` e
 `All risks`. Só marque uma delas se o pedido for explicitamente testar essa rejeição.
 
-**Lista completa (31):**
+**Lista completa (30):**
 
 Alagamento · All risks · Anfitrião · Bicicletas · Carro Na Garagem · Danos Elétricos ·
 Desmoronamento · Equipamentos Eletrônicos e Eletrodomésticos ·
@@ -72,7 +72,6 @@ Responsabilidade Civil - Familiar · Responsabilidade Civil - Prática de Esport
 Responsabilidade civil - hole-in-one · Responsabilidade civil - tacos de golfe ·
 Roubo E/ou Furto Qualificado de Bens · Roubo E/ou Furto Qualificado de Bicicleta Fora da Residência ·
 Ruptura de Tubulações e Vazamento Acidental · Tumultos, Greves e Lockout ·
-Vendaval, Furacão, Ciclone, Tornado, Granizo e Impacto de Veículos - para Bens Ao Ar Livre ·
 Vendaval, Furacão, Ciclone, Tornado, Granizo, Neve e Geada ·
 Vendaval, furacão, ciclone, tornado, granizo e fumaça para bens ao ar livre
 
@@ -82,12 +81,21 @@ O template antigo (removido desta skill) tinha um CHK órfão em `Microempreende
 (sem coluna de valor). **Esse defeito não existe mais** neste template novo — a cobertura tem
 coluna de valor normal e pode ser usada livremente.
 
+### Correção do template (22/09)
+
+A coluna `TXT "Vendaval, Furacão, Ciclone, Tornado, Granizo e Impacto de Veículos - para Bens Ao
+Ar Livre" Valor da Cobertura` foi **removida** do template residencial pelo dono do produto — era
+uma cobertura empresarial vazada por engano no template residencial (mesmo defeito de arquivo
+vazado que já existia com `CHK Residencial Benefícios Essenciais` no empresarial). Essa cobertura
+**não existe mais** no ramo residencial; se aparecer numa referência antiga ou o usuário pedir
+"vendaval e impacto de veículos" para residencial, é sinal de confusão com o catálogo empresarial
+— use uma das duas variantes de vendaval que restam.
+
 ### Regras de desambiguação
 
-- **Vendaval**: três variantes distintas — "...Impacto de Veículos - para Bens Ao Ar Livre",
-  "...Neve e Geada" (sem "para Bens Ao Ar Livre") e "...fumaça para bens ao ar livre" (minúsculo,
-  redação diferente da primeira — confira a grafia exata na lista antes de gravar). Só "vendaval"
-  no pedido → pergunte qual.
+- **Vendaval**: duas variantes distintas — "...Neve e Geada" (sem "para Bens Ao Ar Livre") e
+  "...fumaça para bens ao ar livre" (minúsculo — confira a grafia exata na lista antes de gravar).
+  Só "vendaval" no pedido → pergunte qual.
 - **Incêndio, queda de raio...** ≠ a cobertura homônima do empresarial: aqui a ordem/redação é
   "Incêndio, queda de raio, explosão, implosão e queda de aeronaves" (minúsculo, sem "Fumaça").
 - **Responsabilidade Civil**: "Danos Morais" ≠ "Empregados Domésticos" ≠ "Familiar" ≠
@@ -103,5 +111,5 @@ coluna de valor normal e pode ser usada livremente.
 
 ## Overlap com Empresarial
 
-Ver `references/catalogo_empresarial.md` §Overlap com Residencial — 8 nomes em comum, grafia
+Ver `references/catalogo_empresarial.md` §Overlap com Residencial — 7 nomes em comum, grafia
 idêntica nos dois catálogos.
