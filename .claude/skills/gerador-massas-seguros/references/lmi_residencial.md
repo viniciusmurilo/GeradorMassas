@@ -41,7 +41,7 @@ Nomes na grafia do template (`catalogo_residencial.md`).
 | Vendaval, Furacão, Ciclone, Tornado, Granizo, Neve e Geada | 500,00 | 700.000,00 | 50% da básica | |
 | Vendaval, furacão, ciclone, tornado, granizo e fumaça para bens ao ar livre | 500,00 | 150.000,00 | 40% da básica | |
 | Roubo E/ou Furto Qualificado de Bens | 500,00 | 500.000,00 | 20% da básica | ver também inspeção por tipo de residência em `normas_residencial.md` |
-| Perda Ou Pagamento de Aluguel (pi = 12 Meses) | 500,00 | 1.000.000,00 | 50% da básica | fonte chama de "Perda Ou Pagamento de Aluguel" |
+| Perda Ou Pagamento de Aluguel | 500,00 | 1.000.000,00 | 50% da básica | |
 | Equipamentos Eletrônicos e Eletrodomésticos | 500,00 | 500.000,00 | 30% da básica | |
 | Quebra de Vidros | 500,00 | 500.000,00 | 30% da básica | |
 | Responsabilidade Civil - Familiar | 500,00 | 3.000.000,00 | 100% da básica | |
@@ -57,7 +57,6 @@ Nomes na grafia do template (`catalogo_residencial.md`).
 | Equipamentos de Energia Solar e Fotovoltaico | 500,00 | 1.000.000,00 | 10% da básica | |
 | Carro Na Garagem | 500,00 | 300.000,00 | 30% da básica | |
 | Anfitrião | 500,00 | 500.000,00 | 30% da básica | |
-| Indenização a valor de novo | 0,01 | — | ≤ LMI da básica | "não pode ser maior que a cobertura básica" |
 
 ## Coberturas sem aceitação comercial (nunca usar em massa válida)
 

@@ -28,7 +28,7 @@ viole de propósito quando o pedido for testar aquele erro específico.
 | Anfitrião | 500.000,00 |
 | Quebra de Vidros | 500.000,00 |
 | Responsabilidade Civil - Familiar | 3.000.000,00 |
-| Perda Ou Pagamento de Aluguel (pi = 12 Meses) | 1.000.000,00 |
+| Perda Ou Pagamento de Aluguel | 1.000.000,00 |
 | Responsabilidade Civil - Empregados Domésticos | 600.000,00 |
 | Danos Elétricos | 1.000.000,00 |
 | Responsabilidade Civil - Danos Morais | 300.000,00 |

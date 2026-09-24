@@ -51,7 +51,7 @@ Duas consequências possíveis ao ultrapassar: **BLOQUEIA** = a planilha rejeita
 | Perda Ou Pagamento de Aluguel a Terceiros | 15.000.000,00 | EXIGE análise |
 | Lucros Cessantes - Incêndio | 20.000.000,00 | EXIGE análise |
 | Despesas com Instalação em Novo Local | 12.000.000,00 | BLOQUEIA |
-| Responsabilidade civil - operações bares e restaurantes | 3.000.000,00 | BLOQUEIA |
+| RESPONSABILIDADE CIVIL - BARES E RESTAURANTES | 3.000.000,00 | BLOQUEIA |
 | Responsabilidade civil - operações hotéis e pousadas | 3.000.000,00 | BLOQUEIA |
 | Responsabilidade civil - operações pet shop e/ou clínica veterinária | 1.000.000,00 | BLOQUEIA |
 | Responsabilidade civil - operações salões de beleza | 1.000.000,00 | BLOQUEIA |

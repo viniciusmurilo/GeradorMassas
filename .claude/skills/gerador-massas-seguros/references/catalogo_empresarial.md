@@ -115,7 +115,7 @@ Responsabilidade civil - guarda de bicicletas · Responsabilidade civil - guarda
 Responsabilidade civil - guarda de veículos - compreensiva · Responsabilidade civil - hotel pet ·
 Responsabilidade civil - movimentação de carga e descarga ·
 Responsabilidade civil - ocorrência de bullying em escolas ·
-Responsabilidade civil - operações bares e restaurantes ·
+RESPONSABILIDADE CIVIL - BARES E RESTAURANTES ·
 Responsabilidade civil - operações clubes, agremiações e associações recreativas ·
 Responsabilidade civil - operações concessionárias até 100 km ·
 Responsabilidade civil - operações concessionárias até 200 km ·

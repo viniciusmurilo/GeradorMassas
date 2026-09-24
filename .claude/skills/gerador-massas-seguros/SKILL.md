@@ -17,7 +17,7 @@ arquivos do ramo relevante antes de interpretar o pedido do usuário, não tente
 
 - `references/catalogo_empresarial.md` — todas as colunas do template empresarial (122), 96
   coberturas, grupos de proteção, tokens de CPF/CNPJ/CEP
-- `references/catalogo_residencial.md` — idem para residencial (53 colunas, 30 coberturas)
+- `references/catalogo_residencial.md` — idem para residencial (52 colunas, 29 coberturas)
 - `references/normas_empresarial.md` — 99 normas de subscrição (limites, análise técnica,
   inspeção, protecionais mínimos, combinações excludentes, UF/CEP bloqueados)
 - `references/normas_residencial.md` — 24 normas equivalentes do ramo residencial
