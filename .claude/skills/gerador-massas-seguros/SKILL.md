@@ -17,7 +17,7 @@ arquivos do ramo relevante antes de interpretar o pedido do usuário, não tente
 
 - `references/catalogo_empresarial.md` — todas as colunas do template empresarial (122), 96
   coberturas, grupos de proteção, tokens de CPF/CNPJ/CEP
-- `references/catalogo_residencial.md` — idem para residencial (53 colunas, 30 coberturas)
+- `references/catalogo_residencial.md` — idem para residencial (52 colunas, 29 coberturas)
 - `references/normas_empresarial.md` — 99 normas de subscrição (limites, análise técnica,
   inspeção, protecionais mínimos, combinações excludentes, UF/CEP bloqueados)
 - `references/normas_residencial.md` — 24 normas equivalentes do ramo residencial
@@ -126,26 +126,30 @@ mais restritiva.
 
 ## Templates
 
-O script preenche **cópias** dos templates originais — eles nunca são modificados. Este repo
-espera os templates em `templates/`:
+O script preenche **cópias** dos templates originais — eles nunca são modificados. Os templates
+vêm **dentro da própria skill**, na pasta `templates/` ao lado de `scripts/`:
 
 - `templates/template_empresarial.xlsx`
 - `templates/template_residencial.xlsx`
 
+**Nunca peça o template ao usuário**: o script acha sozinho o template do ramo (campo `ramo` do
+JSON) nessa pasta. Só passe um template explícito se o usuário anexar um template diferente e
+pedir para usá-lo.
+
 Os arquivos já vêm com algumas linhas de exemplo preenchidas (referência de formatação) — o
 script sempre escreve a partir da **linha 3** na cópia de saída e **limpa qualquer linha de
 exemplo que sobrar** além das massas pedidas (nunca deixa "massa fantasma" do template original
-misturada no arquivo de saída); o template original em `templates/` nunca é tocado.
-
-Se algum desses arquivos não existir em `templates/`, pergunte ao usuário onde estão antes de
-rodar o script — nunca crie um template do zero.
+misturada no arquivo de saída); o template original nunca é tocado. Nunca crie um template do
+zero.
 
 ## Script
 
-Um único script, `scripts/preencher_massa.py` (rode com o caminho completo, ex.
-`python3 .claude/skills/gerador-massas-seguros/scripts/preencher_massa.py entrada.json saida.xlsx templates/template_empresarial.xlsx`).
+Um único script, `scripts/preencher_massa.py`, dentro da pasta da skill. Rode com o caminho
+completo da pasta onde a skill está instalada, ex.
+`python3 <pasta-da-skill>/scripts/preencher_massa.py entrada.json saida.xlsx`.
 
-Uso: `python3 preencher_massa.py entrada.json saida.xlsx template.xlsx`
+Uso: `python3 preencher_massa.py entrada.json saida.xlsx [template.xlsx]` — sem o 3º argumento,
+usa `templates/template_<ramo>.xlsx` da skill.
 
 ### Entrada (JSON)
 

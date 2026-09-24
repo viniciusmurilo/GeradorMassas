@@ -118,7 +118,7 @@ Nomes na grafia do template (`catalogo_empresarial.md`).
 | Responsabilidade civil - hotel pet | 1.000,00 | 50.000,00 | — | ≤ LMI da básica · exige RC Operações Pet Shop |
 | Responsabilidade civil - movimentação de carga e descarga | 1.000,00 | 999.999.999,99 | 50% da básica | fonte repete a mensagem de "sem aceitação" da Guarda de Embarcações (ver §Pontos a confirmar) |
 | Responsabilidade civil - ocorrência de bullying em escolas | 1.000,00 | 50.000,00 | 20% de Responsabilidade Civil - Operações | ≤ LMI da básica · exige RC Operações ou RC Operações Estabelecimento de Ensino |
-| Responsabilidade civil - operações bares e restaurantes | 1.000,00 | 3.000.000,00 | 50% da básica | CB18.26053 |
+| RESPONSABILIDADE CIVIL - BARES E RESTAURANTES | 1.000,00 | 3.000.000,00 | 50% da básica | CB18.26053 |
 | Responsabilidade civil - operações clubes, agremiações e associações recreativas | 1.000,00 | 3.000.000,00 | 50% da básica | CB18.26054 |
 | Responsabilidade civil - operações concessionárias até 100 km | 1.000,00 | 3.000.000,00 | 70% da básica | CB18.26055 · excludente com RC Concessionárias 200 km |
 | Responsabilidade civil - operações concessionárias até 200 km | 1.000,00 | 3.000.000,00 | 70% da básica | excludente com RC Concessionárias 100/300 km |
@@ -143,7 +143,7 @@ tem linha própria na fonte — use como teto o `Valor em Risco - Danos Materiai
 
 | Se incluir… | …precisa incluir pelo menos uma de |
 |---|---|
-| Responsabilidade Civil - Danos Morais | Responsabilidade Civil - Operações · RC - operações pet shop e/ou clínica veterinária · RC - operações concessionárias até 100/200/300 km · RC - operações salões de beleza · RC - operações estabelecimento de ensino · RC - operações hotéis e pousadas · RC - operações clubes, agremiações e associações recreativas · RC - operações bares e restaurantes |
+| Responsabilidade Civil - Danos Morais | Responsabilidade Civil - Operações · RC - operações pet shop e/ou clínica veterinária · RC - operações concessionárias até 100/200/300 km · RC - operações salões de beleza · RC - operações estabelecimento de ensino · RC - operações hotéis e pousadas · RC - operações clubes, agremiações e associações recreativas · RESPONSABILIDADE CIVIL - BARES E RESTAURANTES |
 | Responsabilidade civil - banho e tosa / dog walker / hotel pet / taxi dog | Responsabilidade civil - operações pet shop e/ou clínica veterinária |
 | Responsabilidade civil - ocorrência de bullying em escolas | Responsabilidade Civil - Operações · Responsabilidade civil - operações estabelecimento de ensino |
 | Responsabilidade civil - serviços de manobrista | Responsabilidade civil - guarda de veículos - compreensiva |

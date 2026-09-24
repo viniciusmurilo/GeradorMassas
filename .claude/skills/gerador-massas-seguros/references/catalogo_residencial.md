@@ -52,7 +52,7 @@ que é exclusiva — o script recusa se ela vier junto com qualquer outra opçã
 
 ## Coberturas — chave `coberturas`
 
-30 coberturas com coluna `TXT "<nome>" Valor da Cobertura`. **Nenhuma tem Período Indenitário**
+29 coberturas com coluna `TXT "<nome>" Valor da Cobertura`. **Nenhuma tem Período Indenitário**
 neste ramo — nunca envie `periodo_indenitario` numa massa residencial (o script rejeita).
 
 **Sete coberturas existem na planilha mas NÃO podem ser usadas numa massa válida** (sem
@@ -61,14 +61,14 @@ aceitação comercial — ver `references/normas_residencial.md` §Coberturas n�
 `Objetos de arte e obras de arte`, `Responsabilidade civil - tacos de golfe` e
 `Responsabilidade civil - hole-in-one`. Só marque uma delas se o pedido for explicitamente testar essa rejeição.
 
-**Lista completa (30):**
+**Lista completa (29):**
 
 Alagamento · All risks · Anfitrião · Bicicletas · Carro Na Garagem · Danos Elétricos ·
 Desmoronamento · Equipamentos Eletrônicos e Eletrodomésticos ·
 Equipamentos de Energia Solar e Fotovoltaico · Escritório Em Residência · Impacto de Veículos ·
-Incêndio, queda de raio, explosão, implosão e queda de aeronaves · Indenização a valor de novo ·
+Incêndio, queda de raio, explosão, implosão e queda de aeronaves ·
 Microempreendedor Em Residência · Objetos de arte e obras de arte · PAISAGISMO ·
-Perda Ou Pagamento de Aluguel (pi = 12 Meses) · Quebra de Vidros ·
+Perda Ou Pagamento de Aluguel · Quebra de Vidros ·
 Responsabilidade Civil - Danos Morais · Responsabilidade Civil - Empregados Domésticos ·
 Responsabilidade Civil - Familiar · Responsabilidade Civil - Prática de Esporte ·
 Responsabilidade civil - hole-in-one · Responsabilidade civil - tacos de golfe ·
@@ -107,9 +107,8 @@ vazado que já existia com `CHK Residencial Benefícios Essenciais` no empresari
   **Roubo E/ou Furto Qualificado de Bicicleta Fora da Residência** (cobre o roubo/furto quando a
   bicicleta está fora de casa). Pedido genérico de "cobertura de bicicleta" sem dizer onde →
   pergunte qual das duas (ou as duas).
-- **"Indenização a valor de novo"** aqui é também uma **cobertura própria** (linha da lista, com
-  valor) — não confundir com o grupo booleano `Deseja contratar indenização a valor de novo?`
-  (SIM/NÃO), que é outro campo.
+- **"Indenização a valor de novo"** não é cobertura neste template (a coluna de valor foi
+  removida) — só existe o grupo `Deseja contratar indenização a valor de novo?` (SIM/NÃO).
 
 ## Overlap com Empresarial
 
