@@ -4,7 +4,10 @@ Preenche N massas (uma por linha) nos templates novos de Empresarial/Residencial
 (aba "Exportation", cabecalho na linha 2, dados a partir da linha 3).
 
 Uso:
-    python3 preencher_massa.py entrada.json saida.xlsx template.xlsx
+    python3 preencher_massa.py entrada.json saida.xlsx [template.xlsx]
+
+Sem o 3o argumento, usa o template embutido na skill:
+templates/template_<ramo>.xlsx (ao lado da pasta scripts/).
 
 Formato do JSON de entrada:
     {"ramo": "empresarial" | "residencial",
@@ -39,6 +42,7 @@ que nao e consistente entre os dois ramos.
 """
 
 import json
+import os
 import re
 import sys
 import unicodedata
@@ -328,13 +332,21 @@ def preencher(dados, caminho_template, caminho_saida):
 
 
 def main():
-    if len(sys.argv) < 4:
+    if len(sys.argv) < 3:
         print(__doc__)
         sys.exit(1)
-    entrada, saida, template = sys.argv[1], sys.argv[2], sys.argv[3]
+    entrada, saida = sys.argv[1], sys.argv[2]
 
     with open(entrada, encoding="utf-8") as f:
         dados = json.load(f)
+
+    if len(sys.argv) >= 4:
+        template = sys.argv[3]
+    else:
+        pasta_skill = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        template = os.path.join(pasta_skill, "templates", f"template_{dados.get('ramo')}.xlsx")
+    if not os.path.isfile(template):
+        sys.exit(f"ERRO: template nao encontrado: {template}")
 
     resumo = preencher(dados, template, saida)
     print(f"{saida}: {len(resumo)} massas gravadas.")
