@@ -8,6 +8,9 @@ viole de propósito quando o pedido for testar aquele erro específico.
 
 - **Alagamento** — não disponível para contratação neste ramo, mesmo existindo coluna no template.
 - **All risks** — idem.
+- **Desmoronamento**, **PAISAGISMO**, **Objetos de arte e obras de arte**,
+  **Responsabilidade civil - tacos de golfe**, **Responsabilidade civil - hole-in-one** — sem
+  aceitação comercial segundo a planilha de LMI (ver `lmi_residencial.md`).
 
 ## Objeto Segurado x Tipo de Residência
 
@@ -75,4 +78,6 @@ em Risco") até esse teto.
 ## Fora de escopo
 
 Regras de "Condomínio Tradicional", "Condomínio Amplo" e "Condomínio Tradicional e Amplo" existem
-na planilha de origem mas **não têm template** nesta skill — ignoradas por enquanto.
+na planilha de origem mas **não têm template** nesta skill. Os limites de LMI desses ramos já
+estão salvos em `lmi_condominio_amplo.md` e `lmi_condominio_tradicional.md` para quando o
+template chegar.

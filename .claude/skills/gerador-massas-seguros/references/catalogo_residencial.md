@@ -55,9 +55,11 @@ que é exclusiva — o script recusa se ela vier junto com qualquer outra opçã
 30 coberturas com coluna `TXT "<nome>" Valor da Cobertura`. **Nenhuma tem Período Indenitário**
 neste ramo — nunca envie `periodo_indenitario` numa massa residencial (o script rejeita).
 
-**Duas coberturas existem na planilha mas NÃO podem ser usadas numa massa válida** (banidas por
-norma — ver `references/normas_residencial.md` §Coberturas não permitidas): `Alagamento` e
-`All risks`. Só marque uma delas se o pedido for explicitamente testar essa rejeição.
+**Sete coberturas existem na planilha mas NÃO podem ser usadas numa massa válida** (sem
+aceitação comercial — ver `references/normas_residencial.md` §Coberturas não permitidas e
+`references/lmi_residencial.md`): `Alagamento`, `All risks`, `Desmoronamento`, `PAISAGISMO`,
+`Objetos de arte e obras de arte`, `Responsabilidade civil - tacos de golfe` e
+`Responsabilidade civil - hole-in-one`. Só marque uma delas se o pedido for explicitamente testar essa rejeição.
 
 **Lista completa (30):**
 

@@ -196,4 +196,6 @@ Lucros cessantes - vendaval para concessionárias (inclusive veículos ao ar liv
 ## Fora de escopo
 
 Regras de "Condomínio Tradicional", "Condomínio Amplo" e "Condomínio Tradicional e Amplo" existem
-na planilha de origem mas **não têm template** nesta skill — ignoradas por enquanto.
+na planilha de origem mas **não têm template** nesta skill. Os limites de LMI desses ramos já
+estão salvos em `lmi_condominio_amplo.md` e `lmi_condominio_tradicional.md` para quando o
+template chegar.

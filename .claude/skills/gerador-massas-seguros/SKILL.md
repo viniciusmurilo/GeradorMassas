@@ -22,11 +22,17 @@ arquivos do ramo relevante antes de interpretar o pedido do usuário, não tente
   inspeção, protecionais mínimos, combinações excludentes, UF/CEP bloqueados)
 - `references/normas_residencial.md` — 24 normas equivalentes do ramo residencial
 - `references/atividades.txt` — catálogo de 439 atividades (só empresarial), uma por linha
+- `references/lmi_empresarial.md` / `references/lmi_residencial.md` — LMI por cobertura
+  (mínimo, máximo absoluto, máximo % sobre a cobertura básica), dependências ("cobertura X exige
+  Y"), excludentes ("X cancela Y") e coberturas sem aceitação comercial
+- `references/lmi_condominio_amplo.md` / `references/lmi_condominio_tradicional.md` — mesmas
+  regras para Condomínio Amplo e Tradicional. **Ainda não há template desses ramos** — as regras
+  ficam salvas para uso futuro; se pedirem massa de condomínio, avise que falta o template
 
 ## Fluxo obrigatório a cada pedido
 
 1. **Confirme o ramo** (empresarial ou residencial) se o usuário não disser.
-2. Leia `catalogo_<ramo>.md` e `normas_<ramo>.md` e interprete o texto do usuário: monte campos
+2. Leia `catalogo_<ramo>.md`, `normas_<ramo>.md` e `lmi_<ramo>.md` e interprete o texto do usuário: monte campos
    diretos, combos, texto, booleanos, grupos de proteção e coberturas.
 3. **Por padrão, a massa tem que respeitar todas as normas do ramo** (ver "Normas de subscrição"
    abaixo) — só viole uma norma de propósito se o usuário pedir para testar aquele erro
@@ -64,6 +70,14 @@ atividade/tipo de residência, inspeção obrigatória, protecionais mínimos de
 atividade, combinações de cobertura excludentes, coberturas sem aceitação comercial ou banidas,
 tipo de construção/objeto segurado restrito por atividade, e UF/CEP bloqueados.
 
+`references/lmi_<ramo>.md` complementa com o LMI de cada cobertura. Numa massa válida, cada
+cobertura precisa ficar **entre o mínimo e o teto efetivo**, onde teto efetivo = o menor entre o
+máximo absoluto e o % máximo × LMI da cobertura de referência (quase sempre a básica de
+Incêndio). Na prática: **inclua sempre a cobertura básica de Incêndio com valor**, defina-a
+primeiro e calcule as demais a partir dela; inclua também toda cobertura exigida por
+dependência e nunca junte duas coberturas excludentes. Se `normas_` e `lmi_` divergirem, vale a
+mais restritiva.
+
 - **Massa "normal"** (usuário não pede para testar erro): fique dentro de todos os limites e
   combinações válidas da norma. Se o pedido do usuário implicar em violar uma norma sem dizer
   isso explicitamente (ex.: valor de cobertura muito acima do teto, tipo de construção sem
@@ -99,7 +113,7 @@ tipo de construção/objeto segurado restrito por atividade, e UF/CEP bloqueados
 ## Geração aleatória (quando o usuário pede "aleatório")
 
 - Monte conjuntos de coberturas **diferentes entre si** massa a massa, dentro dos limites de
-  `normas_<ramo>.md`.
+  `normas_<ramo>.md` e `lmi_<ramo>.md` (mínimo, teto absoluto e teto % sobre a básica).
 - Use valores **distintos** entre todas as massas do lote.
 - Respeite tetos pedidos pelo usuário (ex.: "valor não pode passar de 10 mil") *e* os tetos da
   norma — o menor dos dois vale.
