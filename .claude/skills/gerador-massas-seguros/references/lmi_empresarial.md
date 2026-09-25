@@ -93,7 +93,7 @@ Nomes na grafia do template (`catalogo_empresarial.md`).
 | Equipamentos e/ou objetos portáteis | 1.000,00 | 100.000,00 | 20% da básica |  |
 | Equipamentos em exposição | 1.000,00 | 1.000.000,00 | 20% da básica |  |
 | Fidelidade de empregados | 1.000,00 | 250.000,00 | 10% da básica |  |
-| Honorários de peritos contábeis | 1.000,00 | 500.000,00 | — | ≤ LMI da básica |
+| Honorários de peritos contábeis | 1.000,00 | 500.000,00 | — | ≤ LMI da básica · exige DF-Incêndio, DF-Ampla ou LC-Incêndio |
 | Lucros cessantes - danos elétricos | 5.000,00 | 3.000.000,00 | 20% da básica |  |
 | Lucros cessantes - quebra de máquinas | 5.000,00 | 999.999.999,99 | 50% da básica | fonte: "verificar, não aparece os valores em tela" |
 | Lucros cessantes - vendaval | 5.000,00 | 3.000.000,00 | 50% da básica | exige `Vendaval, Furacão, Ciclone, Tornado, Granizo e Impacto de Veículos` |
@@ -153,13 +153,20 @@ tem linha própria na fonte — use como teto o `Valor em Risco - Danos Materiai
 | Lucros cessantes - vendaval para concessionárias (inclusive veículos ao ar livre) | Vendaval para concessionárias (inclusive veículos ao ar livre) |
 | RC - Empregador / alimentos distribuídos pela escola / contingentes de veículos / guarda de bicicletas | Responsabilidade Civil - Operações (base do %) |
 | Despesas extraordinárias | Lucros Cessantes - Incêndio (base do %) |
+| Honorários de peritos contábeis | Despesas Fixas - Incêndio · Despesas Fixas - Ampla · Lucros Cessantes - Incêndio |
 
 Teto de `Responsabilidade Civil - Danos Morais`: além de exigir uma das RC Operações acima, o
-LMI dela **não pode passar de 100% do LMI da RC Operações contratada na massa**. Erro observado
-na homologação: "Cobertura Responsabilidade Civil - Danos Morais, não pode ter o percentual maior
-(100%) que a Cobertura Responsabilidade Civil - Operações Concessionárias até 100 km". Numa massa
-válida, mantenha Danos Morais ≤ o LMI da RC Operações que estiver na massa (se houver mais de
-uma, use a de menor LMI como referência).
+LMI dela **não pode passar de 100% do LMI de cada RC Operações contratada na massa**. A
+homologação dispara um erro por cobertura, com esta mensagem:
+
+> Cobertura Responsabilidade Civil - Danos Morais, não pode ter o percentual maior (100%) que a
+> Cobertura Responsabilidade Civil - Operações `<variante>`
+
+Variantes já confirmadas: Salões de Beleza · Pet Shop e/ou Clínica Veterinária ·
+Concessionárias até 100 km · Bares e Restaurantes · Estabelecimento de Ensino · Hotéis e
+Pousadas. Trate as demais RC Operações (a geral, Clubes, Concessionárias 200/300 km) do mesmo
+jeito. Numa massa válida, Danos Morais tem que ficar ≤ o **menor** LMI entre as RC Operações da
+massa.
 
 ## Excludentes ("cobertura X cancela a cobertura Y" — nunca as duas na mesma massa)
 
