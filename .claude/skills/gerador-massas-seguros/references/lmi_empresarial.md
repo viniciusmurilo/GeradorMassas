@@ -125,7 +125,7 @@ Nomes na grafia do template (`catalogo_empresarial.md`).
 | Responsabilidade civil - operações concessionárias até 300 km | 1.000,00 | 3.000.000,00 | 70% da básica | CB18.26057 · excludente com RC Concessionárias 200 km |
 | Responsabilidade civil - operações estabelecimento de ensino | 1.000,00 | 3.000.000,00 | 50% da básica |  |
 | Responsabilidade civil - operações hotéis e pousadas | 1.000,00 | 3.000.000,00 | 50% da básica |  |
-| Responsabilidade civil - operações pet shop e/ou clínica veterinária | 1.000,00 | 1.000.000,00 | 50% da básica |  |
+| Responsabilidade civil - operações pet shop e/ou clínica veterinária | 1.000,00 | 1.000.000,00 | 50% da básica | excludente com RC - Operações |
 | Responsabilidade civil - operações salões de beleza | 1.000,00 | 1.000.000,00 | 50% da básica |  |
 | Responsabilidade civil - produtos | 1.000,00 | 999.999.999,99 | 50% da básica | **sem aceitação comercial** (por `normas_empresarial.md`) |
 | Responsabilidade civil - serviços de manobrista | 1.000,00 | 200.000,00 | — | ≤ LMI da básica · exige RC Guarda de Veículos - Compreensiva |
@@ -170,6 +170,13 @@ Além da lista de `Despesas Fixas - Ampla` já documentada em `normas_empresaria
 - `Responsabilidade civil - guarda de veículos - compreensiva` × `Responsabilidade Civil - Guarda de Veículo - Incêndio e Roubo`
 - `Responsabilidade civil - operações concessionárias até 100 km` × `... até 200 km` × `... até 300 km` (escolha uma só)
 - `Vendaval para concessionárias (exceto veículos ao ar livre)` × `Vendaval, Furacão, Ciclone, Tornado, Granizo e Impacto de Veículos`
+- `Responsabilidade civil - operações pet shop e/ou clínica veterinária` × `Responsabilidade Civil - Operações`
+  (erro observado na homologação: "Cobertura selecionada Responsabilidade Civil - Operações Pet
+  Shop e/ou Clínica Veterinária, cancela a contratação da cobertura Responsabilidade Civil -
+  Operações"). Consequência: numa massa com RC Pet Shop, **não** inclua RC - Empregador,
+  RC - alimentos distribuídos pela escola, RC - contingentes de veículos nem RC - guarda de
+  bicicletas (todas dependem de RC - Operações); `Responsabilidade Civil - Danos Morais`
+  continua válida porque a própria RC Pet Shop satisfaz a dependência dela.
 
 ## Coberturas sem aceitação comercial (nunca usar em massa válida)
 
