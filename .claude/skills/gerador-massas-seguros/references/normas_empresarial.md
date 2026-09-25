@@ -27,6 +27,7 @@ Joias - Fábrica · Edifício, Desocupado · Guarda-Móveis.
 
 - Responsabilidade Civil - Guarda de Embarcações de Terceiros
 - Responsabilidade Civil - Produtos
+- Terremoto, tremor de terra e maremoto (erro CB18.26011)
 
 ## Cobertura restrita para atividades específicas
 
