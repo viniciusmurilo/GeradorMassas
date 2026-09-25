@@ -131,7 +131,7 @@ Nomes na grafia do template (`catalogo_empresarial.md`).
 | Responsabilidade civil - serviços de manobrista | 1.000,00 | 200.000,00 | — | ≤ LMI da básica · exige RC Guarda de Veículos - Compreensiva |
 | Responsabilidade civil - taxi dog | 1.000,00 | 50.000,00 | 20% de Responsabilidade Civil - Operações Pet Shop e/ou Clínica Veterinária | exige RC Operações Pet Shop |
 | Roubo de valores e/ou bens de clientes | 1.000,00 | 20.000,00 | 20% da básica | CB18.26072 |
-| Terremoto, tremor de terra e maremoto | 1.000,00 | 999.999.999,99 | 20% da básica | **sem aceitação comercial** (CB18.26011) |
+| Terremoto, tremor de terra e maremoto | 1.000,00 | 999.999.999,99 | 20% da básica |  |
 | Vendaval, Furacão, Ciclone, Tornado, Granizo e Impacto de Veículos - para Bens Ao Ar Livre | 5.000,00 | 1.000.000,00 | 10% da básica | fonte também lista como "... e Fumaça para Bens Ao Ar Livre" (mesmos limites) |
 | Vendaval para concessionárias (exceto veículos ao ar livre) | 5.000,00 | 7.500.000,00 | 50% da básica | excludente com `Vendaval, Furacão, Ciclone, Tornado, Granizo e Impacto de Veículos` |
 | Indenização a valor de novo (LMI) | 0,01 | 999.999.999,99 | ≤ LMI da básica | só se aplica quando o grupo `Deseja contratar indenização a valor de novo?` = `SIM` |
@@ -196,7 +196,6 @@ Além da lista de `Despesas Fixas - Ampla` já documentada em `normas_empresaria
 
 - `Responsabilidade civil - guarda de embarcações de terceiros` (CB18.26008)
 - `Responsabilidade civil - produtos` (já em `normas_empresarial.md`)
-- `Terremoto, tremor de terra e maremoto` (CB18.26011 — "não possui aceitação comercial na HDI Seguros")
 
 ## Pontos a confirmar na fonte (evite em massa válida; pergunte se o pedido exigir)
 
