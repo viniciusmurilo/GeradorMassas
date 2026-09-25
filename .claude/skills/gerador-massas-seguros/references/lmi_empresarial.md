@@ -50,7 +50,7 @@ Nomes na grafia do template (`catalogo_empresarial.md`).
 | Demolição e Remoção de Entulho | 5.000,00 | 30.000.000,00 | 100% da básica |  |
 | Derrame Ou Vazamento de Chuveiros Automáticos (sprinklers) | 5.000,00 | 5.000.000,00 | 20% da básica |  |
 | Desmoronamento | 5.000,00 | 1.000.000,00 | 40% da básica |  |
-| Responsabilidade Civil - Danos Morais | 1.000,00 | 1.000.000,00 | — | ≤ LMI da básica · exige uma RC Operações (ver §Dependências) |
+| Responsabilidade Civil - Danos Morais | 1.000,00 | 1.000.000,00 | 100% da RC Operações contratada | ≤ LMI da básica · exige uma RC Operações e não pode passar do LMI dela (ver §Dependências) |
 | Responsabilidade Civil - Operações | 1.000,00 | 3.000.000,00 | 50% da básica |  |
 | Despesas Fixas - Ampla | 5.000,00 | 20.000.000,00 | — | ≤ Valor em Risco de `Lucros Cessantes` · excludente com DF-Incêndio (ver §Excludentes) |
 | Despesas Fixas - Incêndio | 5.000,00 | 20.000.000,00 | 100% da básica | ≤ Valor em Risco de `Lucros Cessantes` · excludente com DF-Ampla |
@@ -153,6 +153,13 @@ tem linha própria na fonte — use como teto o `Valor em Risco - Danos Materiai
 | Lucros cessantes - vendaval para concessionárias (inclusive veículos ao ar livre) | Vendaval para concessionárias (inclusive veículos ao ar livre) |
 | RC - Empregador / alimentos distribuídos pela escola / contingentes de veículos / guarda de bicicletas | Responsabilidade Civil - Operações (base do %) |
 | Despesas extraordinárias | Lucros Cessantes - Incêndio (base do %) |
+
+Teto de `Responsabilidade Civil - Danos Morais`: além de exigir uma das RC Operações acima, o
+LMI dela **não pode passar de 100% do LMI da RC Operações contratada na massa**. Erro observado
+na homologação: "Cobertura Responsabilidade Civil - Danos Morais, não pode ter o percentual maior
+(100%) que a Cobertura Responsabilidade Civil - Operações Concessionárias até 100 km". Numa massa
+válida, mantenha Danos Morais ≤ o LMI da RC Operações que estiver na massa (se houver mais de
+uma, use a de menor LMI como referência).
 
 ## Excludentes ("cobertura X cancela a cobertura Y" — nunca as duas na mesma massa)
 
