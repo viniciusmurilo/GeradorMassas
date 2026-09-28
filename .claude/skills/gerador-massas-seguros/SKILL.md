@@ -94,7 +94,7 @@ aceitação. Os limites por CEP/UF/atividade da norma continuam valendo por cima
   `200000` · `"1,5 milhão"` → `1500000` · `"80k"` → `80000`). O script converte sozinho para
   string BR com milhar/decimal (`"200.000,00"`), igual ao padrão observado no template.
 - **Valor em Risco - Danos Materiais / Lucros Cessantes** (só empresarial, chave `texto`): número
-  puro, **sem** formatação BR — o script grava exatamente o número.
+  puro no JSON. O script grava como texto BR (`"2.000.000,00"`), igual às coberturas.
 - **Período Indenitário** (só as 4 coberturas empresariais que têm essa coluna — ver catálogo):
   número de meses, só quando o usuário pedir; sem isso fica `<IGNORE>`.
 - **Tokens de CPF/CNPJ/CEP** (`Tipo Pessoa`, `Cep`/`Cep Risco`): pedido de valor **aleatório** →
