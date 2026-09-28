@@ -1,2 +1,5 @@
 __pycache__/
 *.pyc
+
+# planilhas de massa geradas (saída do script, não versionar)
+massas_*.xlsx
