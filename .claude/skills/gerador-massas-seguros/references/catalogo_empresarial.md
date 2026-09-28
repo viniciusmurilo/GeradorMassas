@@ -31,6 +31,10 @@ não precisa (nem deve) calcular letra de coluna na mão.
 | `Valor em Risco - Danos Materiais` | valor do risco | **número puro** (ex.: `10000000`), nunca string formatada |
 | `Lucros Cessantes` | valor de lucros cessantes | **número puro** |
 
+No JSON, passe número (ex.: `10000000`). O script grava na planilha como **texto BR**
+(`10.000.000,00`), com formato de célula Texto, igual às colunas de cobertura. Assim, ao copiar
+a célula vem exatamente o valor exibido.
+
 ## Coluna órfã — nunca preencher
 
 `CHK Residencial Benefícios Essenciais` (coluna G) existe no arquivo mas é um campo do ramo
