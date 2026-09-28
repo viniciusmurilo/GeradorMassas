@@ -25,8 +25,9 @@ Joias - Fábrica · Edifício, Desocupado · Guarda-Móveis.
 
 ## Coberturas sem aceitação comercial (nunca usar em massa válida)
 
-- Responsabilidade Civil - Guarda de Embarcações de Terceiros
-- Responsabilidade Civil - Produtos
+Lista completa e atualizada em `lmi_empresarial.md` §Coberturas sem aceitação comercial (fonte
+"Resumo coberturas"). Inclui, entre outras, Responsabilidade Civil - Guarda de Embarcações de
+Terceiros e Responsabilidade Civil - Produtos.
 
 ## Cobertura restrita para atividades específicas
 
@@ -36,57 +37,12 @@ incompleta na fonte**, o texto original corta abruptamente). Se o pedido envolve
 junto com uma atividade de varejo/fábrica citada na lista original, confira antes de incluir; na
 dúvida, pergunte.
 
-## Limite máximo por cobertura (massa válida deve ficar **dentro** do valor)
+## Limite máximo por cobertura
 
-Duas consequências possíveis ao ultrapassar: **BLOQUEIA** = a planilha rejeita o valor;
-**EXIGE análise** = passa a exigir análise técnica manual (evite os dois numa massa válida).
-
-| Cobertura | Teto (R$) | Efeito se ultrapassar |
-|---|---:|---|
-| Alagamento | 500.000,00 | BLOQUEIA |
-| Anúncios Luminosos | 1.000.000,00 | EXIGE análise |
-| Danos Elétricos | 5.000.000,00 | EXIGE análise |
-| Vendaval, Furacão, Ciclone, Tornado, Granizo e Impacto de Veículos | 7.500.000,00 | EXIGE análise |
-| Responsabilidade Civil - Operações | 3.000.000,00 | BLOQUEIA |
-| Perda Ou Pagamento de Aluguel a Terceiros | 15.000.000,00 | EXIGE análise |
-| Lucros Cessantes - Incêndio | 20.000.000,00 | EXIGE análise |
-| Despesas com Instalação em Novo Local | 12.000.000,00 | BLOQUEIA |
-| RESPONSABILIDADE CIVIL - BARES E RESTAURANTES | 3.000.000,00 | BLOQUEIA |
-| Responsabilidade civil - operações hotéis e pousadas | 3.000.000,00 | BLOQUEIA |
-| Responsabilidade civil - operações pet shop e/ou clínica veterinária | 1.000.000,00 | BLOQUEIA |
-| Responsabilidade civil - operações salões de beleza | 1.000.000,00 | BLOQUEIA |
-| Responsabilidade civil - operações concessionárias até 100 km | 3.000.000,00 | BLOQUEIA |
-| Responsabilidade civil - operações concessionárias até 200 km | 3.000.000,00 | BLOQUEIA |
-| Responsabilidade civil - operações concessionárias até 300 km | 3.000.000,00 | BLOQUEIA |
-| Responsabilidade civil - operações clubes, agremiações e associações recreativas | 3.000.000,00 | BLOQUEIA |
-| Despesas Fixas - Ampla | 20.000.000,00 | EXIGE análise |
-| Despesas Fixas - Incêndio | 20.000.000,00 | EXIGE análise |
-| Despesas extraordinárias | 2.000.000,00 | BLOQUEIA |
-| Operações de carga, descarga, içamento e descida | 500.000,00 | BLOQUEIA |
-| Responsabilidade Civil - Danos Morais | 1.000.000,00 | BLOQUEIA |
-| Responsabilidade civil - alimentos distribuídos pela escola | 50.000,00 | BLOQUEIA |
-| Responsabilidade civil - banho e tosa | 50.000,00 | BLOQUEIA |
-| Responsabilidade civil - dog walker | 50.000,00 | BLOQUEIA |
-| Responsabilidade civil - ocorrência de bullying em escolas | 50.000,00 | BLOQUEIA |
-| Roubo E/ou Furto Qualificado de Bens | 500.000,00 | EXIGE análise |
-| Responsabilidade civil - guarda de bicicletas | 50.000,00 | BLOQUEIA |
-| Responsabilidade civil - hotel pet | 50.000,00 | BLOQUEIA |
-| Responsabilidade civil - serviços de manobrista | 200.000,00 | BLOQUEIA |
-| Responsabilidade civil - taxi dog | 50.000,00 | BLOQUEIA |
-| Responsabilidade civil - guarda de veículos - compreensiva | 500.000,00 | EXIGE análise |
-| Responsabilidade Civil - Empregador | 3.000.000,00 | BLOQUEIA |
-| Responsabilidade civil - contingentes de veículos | 3.000.000,00 | BLOQUEIA |
-| Bens depositados em guarda volumes | 20.000,00 | BLOQUEIA |
-| Roubo de valores e/ou bens de clientes | 20.000,00 | BLOQUEIA |
-| Danos à mercadoria por quebra de vidro | 50.000,00 | BLOQUEIA |
-| Deterioração de Vacinas para Pet Shop, Consultório, Agropecuária e Veterinário | 50.000,00 | BLOQUEIA |
-| Moldes e matrizes | 20.000,00 | EXIGE análise |
-| Roubo de Valores Em Mãos de Portadores | 50.000,00 | EXIGE análise |
-| Roubo de Valores No Interior do Estabelecimento | 50.000,00 | EXIGE análise |
-| Responsabilidade Civil - Guarda de Veículo - Incêndio e Roubo | 500.000,00 | EXIGE análise |
-
-Cobertura fora desta tabela: sem teto documentado nas normas — use bom senso (valor coerente com
-o Valor em Risco da massa).
+Os tetos por cobertura (máximo do corretor, se bloqueia ou vai para análise técnica, alçadas e
+% da básica) estão em `lmi_empresarial.md` §Tabela de limites. Essa tabela, da fonte "Resumo
+coberturas", substitui a que ficava aqui. Os limites mais restritivos por CEP/UF (abaixo)
+continuam valendo por cima dela.
 
 ## Soma de coberturas de Responsabilidade Civil (LMG RC)
 
@@ -166,17 +122,8 @@ Posto de Serviço, sem Venda de Combustíveis · Tintas e Vernizes - Loja e Dep�
 
 ## Combinações excludentes (não podem coexistir na mesma massa)
 
-`Despesas Fixas - Ampla` é excludente com todas as coberturas abaixo — numa massa válida, marque
-`Despesas Fixas - Ampla` OU (qualquer uma das) coberturas a seguir, nunca as duas ao mesmo tempo:
-
-Despesas Fixas - Incêndio · Despesas fixas - danos elétricos · Lucros cessantes - danos elétricos ·
-Lucros Cessantes - Incêndio · Despesas fixas - vendaval ·
-Despesas fixas - vendaval para bens ao ar livre ·
-Despesas fixas - vendaval para concessionárias (exceto veículos ao ar livre) ·
-Despesas fixas - vendaval para concessionárias (inclusive veículos ao ar livre) ·
-Lucros cessantes - vendaval · Lucros cessantes - vendaval para bens ao ar livre ·
-Lucros cessantes - vendaval para concessionárias (exceto veículos ao ar livre) ·
-Lucros cessantes - vendaval para concessionárias (inclusive veículos ao ar livre)
+Lista completa em `lmi_empresarial.md` §Excludentes, incluindo `Despesas Fixas - Ampla` ×
+DF/LC-Incêndio e todas as variantes de DF/LC por danos elétricos e vendaval.
 
 ## UF / CEP bloqueados
 

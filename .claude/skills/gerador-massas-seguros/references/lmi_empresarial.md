@@ -1,26 +1,26 @@
-# LMI por Cobertura — Empresarial (base "Coberturas x LMI", aba `Empresarial`)
+# Regras por Cobertura — Empresarial (produto 425)
 
-Complementa `normas_empresarial.md`. Onde as duas fontes divergem, **vale o valor mais
-restritivo**. Os tetos absolutos desta planilha batem com a tabela de limites da norma; o que é
-novo aqui é o **mínimo**, o **teto percentual** e as regras de dependência/exclusão.
+Fonte principal: planilha **"Resumo coberturas"** (abas `Coberturas limites e aceitação` e
+`Coberturas obrig e exclus`), mais erros observados na homologação (marcados como tal). Esta é
+a referência de LMI, dependências e exclusões do empresarial. Se algo aqui divergir de
+`normas_empresarial.md`, **vale este arquivo**, exceto os limites por CEP/UF/atividade da norma,
+que continuam valendo por cima.
 
 ## Como aplicar numa massa válida
 
-Cada cobertura tem **três** limites que valem ao mesmo tempo:
+Cada cobertura tem estes limites ao mesmo tempo:
 
 1. **Mínimo** (R$).
-2. **Máximo absoluto** (R$).
-3. **Máximo percentual** — % do LMI de outra cobertura, quase sempre a básica
-   `Incêndio, Queda de Raio, Queda de Aeronaves, Implosão, Explosão e Fumaça` ("básica" na
-   tabela).
+2. **Máximo do corretor** (R$, "Automaticidade Corretor"). Acima dele a cotação é **bloqueada**
+   ou vai para **análise técnica** (coluna "Acima do máx"). Massa válida fica **até** esse valor.
+3. **% máx da básica**: percentual do LMI de
+   `Incêndio, Queda de Raio, Queda de Aeronaves, Implosão, Explosão e Fumaça`.
+4. Se a cobertura **exige** outra (tabela Dependências), também o **% máx sobre a exigida**.
 
-Teto efetivo = **o menor** entre o máximo absoluto e o percentual × LMI da cobertura de
-referência. Por isso:
+Teto efetivo = **o menor** de todos esses valores. Por isso:
 
 - Toda massa com cobertura adicional precisa ter a **cobertura básica (Incêndio)** com valor.
   Defina a básica primeiro (coerente com `Valor em Risco - Danos Materiais`) e calcule as demais.
-- Cobertura cuja referência é outra cobertura (RC - Operações, Lucros Cessantes - Incêndio,
-  RC Operações Pet Shop...) exige essa cobertura na massa.
 - Ex.: básica = 1.000.000 → Danos Elétricos ≤ min(5.000.000; 60% × 1.000.000) = **600.000**;
   Quebra de Vidros ≤ min(1.000.000; 20%) = **200.000**.
 
@@ -31,176 +31,237 @@ referência. Por isso:
 | `Valor em Risco - Danos Materiais` | 55.000,00 | 150.000.000,00 |
 
 `Despesas Fixas - Ampla`, `Despesas Fixas - Incêndio` e `Lucros Cessantes - Incêndio` não podem
-passar do valor informado em `Lucros Cessantes` (campo de texto) — numa massa com qualquer uma
+passar do valor informado em `Lucros Cessantes` (campo de texto). Numa massa com qualquer uma
 delas, preencha `Lucros Cessantes` com valor ≥ ao LMI dessas coberturas.
 
-## Tabela de LMI
+Compõem o LMG (Limite Máximo de Garantia): básica, Perda Ou Pagamento de Aluguel a Terceiros,
+Despesas Fixas - Ampla/Incêndio, Lucros Cessantes - Incêndio, Despesas com instalação em novo
+local, Despesas extraordinárias e todas as RC Operações.
 
-Nomes na grafia do template (`catalogo_empresarial.md`).
+Período indenitário existe em: Perda Ou Pagamento de Aluguel a Terceiros, Despesas Fixas - Ampla,
+Lucros Cessantes - Incêndio e Lucros cessantes - danos elétricos. Esta última não tem coluna de
+período no template.
 
-| Cobertura | Mín (R$) | Máx (R$) | Máx % | Observação |
-|---|---:|---:|---|---|
-| Danos Elétricos | 1.000,00 | 5.000.000,00 | 60% da básica |  |
-| Roubo E/ou Furto Qualificado de Bens | 1.000,00 | 500.000,00 | 30% da básica |  |
-| Equipamentos Eletrônicos | 1.000,00 | 3.000.000,00 | 20% da básica |  |
-| Quebra de Vidros | 1.000,00 | 1.000.000,00 | 20% da básica |  |
-| Vendaval, Furacão, Ciclone, Tornado, Granizo e Impacto de Veículos | 5.000,00 | 7.500.000,00 | 50% da básica |  |
-| Alagamento | 1.000,00 | 500.000,00 | 20% da básica |  |
-| Anúncios Luminosos | 1.000,00 | 1.000.000,00 | 20% da básica |  |
-| Demolição e Remoção de Entulho | 5.000,00 | 30.000.000,00 | 100% da básica |  |
-| Derrame Ou Vazamento de Chuveiros Automáticos (sprinklers) | 5.000,00 | 5.000.000,00 | 20% da básica |  |
-| Desmoronamento | 5.000,00 | 1.000.000,00 | 40% da básica |  |
-| Responsabilidade Civil - Danos Morais | 1.000,00 | 1.000.000,00 | 100% da RC Operações contratada | ≤ LMI da básica · exige uma RC Operações e não pode passar do LMI dela (ver §Dependências) |
-| Responsabilidade Civil - Operações | 1.000,00 | 3.000.000,00 | 50% da básica |  |
-| Despesas Fixas - Ampla | 5.000,00 | 20.000.000,00 | — | ≤ Valor em Risco de `Lucros Cessantes` · excludente com DF-Incêndio (ver §Excludentes) |
-| Despesas Fixas - Incêndio | 5.000,00 | 20.000.000,00 | 100% da básica | ≤ Valor em Risco de `Lucros Cessantes` · excludente com DF-Ampla |
-| Deterioração de Mercadorias Em Ambientes Frigorificados | 1.000,00 | 500.000,00 | 10% da básica |  |
-| Deterioração de Vacinas para Pet Shop, Consultório, Agropecuária e Veterinário | 1.000,00 | 50.000,00 | 10% da básica |  |
-| Equipamentos Estacionários | 1.000,00 | 3.000.000,00 | 20% da básica |  |
-| Equipamentos Móveis | 1.000,00 | 3.000.000,00 | 20% da básica |  |
-| Escritório Em Casa de Funcionário | 1.000,00 | 50.000,00 | 10% da básica |  |
-| Lucros Cessantes - Incêndio | 5.000,00 | 20.000.000,00 | 100% da básica | ≤ Valor em Risco de `Lucros Cessantes` · excludente com DF-Ampla |
-| Pátio - Até 100 Km | 5.000,00 | 10.000.000,00 | 70% da básica | excludente com Pátio 200 Km |
-| Pátio - Até 200 Km | 5.000,00 | 10.000.000,00 | 70% da básica | excludente com Pátio 100/300 Km |
-| Pátio - Até 300 Km | 5.000,00 | 10.000.000,00 | 70% da básica | excludente com Pátio 200 Km |
-| Recomposição de Registros e Documentos | 1.000,00 | 5.000.000,00 | 10% da básica |  |
-| Responsabilidade Civil - Empregador | 1.000,00 | 3.000.000,00 | 100% de Responsabilidade Civil - Operações | exige RC - Operações |
-| Responsabilidade Civil - Guarda de Veículo - Incêndio e Roubo | 1.000,00 | 500.000,00 | 10% da básica |  |
-| Roubo de Valores Em Mãos de Portadores | 1.000,00 | 50.000,00 | 10% da básica |  |
-| Roubo de Valores No Interior do Estabelecimento | 1.000,00 | 50.000,00 | 10% da básica |  |
-| Roubo E/ou Furto Qualificado de Bens de Hóspedes | 1.000,00 | 100.000,00 | — | ≤ LMI da básica |
-| Tumultos, Greves e Lockout | 1.000,00 | 4.000.000,00 | 50% da básica | excludente com TGL - Atos Dolosos |
-| Tumultos, Greves e Lockout - Atos Dolosos | 1.000,00 | 4.000.000,00 | 50% da básica | excludente com TGL |
-| Vazamento de Tanques e Ruptura de Tubulações | 1.000,00 | 1.000.000,00 | 50% da básica |  |
-| Perda Ou Pagamento de Aluguel a Terceiros | 1.000,00 | 15.000.000,00 | 50% da básica |  |
-| Benefícios fiscais | 1.000,00 | 999.999.999,99 | 1% da básica |  |
-| Bens depositados em guarda volumes | 1.000,00 | 20.000,00 | 20% da básica |  |
-| Bens do segurado em locais especificados | 1.000,00 | 999.999.999,99 | 5% da básica |  |
-| Bens do segurado em locais não especificados | 1.000,00 | 0,00 | 5% da básica | máximo **0,00** na fonte — trate como não contratável (ver §Pontos a confirmar) |
-| Bens do segurado em locais não especificados - ampla | 1.000,00 | 999.999.999,99 | 5% da básica |  |
-| Danos à fabricação | 5.000,00 | 500.000,00 | 50% da básica |  |
-| Danos à mercadoria por quebra de vidro | 1.000,00 | 50.000,00 | 10% da básica |  |
-| Derrame de material em estado de fusão | 5.000,00 | 500.000,00 | 50% da básica |  |
-| Despesas com instalação em novo local | 5.000,00 | 12.000.000,00 | 100% da básica |  |
-| Despesas extraordinárias | 5.000,00 | 2.000.000,00 | 10% de Lucros Cessantes - Incêndio | exige Lucros Cessantes - Incêndio |
-| Despesas fixas - danos elétricos | 1.000,00 | 1.000.000,00 | 20% da básica |  |
-| Despesas fixas - vendaval | 1.000,00 | 3.000.000,00 | 50% da básica | excludente com DF-Vendaval bens ao ar livre |
-| Despesas fixas - vendaval para bens ao ar livre | 1.000,00 | 3.000.000,00 | 50% da básica | excludente com DF-Vendaval |
-| Despesas fixas - vendaval para concessionárias (exceto veículos ao ar livre) | 5.000,00 | 3.000.000,00 | 50% da básica | exige `Vendaval para concessionárias (exceto veículos ao ar livre)` · excludente com DF-Vendaval bens ao ar livre |
-| Despesas fixas - vendaval para concessionárias (inclusive veículos ao ar livre) | 5.000,00 | 3.000.000,00 | — | ≤ LMI da básica · exige `Vendaval para concessionárias (inclusive veículos ao ar livre)` · excludente com DF-Vendaval concessionárias (exceto) |
-| Deterioração de flores em câmaras frias | 1.000,00 | 100.000,00 | 20% da básica |  |
-| Equipamentos cinematográficos, fotográficos e de vídeo | 1.000,00 | 200.000,00 | 20% da básica |  |
-| Equipamentos e/ou objetos portáteis | 1.000,00 | 100.000,00 | 20% da básica |  |
-| Equipamentos em exposição | 1.000,00 | 1.000.000,00 | 20% da básica |  |
-| Fidelidade de empregados | 1.000,00 | 250.000,00 | 10% da básica |  |
-| Honorários de peritos contábeis | 1.000,00 | 500.000,00 | — | ≤ LMI da básica · exige DF-Incêndio, DF-Ampla ou LC-Incêndio |
-| Lucros cessantes - danos elétricos | 5.000,00 | 3.000.000,00 | 20% da básica |  |
-| Lucros cessantes - quebra de máquinas | 5.000,00 | 999.999.999,99 | 50% da básica | fonte: "verificar, não aparece os valores em tela" |
-| Lucros cessantes - vendaval | 5.000,00 | 3.000.000,00 | 50% da básica | exige `Vendaval, Furacão, Ciclone, Tornado, Granizo e Impacto de Veículos` |
-| Lucros cessantes - vendaval para bens ao ar livre | 5.000,00 | 3.000.000,00 | 50% da básica | excludente com LC-Vendaval |
-| Lucros cessantes - vendaval para concessionárias (exceto veículos ao ar livre) | 5.000,00 | 3.000.000,00 | 50% da básica | excludente com LC-Vendaval bens ao ar livre |
-| Lucros cessantes - vendaval para concessionárias (inclusive veículos ao ar livre) | 5.000,00 | 3.000.000,00 | — | ≤ LMI da básica · exige `Vendaval para concessionárias (inclusive veículos ao ar livre)` |
-| Moldes e matrizes | 1.000,00 | 20.000,00 | 10% da básica |  |
-| Movimentação interna | 1.000,00 | 500.000,00 | 50% da básica |  |
-| Obras de arte | 500,00 | 999.999.999,99 | 20% da básica |  |
-| Operações de carga, descarga, içamento e descida | 1.000,00 | 500.000,00 | 50% da básica |  |
-| Pequenas obras de engenharia | 5.000,00 | 1.000.000,00 | 5% da básica |  |
-| Quebra de máquinas | 5.000,00 | 300.000,00 | 50% da básica |  |
-| Quebra de vidro de utensílio de cozinha | 1.000,00 | 50.000,00 | 10% da básica |  |
-| Queimadas em zonas rurais | 5.000,00 | 0,00 | 100% da básica | máximo **0,00** na fonte — trate como não contratável (ver §Pontos a confirmar) |
-| Responsabilidade civil - alimentos distribuídos pela escola | 1.000,00 | 50.000,00 | 20% de Responsabilidade Civil - Operações | exige RC - Operações |
-| Responsabilidade civil - banho e tosa | 1.000,00 | 50.000,00 | — | ≤ LMI da básica · exige RC Operações Pet Shop |
-| Responsabilidade civil - contingentes de veículos | 1.000,00 | 3.000.000,00 | 100% de Responsabilidade Civil - Operações | exige RC - Operações |
-| Responsabilidade civil - dog walker | 1.000,00 | 50.000,00 | — | ≤ LMI da básica · exige RC Operações Pet Shop |
-| Responsabilidade civil - guarda de bicicletas | 1.000,00 | 50.000,00 | 20% de Responsabilidade Civil - Operações | exige RC - Operações |
-| Responsabilidade civil - guarda de embarcações de terceiros | 1.000,00 | 999.999.999,99 | 50% da básica | **sem aceitação comercial** (CB18.26008) |
-| Responsabilidade civil - guarda de veículos - compreensiva | 1.000,00 | 500.000,00 | — | excludente com RC Guarda de Veículo - Incêndio e Roubo |
-| Responsabilidade civil - hotel pet | 1.000,00 | 50.000,00 | — | ≤ LMI da básica · exige RC Operações Pet Shop |
-| Responsabilidade civil - movimentação de carga e descarga | 1.000,00 | 999.999.999,99 | 50% da básica | fonte repete a mensagem de "sem aceitação" da Guarda de Embarcações (ver §Pontos a confirmar) |
-| Responsabilidade civil - ocorrência de bullying em escolas | 1.000,00 | 50.000,00 | 20% de Responsabilidade Civil - Operações | ≤ LMI da básica · exige RC Operações ou RC Operações Estabelecimento de Ensino |
-| RESPONSABILIDADE CIVIL - BARES E RESTAURANTES | 1.000,00 | 3.000.000,00 | 50% da básica | CB18.26053 |
-| Responsabilidade civil - operações clubes, agremiações e associações recreativas | 1.000,00 | 3.000.000,00 | 50% da básica | CB18.26054 |
-| Responsabilidade civil - operações concessionárias até 100 km | 1.000,00 | 3.000.000,00 | 70% da básica | CB18.26055 · excludente com RC Concessionárias 200 km |
-| Responsabilidade civil - operações concessionárias até 200 km | 1.000,00 | 3.000.000,00 | 70% da básica | excludente com RC Concessionárias 100/300 km |
-| Responsabilidade civil - operações concessionárias até 300 km | 1.000,00 | 3.000.000,00 | 70% da básica | CB18.26057 · excludente com RC Concessionárias 200 km |
-| Responsabilidade civil - operações estabelecimento de ensino | 1.000,00 | 3.000.000,00 | 50% da básica |  |
-| Responsabilidade civil - operações hotéis e pousadas | 1.000,00 | 3.000.000,00 | 50% da básica |  |
-| Responsabilidade civil - operações pet shop e/ou clínica veterinária | 1.000,00 | 1.000.000,00 | 50% da básica | excludente com RC - Operações |
-| Responsabilidade civil - operações salões de beleza | 1.000,00 | 1.000.000,00 | 50% da básica |  |
-| Responsabilidade civil - produtos | 1.000,00 | 999.999.999,99 | 50% da básica | **sem aceitação comercial** (por `normas_empresarial.md`) |
-| Responsabilidade civil - serviços de manobrista | 1.000,00 | 200.000,00 | — | ≤ LMI da básica · exige RC Guarda de Veículos - Compreensiva |
-| Responsabilidade civil - taxi dog | 1.000,00 | 50.000,00 | 20% de Responsabilidade Civil - Operações Pet Shop e/ou Clínica Veterinária | exige RC Operações Pet Shop |
-| Roubo de valores e/ou bens de clientes | 1.000,00 | 20.000,00 | 20% da básica | CB18.26072 |
-| Terremoto, tremor de terra e maremoto | 1.000,00 | 999.999.999,99 | 20% da básica |  |
-| Vendaval, Furacão, Ciclone, Tornado, Granizo e Impacto de Veículos - para Bens Ao Ar Livre | 5.000,00 | 1.000.000,00 | 10% da básica | fonte também lista como "... e Fumaça para Bens Ao Ar Livre" (mesmos limites) |
-| Vendaval para concessionárias (exceto veículos ao ar livre) | 5.000,00 | 7.500.000,00 | 50% da básica | excludente com `Vendaval, Furacão, Ciclone, Tornado, Granizo e Impacto de Veículos` |
-| Indenização a valor de novo (LMI) | 0,01 | 999.999.999,99 | ≤ LMI da básica | só se aplica quando o grupo `Deseja contratar indenização a valor de novo?` = `SIM` |
+## Tabela de limites
 
-A cobertura básica `Incêndio, Queda de Raio, Queda de Aeronaves, Implosão, Explosão e Fumaça` não
-tem linha própria na fonte — use como teto o `Valor em Risco - Danos Materiais` da massa.
+Nomes na grafia do template (`catalogo_empresarial.md`). "Alçadas" = até quanto cada nível
+aprova acima do corretor (Analista Júnior / Pleno / Sênior / Coordenador; o Gerente aprova
+qualquer valor). Serve para massas que testam análise técnica.
 
-## Dependências (cobertura X exige cobertura Y na mesma massa)
-
-| Se incluir… | …precisa incluir pelo menos uma de |
-|---|---|
-| Responsabilidade Civil - Danos Morais | Responsabilidade Civil - Operações · RC - operações pet shop e/ou clínica veterinária · RC - operações concessionárias até 100/200/300 km · RC - operações salões de beleza · RC - operações estabelecimento de ensino · RC - operações hotéis e pousadas · RC - operações clubes, agremiações e associações recreativas · RESPONSABILIDADE CIVIL - BARES E RESTAURANTES |
-| Responsabilidade civil - banho e tosa / dog walker / hotel pet / taxi dog | Responsabilidade civil - operações pet shop e/ou clínica veterinária |
-| Responsabilidade civil - ocorrência de bullying em escolas | Responsabilidade Civil - Operações · Responsabilidade civil - operações estabelecimento de ensino |
-| Responsabilidade civil - serviços de manobrista | Responsabilidade civil - guarda de veículos - compreensiva |
-| Lucros cessantes - vendaval | Vendaval, Furacão, Ciclone, Tornado, Granizo e Impacto de Veículos |
-| Despesas fixas - vendaval para concessionárias (exceto veículos ao ar livre) | Vendaval para concessionárias (exceto veículos ao ar livre) |
-| Despesas fixas - vendaval para concessionárias (inclusive veículos ao ar livre) | Vendaval para concessionárias (inclusive veículos ao ar livre) |
-| Lucros cessantes - vendaval para concessionárias (inclusive veículos ao ar livre) | Vendaval para concessionárias (inclusive veículos ao ar livre) |
-| RC - Empregador / alimentos distribuídos pela escola / contingentes de veículos / guarda de bicicletas | Responsabilidade Civil - Operações (base do %) |
-| Despesas extraordinárias | Lucros Cessantes - Incêndio (base do %) |
-| Honorários de peritos contábeis | Despesas Fixas - Incêndio · Despesas Fixas - Ampla · Lucros Cessantes - Incêndio |
-
-Teto de `Responsabilidade Civil - Danos Morais`: além de exigir uma das RC Operações acima, o
-LMI dela **não pode passar de 100% do LMI de cada RC Operações contratada na massa**. A
-homologação dispara um erro por cobertura, com esta mensagem:
-
-> Cobertura Responsabilidade Civil - Danos Morais, não pode ter o percentual maior (100%) que a
-> Cobertura Responsabilidade Civil - Operações `<variante>`
-
-Variantes já confirmadas: Salões de Beleza · Pet Shop e/ou Clínica Veterinária ·
-Concessionárias até 100 km · Bares e Restaurantes · Estabelecimento de Ensino · Hotéis e
-Pousadas. Trate as demais RC Operações (a geral, Clubes, Concessionárias 200/300 km) do mesmo
-jeito. Numa massa válida, Danos Morais tem que ficar ≤ o **menor** LMI entre as RC Operações da
-massa.
-
-## Excludentes ("cobertura X cancela a cobertura Y" — nunca as duas na mesma massa)
-
-Além da lista de `Despesas Fixas - Ampla` já documentada em `normas_empresarial.md`:
-
-- `Despesas Fixas - Incêndio` × `Despesas Fixas - Ampla`
-- `Lucros Cessantes - Incêndio` × `Despesas Fixas - Ampla`
-- `Pátio - Até 100 Km` × `Pátio - Até 200 Km` × `Pátio - Até 300 Km` (escolha uma só)
-- `Tumultos, Greves e Lockout` × `Tumultos, Greves e Lockout - Atos Dolosos`
-- `Despesas fixas - vendaval` × `Despesas fixas - vendaval para bens ao ar livre`
-- `Despesas fixas - vendaval para concessionárias (exceto veículos ao ar livre)` × `Despesas fixas - vendaval para bens ao ar livre`
-- `Despesas fixas - vendaval para concessionárias (inclusive veículos ao ar livre)` × `Despesas fixas - vendaval para concessionárias (exceto veículos ao ar livre)`
-- `Lucros cessantes - vendaval para bens ao ar livre` × `Lucros cessantes - vendaval`
-- `Lucros cessantes - vendaval para concessionárias (exceto veículos ao ar livre)` × `Lucros cessantes - vendaval para bens ao ar livre`
-- `Responsabilidade civil - guarda de veículos - compreensiva` × `Responsabilidade Civil - Guarda de Veículo - Incêndio e Roubo`
-- `Responsabilidade civil - operações concessionárias até 100 km` × `... até 200 km` × `... até 300 km` (escolha uma só)
-- `Vendaval para concessionárias (exceto veículos ao ar livre)` × `Vendaval, Furacão, Ciclone, Tornado, Granizo e Impacto de Veículos`
-- `Responsabilidade civil - operações pet shop e/ou clínica veterinária` × `Responsabilidade Civil - Operações`
-  (erro observado na homologação: "Cobertura selecionada Responsabilidade Civil - Operações Pet
-  Shop e/ou Clínica Veterinária, cancela a contratação da cobertura Responsabilidade Civil -
-  Operações"). Consequência: numa massa com RC Pet Shop, **não** inclua RC - Empregador,
-  RC - alimentos distribuídos pela escola, RC - contingentes de veículos nem RC - guarda de
-  bicicletas (todas dependem de RC - Operações); `Responsabilidade Civil - Danos Morais`
-  continua válida porque a própria RC Pet Shop satisfaz a dependência dela.
+| Cobertura | Cód | Mín (R$) | Máx corretor (R$) | Acima do máx | % máx da básica | Alçadas Jr / Pl / Sr / Coord |
+|---|---:|---:|---:|---|---:|---|
+| Incêndio, Queda de Raio, Queda de Aeronaves, Implosão, Explosão e Fumaça | 1 | 55.000,00 | 150.000.000,00 | por atividade | 100% | por atividade |
+| Danos Elétricos | 7 | 1.000,00 | 5.000.000,00 | análise técnica | 60% | — / 7.000.000,00 / 10.000.000,00 / 20.000.000,00 |
+| Vendaval para concessionárias (exceto veículos ao ar livre) | 535 | 5.000,00 | 7.500.000,00 | análise técnica | 50% | 10.000.000,00 / 15.000.000,00 / 25.000.000,00 / 30.000.000,00 |
+| Vendaval, Furacão, Ciclone, Tornado, Granizo e Impacto de Veículos | 1070 | 5.000,00 | 7.500.000,00 | análise técnica | 50% | 10.000.000,00 / 15.000.000,00 / 25.000.000,00 / 30.000.000,00 |
+| Vendaval para concessionárias (inclusive veículos ao ar livre) | 536 | 5.000,00 | 1.000.000,00 | análise técnica | 50% | 2.500.000,00 / 5.000.000,00 / 7.500.000,00 / 20.000.000,00 |
+| Vendaval, Furacão, Ciclone, Tornado, Granizo e Impacto de Veículos - para Bens Ao Ar Livre | 1068 | 5.000,00 | 1.000.000,00 | análise técnica | 10% | 2.500.000,00 / 5.000.000,00 / 7.500.000,00 / 30.000.000,00 |
+| Roubo E/ou Furto Qualificado de Bens | 25 | 1.000,00 | 500.000,00 | análise técnica | 30% | — / — / 600.000,00 / 1.000.000,00 |
+| Perda Ou Pagamento de Aluguel a Terceiros | 31 | 1.000,00 | 15.000.000,00 | análise técnica | 50% | 30.000.000,00 / 30.000.000,00 / 30.000.000,00 / 30.000.000,00 |
+| Quebra de Vidros | 15 | 1.000,00 | 1.000.000,00 | análise técnica | 20% | — / 1.500.000,00 / 3.000.000,00 / 5.000.000,00 |
+| Equipamentos Eletrônicos | 1067 | 1.000,00 | 3.000.000,00 | BLOQUEIA | 20% | 3.500.000,00 / 4.000.000,00 / 4.500.000,00 / 5.000.000,00 |
+| Alagamento | 18 | 1.000,00 | 500.000,00 | BLOQUEIA | 20% | 600.000,00 / 700.000,00 / 1.000.000,00 / 3.000.000,00 |
+| Anúncios Luminosos | 20 | 1.000,00 | 1.000.000,00 | análise técnica | 20% | — / 1.500.000,00 / 3.000.000,00 / 5.000.000,00 |
+| Demolição e Remoção de Entulho | 1048 | 5.000,00 | 30.000.000,00 | BLOQUEIA | 100% | — / — / — / — |
+| Derrame Ou Vazamento de Chuveiros Automáticos (sprinklers) | 24 | 5.000,00 | 5.000.000,00 | análise técnica | 20% | 10.000.000,00 / 15.000.000,00 / 20.000.000,00 / 30.000.000,00 |
+| Desmoronamento | 32 | 5.000,00 | 1.000.000,00 | análise técnica | 40% | 2.000.000,00 / 3.000.000,00 / 4.000.000,00 / 10.000.000,00 |
+| Despesas Fixas - Ampla | 1050 | 5.000,00 | 20.000.000,00 | análise técnica | 100% | — / — / — / 30.000.000,00 |
+| Despesas Fixas - Incêndio | 1051 | 5.000,00 | 20.000.000,00 | análise técnica | 100% | 30.000.000,00 / 30.000.000,00 / 30.000.000,00 / 30.000.000,00 |
+| Deterioração de Mercadorias Em Ambientes Frigorificados | 21 | 1.000,00 | 500.000,00 | BLOQUEIA | 10% | — / — / 1.000.000,00 / 3.000.000,00 |
+| Deterioração de Vacinas para Pet Shop, Consultório, Agropecuária e Veterinário | 1083 | 1.000,00 | 50.000,00 | BLOQUEIA | 10% | 100.000,00 / 200.000,00 / 1.000.000,00 / 3.000.000,00 |
+| Equipamentos Estacionários | 22 | 1.000,00 | 3.000.000,00 | BLOQUEIA | 20% | 3.500.000,00 / 4.000.000,00 / 4.500.000,00 / 5.000.000,00 |
+| Equipamentos Móveis | 9 | 1.000,00 | 3.000.000,00 | BLOQUEIA | 20% | 3.500.000,00 / 4.000.000,00 / 4.500.000,00 / 5.000.000,00 |
+| Escritório Em Casa de Funcionário | 1400 | 1.000,00 | 50.000,00 | BLOQUEIA | 10% | 100.000,00 / 200.000,00 / 1.000.000,00 / 3.000.000,00 |
+| Lucros Cessantes - Incêndio | 44 | 5.000,00 | 20.000.000,00 | análise técnica | 100% | — / — / — / 30.000.000,00 |
+| Pátio - Até 100 Km | 529 | 5.000,00 | 10.000.000,00 | BLOQUEIA | 70% | — / — / 30.000.000,00 / 30.000.000,00 |
+| Pátio - Até 200 Km | 530 | 5.000,00 | 10.000.000,00 | BLOQUEIA | 70% | — / — / — / 20.000.000,00 |
+| Pátio - Até 300 Km | 531 | 5.000,00 | 10.000.000,00 | BLOQUEIA | 70% | — / — / — / 20.000.000,00 |
+| Recomposição de Registros e Documentos | 14 | 1.000,00 | 5.000.000,00 | BLOQUEIA | 10% | — / 10.000.000,00 / 20.000.000,00 / 30.000.000,00 |
+| Responsabilidade civil - operações concessionárias até 100 km | 532 | 1.000,00 | 3.000.000,00 | BLOQUEIA | 70% | — / — / — / — |
+| Responsabilidade civil - operações concessionárias até 200 km | 533 | 1.000,00 | 3.000.000,00 | BLOQUEIA | 70% | — / — / — / — |
+| Responsabilidade Civil - Operações | 26 | 1.000,00 | 3.000.000,00 | BLOQUEIA | 50% | — / — / — / — |
+| RESPONSABILIDADE CIVIL - BARES E RESTAURANTES | 306 | 1.000,00 | 3.000.000,00 | BLOQUEIA | 50% | — / — / — / — |
+| Responsabilidade civil - operações clubes, agremiações e associações recreativas | 1036 | 1.000,00 | 3.000.000,00 | BLOQUEIA | 50% | — / — / — / — |
+| Responsabilidade civil - operações concessionárias até 300 km | 534 | 1.000,00 | 3.000.000,00 | BLOQUEIA | 70% | — / — / — / — |
+| Responsabilidade civil - operações estabelecimento de ensino | 304 | 1.000,00 | 3.000.000,00 | BLOQUEIA | 50% | — / — / — / — |
+| Responsabilidade civil - operações hotéis e pousadas | 510 | 1.000,00 | 3.000.000,00 | BLOQUEIA | 50% | — / — / — / — |
+| Responsabilidade civil - operações pet shop e/ou clínica veterinária | 512 | 1.000,00 | 1.000.000,00 | BLOQUEIA | 50% | 3.000.000,00 / 3.000.000,00 / 3.000.000,00 / 3.000.000,00 |
+| Responsabilidade civil - operações salões de beleza | 513 | 1.000,00 | 1.000.000,00 | BLOQUEIA | 50% | 3.000.000,00 / 3.000.000,00 / 3.000.000,00 / 3.000.000,00 |
+| Responsabilidade Civil - Empregador | 1074 | 1.000,00 | 3.000.000,00 | BLOQUEIA | 50% | — / — / — / — |
+| Responsabilidade Civil - Danos Morais | 310 | 1.000,00 | 1.000.000,00 | BLOQUEIA | 50% | — / — / — / — |
+| Responsabilidade civil - banho e tosa | 505 | 1.000,00 | 50.000,00 | BLOQUEIA | 10% | — / — / — / — |
+| Responsabilidade civil - dog walker | 506 | 1.000,00 | 50.000,00 | BLOQUEIA | 10% | — / — / — / — |
+| Responsabilidade civil - guarda de bicicletas | 508 | 1.000,00 | 50.000,00 | BLOQUEIA | 10% | — / — / — / — |
+| Responsabilidade Civil - Guarda de Veículo - Incêndio e Roubo | 1038 | 1.000,00 | 500.000,00 | análise técnica | 10% | — / — / — / 3.000.000,00 |
+| Responsabilidade civil - hotel pet | 511 | 1.000,00 | 50.000,00 | BLOQUEIA | 10% | — / — / — / — |
+| Responsabilidade civil - ocorrência de bullying em escolas | 507 | 1.000,00 | 50.000,00 | BLOQUEIA | 10% | — / — / — / — |
+| Responsabilidade civil - taxi dog | 515 | 1.000,00 | 50.000,00 | BLOQUEIA | 10% | — / — / — / — |
+| Responsabilidade civil - alimentos distribuídos pela escola | 504 | 1.000,00 | 50.000,00 | BLOQUEIA | 10% | — / — / — / — |
+| Roubo de Valores Em Mãos de Portadores | 3 | 1.000,00 | 50.000,00 | análise técnica | 10% | 100.000,00 / 300.000,00 / 500.000,00 / 1.200.000,00 |
+| Roubo de Valores No Interior do Estabelecimento | 4 | 1.000,00 | 50.000,00 | análise técnica | 10% | 100.000,00 / 300.000,00 / 500.000,00 / 1.200.000,00 |
+| Roubo E/ou Furto Qualificado de Bens de Hóspedes | 1082 | 1.000,00 | 100.000,00 | BLOQUEIA | 20% | — / — / 150.000,00 / 300.000,00 |
+| Tumultos, Greves e Lockout | 6 | 1.000,00 | 4.000.000,00 | análise técnica | 50% | — / — / — / — |
+| Tumultos, Greves e Lockout - Atos Dolosos | 516 | 1.000,00 | 4.000.000,00 | análise técnica | 50% | — / — / — / — |
+| Vazamento de Tanques e Ruptura de Tubulações | 538 | 1.000,00 | 1.000.000,00 | BLOQUEIA | 50% | 2.000.000,00 / 3.000.000,00 / 4.000.000,00 / 10.000.000,00 |
+| Despesas com instalação em novo local | 76 | 5.000,00 | 12.000.000,00 | BLOQUEIA | 100% | — / — / — / 30.000.000,00 |
+| Bens depositados em guarda volumes | 300 | 1.000,00 | 20.000,00 | BLOQUEIA | 20% | 200.000,00 / 200.000,00 / 200.000,00 / 1.000.000,00 |
+| Danos à fabricação | 1079 | 5.000,00 | 500.000,00 | BLOQUEIA | 50% | 600.000,00 / 700.000,00 / 800.000,00 / 2.000.000,00 |
+| Danos à mercadoria por quebra de vidro | 1084 | 1.000,00 | 50.000,00 | BLOQUEIA | 10% | 100.000,00 / 100.000,00 / 100.000,00 / 500.000,00 |
+| Derrame de material em estado de fusão | 13 | 5.000,00 | 500.000,00 | BLOQUEIA | 50% | — / — / 1.000.000,00 / 2.000.000,00 |
+| Despesas extraordinárias | 1057 | 5.000,00 | 2.000.000,00 | BLOQUEIA | 50% | 4.000.000,00 / 8.000.000,00 / 10.000.000,00 / 30.000.000,00 |
+| Benefícios fiscais | 501 | 1.000,00 | 0 (corretor) | sem aceitação | 1% | — / — / — / — |
+| Bens do segurado em locais especificados | 1080 | 1.000,00 | 0 (corretor) | sem aceitação | 5% | — / — / — / 10.000.000,00 |
+| Bens do segurado em locais não especificados | 1081 | 1.000,00 | 0 (corretor) | sem aceitação | 5% | — / — / — / 10.000.000,00 |
+| Bens do segurado em locais não especificados - ampla | 523 | 1.000,00 | 0 (corretor) | sem aceitação | 5% | — / — / — / 2.000.000,00 |
+| Despesas fixas - danos elétricos | 502 | 1.000,00 | 1.000.000,00 | BLOQUEIA | 20% | 5.000.000,00 / 10.000.000,00 / 25.000.000,00 / 30.000.000,00 |
+| Despesas fixas - vendaval | 503 | 1.000,00 | 3.000.000,00 | BLOQUEIA | 50% | 5.000.000,00 / 5.000.000,00 / 5.000.000,00 / 30.000.000,00 |
+| Despesas fixas - vendaval para bens ao ar livre | 520 | 1.000,00 | 3.000.000,00 | BLOQUEIA | 50% | — / 5.000.000,00 / 5.000.000,00 / 30.000.000,00 |
+| Despesas fixas - vendaval para concessionárias (exceto veículos ao ar livre) | 521 | 5.000,00 | 3.000.000,00 | BLOQUEIA | 50% | 5.000.000,00 / 5.000.000,00 / 5.000.000,00 / 30.000.000,00 |
+| Despesas fixas - vendaval para concessionárias (inclusive veículos ao ar livre) | 522 | 5.000,00 | 3.000.000,00 | BLOQUEIA | 50% | — / 5.000.000,00 / 5.000.000,00 / 30.000.000,00 |
+| Deterioração de flores em câmaras frias | 301 | 1.000,00 | 100.000,00 | BLOQUEIA | 20% | 200.000,00 / 300.000,00 / 1.000.000,00 / 3.000.000,00 |
+| Equipamentos cinematográficos, fotográficos e de vídeo | 10 | 1.000,00 | 200.000,00 | BLOQUEIA | 20% | — / 300.000,00 / 500.000,00 / 1.000.000,00 |
+| Equipamentos e/ou objetos portáteis | 1049 | 1.000,00 | 100.000,00 | BLOQUEIA | 20% | — / 250.000,00 / 500.000,00 / 1.000.000,00 |
+| Equipamentos em exposição | 8 | 1.000,00 | 1.000.000,00 | BLOQUEIA | 20% | — / — / — / 1.500.000,00 |
+| Fidelidade de empregados | 16 | 1.000,00 | 250.000,00 | BLOQUEIA | 10% | 500.000,00 / 1.000.000,00 / 2.000.000,00 / 4.000.000,00 |
+| Honorários de peritos contábeis | 1046 | 1.000,00 | 500.000,00 | BLOQUEIA | 1% | — / 600.000,00 / 800.000,00 / 1.000.000,00 |
+| Lucros cessantes - danos elétricos | 45 | 5.000,00 | 3.000.000,00 | BLOQUEIA | 20% | 5.000.000,00 / 10.000.000,00 / 25.000.000,00 / 30.000.000,00 |
+| Lucros cessantes - vendaval | 46 | 5.000,00 | 3.000.000,00 | BLOQUEIA | 50% | 5.000.000,00 / 5.000.000,00 / 5.000.000,00 / 30.000.000,00 |
+| Lucros cessantes - vendaval para bens ao ar livre | 525 | 5.000,00 | 3.000.000,00 | BLOQUEIA | 50% | — / 5.000.000,00 / 5.000.000,00 / 30.000.000,00 |
+| Lucros cessantes - vendaval para concessionárias (exceto veículos ao ar livre) | 526 | 5.000,00 | 3.000.000,00 | BLOQUEIA | 50% | 5.000.000,00 / 5.000.000,00 / 5.000.000,00 / 30.000.000,00 |
+| Lucros cessantes - vendaval para concessionárias (inclusive veículos ao ar livre) | 527 | 5.000,00 | 3.000.000,00 | BLOQUEIA | 30% | — / 5.000.000,00 / 5.000.000,00 / 30.000.000,00 |
+| Moldes e matrizes | 1063 | 1.000,00 | 20.000,00 | análise técnica | 10% | 100.000,00 / 200.000,00 / 1.000.000,00 / 3.000.000,00 |
+| Lucros cessantes - quebra de máquinas | 524 | 5.000,00 | 0 (corretor) | sem aceitação | 50% | — / — / — / — |
+| Movimentação interna | 1085 | 1.000,00 | 500.000,00 | BLOQUEIA | 50% | — / — / 750.000,00 / 1.000.000,00 |
+| Operações de carga, descarga, içamento e descida | 19 | 1.000,00 | 500.000,00 | BLOQUEIA | 50% | 1.000.000,00 / 1.500.000,00 / 2.000.000,00 / 3.000.000,00 |
+| Pequenas obras de engenharia | 63 | 5.000,00 | 1.000.000,00 | BLOQUEIA | 5% | 2.000.000,00 / 3.000.000,00 / 4.000.000,00 / 10.000.000,00 |
+| Obras de arte | 528 | 500,00 | 0 (corretor) | sem aceitação | 20% | — / — / — / 1.000.000,00 |
+| Quebra de máquinas | 52 | 5.000,00 | 300.000,00 | BLOQUEIA | 50% | 500.000,00 / 1.000.000,00 / 2.000.000,00 / 10.000.000,00 |
+| Quebra de vidro de utensílio de cozinha | 537 | 1.000,00 | 50.000,00 | BLOQUEIA | 10% | 100.000,00 / 100.000,00 / 100.000,00 / 500.000,00 |
+| Responsabilidade civil - contingentes de veículos | 1076 | 1.000,00 | 3.000.000,00 | BLOQUEIA | 50% | — / — / — / — |
+| Queimadas em zonas rurais | 1065 | 5.000,00 | 0 (corretor) | sem aceitação | 100% | — / — / — / 1.000.000,00 |
+| Responsabilidade civil - guarda de veículos - compreensiva | 1037 | 1.000,00 | 500.000,00 | análise técnica | 10% | — / — / — / 3.000.000,00 |
+| Responsabilidade civil - guarda de embarcações de terceiros | 509 | 1.000,00 | 0 (corretor) | sem aceitação | 50% | — / — / — / 1.000.000,00 |
+| Responsabilidade civil - serviços de manobrista | 514 | 1.000,00 | 200.000,00 | BLOQUEIA | 10% | — / 300.000,00 / 500.000,00 / 1.000.000,00 |
+| Responsabilidade civil - movimentação de carga e descarga | 309 | 1.000,00 | 0 (corretor) | sem aceitação | 50% | — / — / — / 1.000.000,00 |
+| Roubo de valores e/ou bens de clientes | 302 | 1.000,00 | 20.000,00 | BLOQUEIA | 20% | 200.000,00 / 200.000,00 / 200.000,00 / 1.000.000,00 |
+| Responsabilidade civil - produtos | 1064 | 1.000,00 | 0 (corretor) | sem aceitação | 50% | — / — / — / 1.000.000,00 |
+| Terremoto, tremor de terra e maremoto | 539 | 1.000,00 | 0 (corretor) | sem aceitação | 20% | — / — / — / 3.000.000,00 |
 
 ## Coberturas sem aceitação comercial (nunca usar em massa válida)
 
-- `Responsabilidade civil - guarda de embarcações de terceiros` (CB18.26008)
-- `Responsabilidade civil - produtos` (já em `normas_empresarial.md`)
+Automaticidade do corretor = 0 ("Essa cobertura não possui aceitação comercial na HDI
+Seguros"). Só marque para testar essa rejeição.
+
+| Cobertura | Cód | Coordenador aprova até (R$) |
+|---|---:|---:|
+| Benefícios fiscais | 501 | — |
+| Bens do segurado em locais especificados | 1080 | 10.000.000,00 |
+| Bens do segurado em locais não especificados | 1081 | 10.000.000,00 |
+| Bens do segurado em locais não especificados - ampla | 523 | 2.000.000,00 |
+| Lucros cessantes - quebra de máquinas | 524 | — |
+| Obras de arte | 528 | 1.000.000,00 |
+| Queimadas em zonas rurais | 1065 | 1.000.000,00 |
+| Responsabilidade civil - guarda de embarcações de terceiros | 509 | 1.000.000,00 |
+| Responsabilidade civil - movimentação de carga e descarga | 309 | 1.000.000,00 |
+| Responsabilidade civil - produtos | 1064 | 1.000.000,00 |
+
+`Terremoto, tremor de terra e maremoto` (539) também aparece como sem aceitação nessa fonte
+(automaticidade 0, coordenador até 3.000.000,00). Mesmo assim, **continua utilizável** em massa
+válida por decisão do usuário, com mínimo 1.000,00 e até 20% da básica.
+
+## Dependências (cobertura X exige pelo menos uma das coberturas Y)
+
+"Máx % da exigida" = teto do LMI de X sobre o LMI da cobertura exigida. Quando há várias exigidas
+na massa, respeite o teto sobre **cada uma**, ou seja, fique ≤ o menor.
+
+| Se incluir… | …precisa incluir pelo menos uma de | Máx % da exigida |
+|---|---|---|
+| Responsabilidade Civil - Empregador | RESPONSABILIDADE CIVIL - BARES E RESTAURANTES · Responsabilidade civil - operações clubes, agremiações e associações recreativas · Responsabilidade civil - operações concessionárias até 100 km · Responsabilidade civil - operações concessionárias até 200 km · Responsabilidade civil - operações concessionárias até 300 km · Responsabilidade civil - operações estabelecimento de ensino · Responsabilidade civil - operações hotéis e pousadas · Responsabilidade Civil - Operações · Responsabilidade civil - operações pet shop e/ou clínica veterinária · Responsabilidade civil - operações salões de beleza | 100% dela |
+| Responsabilidade Civil - Danos Morais | RESPONSABILIDADE CIVIL - BARES E RESTAURANTES · Responsabilidade civil - operações clubes, agremiações e associações recreativas · Responsabilidade civil - operações concessionárias até 100 km · Responsabilidade civil - operações concessionárias até 200 km · Responsabilidade civil - operações concessionárias até 300 km · Responsabilidade civil - operações estabelecimento de ensino · Responsabilidade civil - operações hotéis e pousadas · Responsabilidade Civil - Operações · Responsabilidade civil - operações pet shop e/ou clínica veterinária · Responsabilidade civil - operações salões de beleza | 100% dela |
+| Responsabilidade civil - banho e tosa | Responsabilidade civil - operações pet shop e/ou clínica veterinária | 20% dela |
+| Responsabilidade civil - dog walker | Responsabilidade civil - operações pet shop e/ou clínica veterinária | 20% dela |
+| Responsabilidade civil - guarda de bicicletas | Responsabilidade Civil - Operações · Responsabilidade civil - operações estabelecimento de ensino | 20% dela |
+| Responsabilidade civil - hotel pet | Responsabilidade civil - operações pet shop e/ou clínica veterinária | 20% dela |
+| Responsabilidade civil - ocorrência de bullying em escolas | Responsabilidade Civil - Operações · Responsabilidade civil - operações estabelecimento de ensino | 20% dela |
+| Responsabilidade civil - taxi dog | Responsabilidade civil - operações pet shop e/ou clínica veterinária | 20% dela |
+| Responsabilidade civil - alimentos distribuídos pela escola | Responsabilidade Civil - Operações · Responsabilidade civil - operações estabelecimento de ensino | 20% dela |
+| Roubo E/ou Furto Qualificado de Bens de Hóspedes | Roubo E/ou Furto Qualificado de Bens | — |
+| Despesas extraordinárias | Lucros Cessantes - Incêndio · Despesas Fixas - Ampla · Despesas Fixas - Incêndio | 10% dela |
+| Despesas fixas - danos elétricos | Danos Elétricos | — |
+| Despesas fixas - vendaval | Vendaval, Furacão, Ciclone, Tornado, Granizo e Impacto de Veículos | — |
+| Despesas fixas - vendaval para bens ao ar livre | Vendaval, Furacão, Ciclone, Tornado, Granizo e Impacto de Veículos - para Bens Ao Ar Livre | — |
+| Despesas fixas - vendaval para concessionárias (exceto veículos ao ar livre) | Vendaval para concessionárias (exceto veículos ao ar livre) | — |
+| Despesas fixas - vendaval para concessionárias (inclusive veículos ao ar livre) | Vendaval para concessionárias (inclusive veículos ao ar livre) | — |
+| Honorários de peritos contábeis | Lucros Cessantes - Incêndio · Despesas Fixas - Ampla · Despesas Fixas - Incêndio | — |
+| Lucros cessantes - danos elétricos | Danos Elétricos | — |
+| Lucros cessantes - vendaval | Vendaval, Furacão, Ciclone, Tornado, Granizo e Impacto de Veículos | — |
+| Lucros cessantes - vendaval para bens ao ar livre | Vendaval, Furacão, Ciclone, Tornado, Granizo e Impacto de Veículos - para Bens Ao Ar Livre | — |
+| Lucros cessantes - vendaval para concessionárias (exceto veículos ao ar livre) | Vendaval para concessionárias (exceto veículos ao ar livre) | — |
+| Lucros cessantes - vendaval para concessionárias (inclusive veículos ao ar livre) | Vendaval para concessionárias (inclusive veículos ao ar livre) | — |
+| Responsabilidade civil - contingentes de veículos | RESPONSABILIDADE CIVIL - BARES E RESTAURANTES · Responsabilidade civil - operações clubes, agremiações e associações recreativas · Responsabilidade civil - operações concessionárias até 100 km · Responsabilidade civil - operações concessionárias até 200 km · Responsabilidade civil - operações concessionárias até 300 km · Responsabilidade civil - operações estabelecimento de ensino · Responsabilidade civil - operações hotéis e pousadas · Responsabilidade Civil - Operações · Responsabilidade civil - operações pet shop e/ou clínica veterinária · Responsabilidade civil - operações salões de beleza | 100% dela |
+| Responsabilidade civil - serviços de manobrista | Responsabilidade civil - guarda de veículos - compreensiva | 20% dela |
+
+Confirmado na homologação para `Responsabilidade Civil - Danos Morais`: um erro por RC Operações
+presente, com a mensagem "Cobertura Responsabilidade Civil - Danos Morais, não pode ter o
+percentual maior (100%) que a Cobertura Responsabilidade Civil - Operações `<variante>`"
+(Salões de Beleza, Pet Shop, Concessionárias até 100 km, Bares e Restaurantes, Estabelecimento
+de Ensino, Hotéis e Pousadas).
+
+## Excludentes (X cancela Y: nunca os dois na mesma massa)
+
+| Cobertura | Não pode estar junto com |
+|---|---|
+| Vendaval para concessionárias (exceto veículos ao ar livre) | Vendaval para concessionárias (inclusive veículos ao ar livre) · Vendaval, Furacão, Ciclone, Tornado, Granizo e Impacto de Veículos |
+| Vendaval, Furacão, Ciclone, Tornado, Granizo e Impacto de Veículos | Vendaval para concessionárias (exceto veículos ao ar livre) · Vendaval para concessionárias (inclusive veículos ao ar livre) |
+| Vendaval para concessionárias (inclusive veículos ao ar livre) | Vendaval para concessionárias (exceto veículos ao ar livre) · Vendaval, Furacão, Ciclone, Tornado, Granizo e Impacto de Veículos |
+| Despesas Fixas - Ampla | Despesas Fixas - Incêndio · Despesas fixas - danos elétricos · Lucros cessantes - danos elétricos · Lucros Cessantes - Incêndio · Despesas fixas - vendaval · Despesas fixas - vendaval para bens ao ar livre · Despesas fixas - vendaval para concessionárias (exceto veículos ao ar livre) · Despesas fixas - vendaval para concessionárias (inclusive veículos ao ar livre) · Lucros cessantes - vendaval · Lucros cessantes - vendaval para bens ao ar livre · Lucros cessantes - vendaval para concessionárias (exceto veículos ao ar livre) · Lucros cessantes - vendaval para concessionárias (inclusive veículos ao ar livre) |
+| Despesas Fixas - Incêndio | Despesas Fixas - Ampla · Lucros Cessantes - Incêndio |
+| Lucros Cessantes - Incêndio | Despesas Fixas - Ampla · Despesas Fixas - Incêndio |
+| Pátio - Até 100 Km | Pátio - Até 200 Km · Pátio - Até 300 Km |
+| Pátio - Até 200 Km | Pátio - Até 100 Km · Pátio - Até 300 Km |
+| Pátio - Até 300 Km | Pátio - Até 100 Km · Pátio - Até 200 Km |
+| Responsabilidade civil - operações concessionárias até 100 km | Responsabilidade civil - operações concessionárias até 200 km · Responsabilidade civil - operações concessionárias até 300 km |
+| Responsabilidade civil - operações concessionárias até 200 km | Responsabilidade civil - operações concessionárias até 100 km · Responsabilidade civil - operações concessionárias até 300 km |
+| Responsabilidade Civil - Operações | Responsabilidade civil - operações pet shop e/ou clínica veterinária |
+| Responsabilidade civil - operações concessionárias até 300 km | Responsabilidade civil - operações concessionárias até 100 km · Responsabilidade civil - operações concessionárias até 200 km |
+| Responsabilidade Civil - Guarda de Veículo - Incêndio e Roubo | Responsabilidade civil - guarda de veículos - compreensiva |
+| Tumultos, Greves e Lockout | Tumultos, Greves e Lockout - Atos Dolosos |
+| Tumultos, Greves e Lockout - Atos Dolosos | Tumultos, Greves e Lockout |
+| Despesas fixas - danos elétricos | Despesas Fixas - Ampla |
+| Despesas fixas - vendaval | Despesas Fixas - Ampla · Lucros cessantes - vendaval · Lucros cessantes - vendaval para bens ao ar livre · Lucros cessantes - vendaval para concessionárias (exceto veículos ao ar livre) · Lucros cessantes - vendaval para concessionárias (inclusive veículos ao ar livre) · Despesas fixas - vendaval para bens ao ar livre · Despesas fixas - vendaval para concessionárias (exceto veículos ao ar livre) · Despesas fixas - vendaval para concessionárias (inclusive veículos ao ar livre) |
+| Despesas fixas - vendaval para bens ao ar livre | Despesas Fixas - Ampla · Lucros cessantes - vendaval · Lucros cessantes - vendaval para bens ao ar livre · Lucros cessantes - vendaval para concessionárias (exceto veículos ao ar livre) · Lucros cessantes - vendaval para concessionárias (inclusive veículos ao ar livre) · Despesas fixas - vendaval · Despesas fixas - vendaval para concessionárias (exceto veículos ao ar livre) · Despesas fixas - vendaval para concessionárias (inclusive veículos ao ar livre) |
+| Despesas fixas - vendaval para concessionárias (exceto veículos ao ar livre) | Despesas Fixas - Ampla · Lucros cessantes - vendaval · Lucros cessantes - vendaval para bens ao ar livre · Lucros cessantes - vendaval para concessionárias (exceto veículos ao ar livre) · Lucros cessantes - vendaval para concessionárias (inclusive veículos ao ar livre) · Despesas fixas - vendaval · Despesas fixas - vendaval para bens ao ar livre · Despesas fixas - vendaval para concessionárias (inclusive veículos ao ar livre) |
+| Despesas fixas - vendaval para concessionárias (inclusive veículos ao ar livre) | Despesas Fixas - Ampla · Lucros cessantes - vendaval · Lucros cessantes - vendaval para bens ao ar livre · Lucros cessantes - vendaval para concessionárias (exceto veículos ao ar livre) · Lucros cessantes - vendaval para concessionárias (inclusive veículos ao ar livre) · Despesas fixas - vendaval · Despesas fixas - vendaval para bens ao ar livre · Despesas fixas - vendaval para concessionárias (exceto veículos ao ar livre) |
+| Lucros cessantes - danos elétricos | Despesas Fixas - Ampla |
+| Lucros cessantes - vendaval | Despesas Fixas - Ampla · Lucros cessantes - vendaval para bens ao ar livre · Lucros cessantes - vendaval para concessionárias (exceto veículos ao ar livre) · Lucros cessantes - vendaval para concessionárias (inclusive veículos ao ar livre) · Despesas fixas - vendaval · Despesas fixas - vendaval para bens ao ar livre · Despesas fixas - vendaval para concessionárias (exceto veículos ao ar livre) · Despesas fixas - vendaval para concessionárias (inclusive veículos ao ar livre) |
+| Lucros cessantes - vendaval para bens ao ar livre | Despesas Fixas - Ampla · Lucros cessantes - vendaval · Lucros cessantes - vendaval para concessionárias (exceto veículos ao ar livre) · Lucros cessantes - vendaval para concessionárias (inclusive veículos ao ar livre) · Despesas fixas - vendaval · Despesas fixas - vendaval para bens ao ar livre · Despesas fixas - vendaval para concessionárias (exceto veículos ao ar livre) · Despesas fixas - vendaval para concessionárias (inclusive veículos ao ar livre) |
+| Lucros cessantes - vendaval para concessionárias (exceto veículos ao ar livre) | Despesas Fixas - Ampla · Lucros cessantes - vendaval · Lucros cessantes - vendaval para bens ao ar livre · Lucros cessantes - vendaval para concessionárias (inclusive veículos ao ar livre) · Despesas fixas - vendaval · Despesas fixas - vendaval para bens ao ar livre · Despesas fixas - vendaval para concessionárias (exceto veículos ao ar livre) · Despesas fixas - vendaval para concessionárias (inclusive veículos ao ar livre) |
+| Lucros cessantes - vendaval para concessionárias (inclusive veículos ao ar livre) | Despesas Fixas - Ampla · Lucros cessantes - vendaval · Lucros cessantes - vendaval para bens ao ar livre · Lucros cessantes - vendaval para concessionárias (exceto veículos ao ar livre) · Despesas fixas - vendaval · Despesas fixas - vendaval para bens ao ar livre · Despesas fixas - vendaval para concessionárias (exceto veículos ao ar livre) · Despesas fixas - vendaval para concessionárias (inclusive veículos ao ar livre) |
+| Responsabilidade civil - guarda de veículos - compreensiva | Responsabilidade Civil - Guarda de Veículo - Incêndio e Roubo |
+
+Resumo prático:
+
+- **Vendaval**: só um entre `Vendaval, Furacão, Ciclone, Tornado, Granizo e Impacto de Veículos`,
+  `Vendaval para concessionárias (exceto…)` e `Vendaval para concessionárias (inclusive…)`.
+  O "para Bens Ao Ar Livre" pode ficar junto.
+- **Despesas Fixas / Lucros Cessantes por vendaval**: só **uma** das 8 variantes (DF-vendaval,
+  DF-vendaval bens ao ar livre, DF-vendaval concessionárias exceto/inclusive e as 4 de LC). E
+  nenhuma delas com `Despesas Fixas - Ampla`.
+- **Incêndio**: `Despesas Fixas - Ampla`, `Despesas Fixas - Incêndio` e `Lucros Cessantes -
+  Incêndio` são mutuamente excludentes: escolha uma só.
+- **RC - Operações × RC Pet Shop**: confirmado na homologação ("Cobertura selecionada
+  Responsabilidade Civil - Operações Pet Shop e/ou Clínica Veterinária, cancela a contratação da
+  cobertura Responsabilidade Civil - Operações"). Com RC Pet Shop, as RC que exigem
+  "RC Operações ou Estabelecimento de Ensino" (bicicletas, bullying, alimentos na escola) só
+  entram se houver `RC - operações estabelecimento de ensino`.
 
 ## Pontos a confirmar na fonte (evite em massa válida; pergunte se o pedido exigir)
 
-- `Bens do segurado em locais não especificados` e `Queimadas em zonas rurais`: máximo **0,00**
-  na planilha — provavelmente não contratáveis.
-- `Responsabilidade civil - movimentação de carga e descarga`: a mensagem de erro é cópia da de
-  Guarda de Embarcações ("não possui aceitação comercial") — pode ser erro de digitação na fonte.
-- `Lucros cessantes - quebra de máquinas`: fonte anota "verificar, não aparece os valores em tela".
+- `Responsabilidade Civil - Operações`: a coluna de código exclui só a RC Pet Shop (512), mas a
+  descrição também cita "Estabelecimento de Ensino". Numa massa válida, **não** junte RC -
+  Operações com RC - operações estabelecimento de ensino.
+- `Lucros Cessantes - Incêndio`: coluna "Até % das demais coberturas" = 5, sem cobertura de
+  referência indicada.
+- A linha do código 526 vem com o nome "Lucros Cessantes - Vendaval para Bens ao Ar Livre", mas
+  pelo código e pela cobertura exigida (535) é `Lucros cessantes - vendaval para concessionárias
+  (exceto veículos ao ar livre)`. Foi mapeada assim.
