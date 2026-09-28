@@ -164,10 +164,10 @@ Seguros"). Só marque para testar essa rejeição.
 | Responsabilidade civil - guarda de embarcações de terceiros | 509 | 1.000.000,00 |
 | Responsabilidade civil - movimentação de carga e descarga | 309 | 1.000.000,00 |
 | Responsabilidade civil - produtos | 1064 | 1.000.000,00 |
+| Terremoto, tremor de terra e maremoto | 539 | 3.000.000,00 |
 
-`Terremoto, tremor de terra e maremoto` (539) também aparece como sem aceitação nessa fonte
-(automaticidade 0, coordenador até 3.000.000,00). Mesmo assim, **continua utilizável** em massa
-válida por decisão do usuário, com mínimo 1.000,00 e até 20% da básica.
+Erro observado na homologação para Terremoto: "ITEM 1 - CB18.26011 - Cobertura Terremoto,
+Tremor de Terra e Maremoto não possui aceitação comercial na HDI Seguros."
 
 ## Dependências (cobertura X exige pelo menos uma das coberturas Y)
 
