@@ -175,9 +175,15 @@ def montar_mapa(ws):
             g = grupos.setdefault(info["grupo"], {"opcoes": {}})
             g["opcoes"][info["opcao"]] = col
 
+    # campos de texto que sao valor em R$ (Valor em Risco, Lucros Cessantes...): tudo que
+    # nao e a Atividade. Gravados como texto BR, igual as coberturas.
+    colunas_valor = {col for nome, col in textos.items() if normalizar(nome) != "atividade"}
+    colunas_valor |= set(coberturas.values())
+
     return {
         "campos": campos, "combos": combos, "textos": textos, "bools": bools,
         "coberturas": coberturas, "periodos": periodos, "grupos": grupos,
+        "colunas_valor": colunas_valor,
     }
 
 
@@ -202,10 +208,10 @@ def preencher_linha(ws, linha, massa, mapa):
 
     for nome, valor in diretos.items():
         col = mapa["campos"].get(nome) or mapa["combos"].get(nome) or mapa["textos"].get(nome)
-        if nome in mapa["textos"] and isinstance(valor, (int, float)):
-            ws[f"{col}{linha}"] = valor
-        else:
-            ws[f"{col}{linha}"] = valor
+        if col in mapa["colunas_valor"]:
+            # mesmo formato das coberturas: texto BR "10.000.000,00", nao numero com mascara
+            valor = formatar_valor_br(valor)
+        ws[f"{col}{linha}"] = valor
 
     # --- bool independentes ---
     marcados_bool = set(massa.get("bool", []))
@@ -318,6 +324,8 @@ def preencher(dados, caminho_template, caminho_saida):
             cel.border = est["border"]
             cel.fill = est["fill"]
             cel.number_format = est["number_format"]
+            if get_column_letter(c) in mapa["colunas_valor"]:
+                cel.number_format = "@"
 
     # O template original tem linhas de exemplo ja preenchidas (referencia de formato)
     # que podem ir alem do numero de massas pedidas agora. Sem isso, a copia de saida
