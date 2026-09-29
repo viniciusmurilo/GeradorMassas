@@ -16,25 +16,15 @@ viole de propósito quando o pedido for testar aquele erro específico.
 
 - `Tipo de Residência = Casa Desocupada` exige `Objeto Segurado = Prédio` (nunca
   "Prédio e Conteúdo" nem "Conteúdo").
-- Para `Casa Desocupada` há também restrição geral de cobertura não detalhada na fonte ("cobertura
-  não permitida para tipo de residência Casa Desocupada") — se o pedido for uma massa válida com
-  esse tipo de residência, prefira um conjunto conservador de coberturas e, na dúvida sobre uma
-  cobertura específica, pergunte.
+- Imóveis desocupados (Casa Desocupada, Casa em Condomínio Fechado Desocupada e Apartamento
+  Desocupado) só aceitam Incêndio e `Vendaval, Furacão, Ciclone, Tornado, Granizo, Neve e Geada`.
+  Detalhes em `lmi_residencial.md` §Por tipo de residência.
 
-## Limite máximo por cobertura (massa válida deve ficar **dentro** do valor — todas bloqueiam)
+## Limite máximo por cobertura
 
-| Cobertura | Teto (R$) |
-|---|---:|
-| Anfitrião | 500.000,00 |
-| Quebra de Vidros | 500.000,00 |
-| Responsabilidade Civil - Familiar | 3.000.000,00 |
-| Perda Ou Pagamento de Aluguel | 1.000.000,00 |
-| Responsabilidade Civil - Empregados Domésticos | 600.000,00 |
-| Danos Elétricos | 1.000.000,00 |
-| Responsabilidade Civil - Danos Morais | 300.000,00 |
-| Vendaval, furacão, ciclone, tornado, granizo e fumaça para bens ao ar livre | 150.000,00 |
-
-Cobertura fora desta tabela: sem teto documentado — use bom senso.
+Os tetos por cobertura (máximo do corretor por tipo de residência, % da básica, alçadas e
+dependências) estão em `lmi_residencial.md`. A fonte é "Resumo coberturas Residencial", que
+substitui a tabela que ficava aqui.
 
 ## Soma de coberturas de Responsabilidade Civil (LMG RC)
 
@@ -64,6 +54,10 @@ em Risco") até esse teto.
 | Casa em Condomínio Fechado Habitual | 100.000,00 |
 | Casa em Condomínio Fechado Veraneio | 50.000,00 |
 | Casa Veraneio | 30.000,00 |
+
+Nos três tipos de veraneio (Casa Veraneio, Apartamento Veraneio e Casa em Condomínio Fechado
+Veraneio), o **máximo do corretor** para Roubo é 30.000,00. Acima disso a cotação é bloqueada
+(ver `lmi_residencial.md`). Numa massa válida de veraneio, use Roubo ≤ 30.000,00.
 
 ## UF / CEP bloqueados ou restritos
 
