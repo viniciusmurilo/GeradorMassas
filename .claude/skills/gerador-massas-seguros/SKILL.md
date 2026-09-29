@@ -78,7 +78,10 @@ primeiro e calcule as demais a partir dela; inclua também toda cobertura exigid
 dependência e nunca junte duas coberturas excludentes. Se `normas_` e `lmi_` divergirem, vale a
 mais restritiva. **Exceção no empresarial:** `lmi_empresarial.md` vem da fonte oficial "Resumo
 coberturas" e prevalece sobre a norma nos limites, dependências, excludentes e coberturas sem
-aceitação. Os limites por CEP/UF/atividade da norma continuam valendo por cima.
+aceitação. Os limites por CEP/UF/atividade da norma continuam valendo por cima. O mesmo vale no
+residencial: `lmi_residencial.md` vem da fonte "Resumo coberturas Residencial" e prevalece. Lá
+estão os limites que mudam por **tipo de residência**: veraneio limita Roubo a 30.000,00 e os
+desocupados só aceitam Incêndio e Vendaval (Neve e Geada).
 
 - **Massa "normal"** (usuário não pede para testar erro): fique dentro de todos os limites e
   combinações válidas da norma. Se o pedido do usuário implicar em violar uma norma sem dizer
