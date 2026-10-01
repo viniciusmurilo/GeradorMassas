@@ -103,6 +103,26 @@ PERGUNTAS_CONDICIONAIS = {
 }
 
 
+# Formato de preenchimento por ramo. Empresarial/residencial: opcao marcada "sim", resto e
+# cobertura nao contratada "<IGNORE>", valores em texto BR ("10.000,00"). Condominios (pelo
+# exemplo do template do usuario): marcada "Sim", desmarcada "Não", cobertura nao contratada
+# vazia, valores como numero.
+ESTILOS = {
+    "padrao": {"marcado": SIM, "desmarcado": IGNORAR, "vazio": IGNORAR, "valor": "br"},
+    "condominio": {"marcado": "Sim", "desmarcado": "Não", "vazio": None, "valor": "numero"},
+}
+
+
+def estilo_do_ramo(ramo):
+    return ESTILOS["condominio" if str(ramo).startswith("condominio") else "padrao"]
+
+
+def numero(v):
+    """'1.000,00' / 1000 -> 1000 (int quando inteiro)."""
+    n = float(formatar_valor_br(v).replace(".", "").replace(",", "."))
+    return int(n) if n == int(n) else n
+
+
 def aba_dados(wb):
     """Aba de dados: 'Exportation' (empresarial/residencial) ou a primeira (condominios)."""
     return wb[ABA] if ABA in wb.sheetnames else wb.worksheets[0]
@@ -240,7 +260,9 @@ def _indice(nomes):
     return {normalizar(n): n for n in nomes}
 
 
-def preencher_linha(ws, linha, massa, mapa):
+def preencher_linha(ws, linha, massa, mapa, estilo=ESTILOS["padrao"]):
+    MARCADO, DESMARCADO, VAZIO = estilo["marcado"], estilo["desmarcado"], estilo["vazio"]
+    fmt_valor = formatar_valor_br if estilo["valor"] == "br" else numero
     # --- campos diretos + combos + texto: obrigatorios, sem default ---
     diretos = {}
     diretos.update(massa.get("campos", {}))
@@ -258,8 +280,8 @@ def preencher_linha(ws, linha, massa, mapa):
     for nome, valor in diretos.items():
         col = mapa["campos"].get(nome) or mapa["combos"].get(nome) or mapa["textos"].get(nome)
         if col in mapa["colunas_valor"] and valor != IGNORAR:
-            # mesmo formato das coberturas: texto BR "10.000.000,00", nao numero com mascara
-            valor = formatar_valor_br(valor)
+            # mesmo formato das coberturas (texto BR "10.000.000,00" ou numero, conforme o ramo)
+            valor = fmt_valor(valor)
         ws[f"{col}{linha}"] = valor
 
     # --- bool independentes ---
@@ -268,7 +290,7 @@ def preencher_linha(ws, linha, massa, mapa):
     if invalidos:
         raise ValueError(f"linha {linha}: campo bool inexistente: {sorted(invalidos)}")
     for nome, col in mapa["bools"].items():
-        ws[f"{col}{linha}"] = SIM if nome in marcados_bool else IGNORAR
+        ws[f"{col}{linha}"] = MARCADO if nome in marcados_bool else DESMARCADO
 
     # --- perguntas de coluna unica: obrigatorias, com resposta ---
     perguntas = dict(massa.get("perguntas", {}))
@@ -288,7 +310,7 @@ def preencher_linha(ws, linha, massa, mapa):
             resp = "sim" if chave == "sim" else IGNORAR
         elif nome in PERGUNTAS_CONDICIONAIS and normalizar(
                 perguntas.get(PERGUNTAS_CONDICIONAIS[nome][0], "")) != PERGUNTAS_CONDICIONAIS[nome][1]:
-            resp = IGNORAR  # nao se aplica (ex.: sem elevador -> sem quantidade)
+            resp = VAZIO  # nao se aplica (ex.: sem elevador -> sem quantidade)
         elif resp in (None, "", IGNORAR):
             raise ValueError(f"linha {linha}: pergunta '{nome}' sem resposta")
         ws[f"{col}{linha}"] = resp
@@ -341,7 +363,7 @@ def preencher_linha(ws, linha, massa, mapa):
             )
         marcadas = set(canon_selecionadas)
         for opcao, col in ginfo["opcoes"].items():
-            ws[f"{col}{linha}"] = SIM if opcao in marcadas else IGNORAR
+            ws[f"{col}{linha}"] = MARCADO if opcao in marcadas else DESMARCADO
 
     # --- coberturas + periodo indenitario ---
     idx_cob = _indice(mapa["coberturas"])
@@ -354,7 +376,7 @@ def preencher_linha(ws, linha, massa, mapa):
             raise ValueError(f"linha {linha}: cobertura nao existe no template: {item['nome']!r}")
         if canon in solicitadas:
             raise ValueError(f"linha {linha}: cobertura duplicada: {canon!r}")
-        solicitadas[canon] = formatar_valor_br(item["valor"])
+        solicitadas[canon] = fmt_valor(item["valor"])
         if item.get("periodo_indenitario") is not None:
             canon_per = idx_per.get(normalizar(item["nome"]))
             if canon_per is None:
@@ -364,9 +386,9 @@ def preencher_linha(ws, linha, massa, mapa):
             periodos_dados[canon_per] = item["periodo_indenitario"]
 
     for nome, col in mapa["coberturas"].items():
-        ws[f"{col}{linha}"] = solicitadas.get(nome, IGNORAR)
+        ws[f"{col}{linha}"] = solicitadas.get(nome, VAZIO)
     for nome, col in mapa["periodos"].items():
-        ws[f"{col}{linha}"] = periodos_dados.get(nome, IGNORAR)
+        ws[f"{col}{linha}"] = periodos_dados.get(nome, VAZIO)
 
     # quantidade de vidas (plano de vida dos condominios), junto da cobertura
     vidas = {}
@@ -377,7 +399,7 @@ def preencher_linha(ws, linha, massa, mapa):
                 raise ValueError(f"linha {linha}: cobertura {item['nome']!r} nao tem coluna de Qt de vidas")
             vidas[canon] = item["qt_vidas"]
     for nome, col in mapa["qt_vidas"].items():
-        ws[f"{col}{linha}"] = vidas.get(nome, IGNORAR)
+        ws[f"{col}{linha}"] = vidas.get(nome, VAZIO)
 
     # cabecalho repetido no template (ex.: bloco de plano de vida em dobro): mesma resposta
     for principal, repetida in mapa["duplicadas"]:
@@ -390,6 +412,7 @@ def preencher(dados, caminho_template, caminho_saida):
     wb = openpyxl.load_workbook(caminho_template)
     ws = aba_dados(wb)
     mapa = montar_mapa(ws)
+    estilo = estilo_do_ramo(dados.get("ramo"))
 
     # captura o estilo da primeira linha de dados original (ja formatada) p/ replicar
     estilos = {}
@@ -404,7 +427,7 @@ def preencher(dados, caminho_template, caminho_saida):
     resumo = []
     for i, massa in enumerate(dados.get("massas", [])):
         linha = LINHA_DADOS + i
-        solicitadas = preencher_linha(ws, linha, massa, mapa)
+        solicitadas = preencher_linha(ws, linha, massa, mapa, estilo)
         resumo.append((linha, solicitadas))
 
     max_col = ws.max_column
@@ -418,7 +441,7 @@ def preencher(dados, caminho_template, caminho_saida):
             cel.border = est["border"]
             cel.fill = est["fill"]
             cel.number_format = est["number_format"]
-            if get_column_letter(c) in mapa["colunas_valor"]:
+            if get_column_letter(c) in mapa["colunas_valor"] and estilo["valor"] == "br":
                 cel.number_format = "@"
 
     # O template original tem linhas de exemplo ja preenchidas (referencia de formato)

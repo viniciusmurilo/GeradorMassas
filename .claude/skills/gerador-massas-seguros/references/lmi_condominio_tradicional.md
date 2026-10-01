@@ -2,8 +2,7 @@
 
 > Template: `templates/template_condominio_tradicional.xlsx`. Catálogo de colunas e formato do
 > JSON: `catalogo_condominio.md`. Regras em dados: `regras_condominio_tradicional.json`. O template
-> também tem a coluna `Ampla` e o Plano de Vida (mesmos valores fixos do Amplo); `Ampla` não tem
-> regra cadastrada neste ramo.
+> também tem o Plano de Vida (mesmos valores fixos do Amplo).
 
 ## Como aplicar
 
