@@ -40,11 +40,15 @@ PADRAO_GRUPO = {
 }
 GRUPOS_RAMO = {
     "empresarial": [
-        "Deseja contratar indenização a valor de novo?",
         "Existem equipamentos de proteção contra incêndio?",
         "Existem equipamentos de proteção contra roubo?",
     ],
-    "residencial": ["Deseja contratar indenização a valor de novo?", "Equipamentos de Proteção"],
+    "residencial": ["Equipamentos de Proteção"],
+}
+# perguntas de coluna unica (chave "perguntas" no JSON) e resposta padrao
+PERGUNTAS_RAMO = {
+    "empresarial": {"Deseja contratar indenização a valor de novo?": "não"},
+    "residencial": {"Deseja contratar indenização a valor de novo?": "não"},
 }
 
 
@@ -146,6 +150,28 @@ def validar(dados_massa, regras, corrigir=False):
     combos = dados_massa.get("combos", {})
     texto = dados_massa.get("texto", {})
     tipo_res = combos.get("Tipo de Residência")
+
+    # --- perfil ---
+    campos = dados_massa.setdefault("campos", {})
+    if not campos.get("Perfil"):
+        if corrigir:
+            campos["Perfil"] = "Corretor"
+            fix("Perfil vazio → 'Corretor'")
+        else:
+            erro("campo 'Perfil' vazio (ex.: 'Corretor')")
+
+    # --- perguntas de coluna unica (aceita o formato antigo em "grupos") ---
+    perguntas = dados_massa.setdefault("perguntas", {})
+    grupos_antigos = dados_massa.get("grupos", {})
+    for g, padrao in PERGUNTAS_RAMO[ramo].items():
+        if not perguntas.get(g) and grupos_antigos.get(g):
+            perguntas[g] = grupos_antigos.pop(g)[0].lower().replace("nao", "não")
+        if not perguntas.get(g) or perguntas[g] == IGNORAR:
+            if corrigir:
+                perguntas[g] = padrao
+                fix(f"pergunta '{g}' sem resposta → '{padrao}'")
+            else:
+                erro(f"pergunta '{g}' sem resposta")
 
     # --- questionarios ---
     grupos = dados_massa.setdefault("grupos", {})

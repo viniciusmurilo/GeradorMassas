@@ -145,12 +145,16 @@ def classificar(header):
     m = re.match(r"^TXT\s+(.*)$", h)
     if m:
         return {"tipo": "texto", "chave": m.group(1)}
+    if h.endswith("?"):
+        # pergunta de coluna unica (ex.: "Deseja contratar indenização a valor de novo?"),
+        # respondida com o texto da resposta ("sim"/"não"...)
+        return {"tipo": "pergunta", "chave": h}
     return {"tipo": "direto", "chave": h}
 
 
 def montar_mapa(ws):
     """Le a linha de cabecalho e devolve estrutura classificada por coluna."""
-    campos, combos, textos, bools = {}, {}, {}, {}
+    campos, combos, textos, bools, perguntas = {}, {}, {}, {}, {}
     coberturas, periodos = {}, {}
     grupos = {}  # grupo_nome -> {"opcoes": {opcao: col_letter}} (modo/obrigatoriedade: ver REGRAS_GRUPO)
 
@@ -167,6 +171,8 @@ def montar_mapa(ws):
             combos[info["chave"]] = col
         elif tipo == "texto":
             textos[info["chave"]] = col
+        elif tipo == "pergunta":
+            perguntas[info["chave"]] = col
         elif tipo == "bool":
             bools[info["chave"]] = col
         elif tipo == "cobertura":
@@ -184,6 +190,7 @@ def montar_mapa(ws):
 
     return {
         "campos": campos, "combos": combos, "textos": textos, "bools": bools,
+        "perguntas": perguntas,
         "coberturas": coberturas, "periodos": periodos, "grupos": grupos,
         "colunas_valor": colunas_valor,
     }
@@ -223,8 +230,26 @@ def preencher_linha(ws, linha, massa, mapa):
     for nome, col in mapa["bools"].items():
         ws[f"{col}{linha}"] = SIM if nome in marcados_bool else IGNORAR
 
+    # --- perguntas de coluna unica: obrigatorias, com resposta ---
+    perguntas = dict(massa.get("perguntas", {}))
+    grupos_pedidos = dict(massa.get("grupos", {}))
+    for nome in mapa["perguntas"]:
+        # compatibilidade: indenizacao a valor de novo ja foi grupo RDB SIM/NAO
+        if nome not in perguntas and nome in grupos_pedidos:
+            opcoes = grupos_pedidos.pop(nome)
+            perguntas[nome] = opcoes[0] if len(opcoes) == 1 else ""
+    for nome, col in mapa["perguntas"].items():
+        resp = perguntas.get(nome)
+        if resp in (None, "", IGNORAR):
+            raise ValueError(f"linha {linha}: pergunta '{nome}' sem resposta")
+        if normalizar(nome).startswith("deseja contratar indenizacao"):
+            resp = {"sim": "sim", "nao": "não"}.get(normalizar(resp), resp)
+        ws[f"{col}{linha}"] = resp
+    sobrando = set(perguntas) - set(mapa["perguntas"])
+    if sobrando:
+        raise ValueError(f"linha {linha}: pergunta inexistente no template: {sorted(sobrando)}")
+
     # --- grupos RDB/CHK (modo/obrigatoriedade fixados em REGRAS_GRUPO, nao no cabecalho) ---
-    grupos_pedidos = massa.get("grupos", {})
     invalidos = set(grupos_pedidos) - set(mapa["grupos"])
     if invalidos:
         raise ValueError(f"linha {linha}: grupo inexistente: {sorted(invalidos)}")

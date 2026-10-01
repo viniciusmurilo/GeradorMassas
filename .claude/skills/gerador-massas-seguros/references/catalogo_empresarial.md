@@ -9,6 +9,7 @@ não precisa (nem deve) calcular letra de coluna na mão.
 
 | Cabeçalho | Conteúdo |
 |---|---|
+| `Perfil` | Perfil de quem cota: `Corretor` (padrão) · `Operações` · `Subscrição` |
 | `Corretor` | Nome do corretor (texto livre, ex.: `COI`) |
 | `Tipo Pessoa` | CPF/CNPJ do segurado — ver "Tokens de aleatoriedade" abaixo |
 | `Cep Risco` | CEP do risco — ver "Tokens de aleatoriedade" abaixo |
@@ -42,18 +43,23 @@ Residencial vazado no template Empresarial. Sempre fica `<IGNORE>` — o script 
 sozinho quando a massa não menciona nada em `bool`; **nunca** inclua esse nome em `bool` para
 uma massa empresarial.
 
-## Grupos de escolha (questionário/proteção) — chave `grupos`, **os 3 abaixo são obrigatórios**
+## Pergunta de coluna única — chave `perguntas`, obrigatória
+
+### `Deseja contratar indenização a valor de novo?`
+No template atual é **uma coluna só** (não é mais RDB SIM/NÃO), preenchida com o texto da
+resposta: `sim` ou `não`. Padrão quando o usuário não especificar: `"não"`. Vai em
+`"perguntas": {"Deseja contratar indenização a valor de novo?": "sim"}`. O formato antigo em
+`grupos` (`["SIM"]`/`["NÃO"]`) ainda é aceito e convertido pelo script.
+
+## Grupos de escolha (questionário/proteção) — chave `grupos`, **os 2 abaixo são obrigatórios**
 
 Cada grupo vira um conjunto de colunas `sim`/`<IGNORE>`. Passe só os nomes das opções marcadas;
 o script grava `<IGNORE>` nas demais automaticamente. Nome de grupo e de opção têm que bater com
 a lista abaixo (comparação tolera acento/caixa, mas não invente opção).
 
-Os 3 grupos a seguir são **obrigatórios em toda massa** — o script recusa se algum não aparecer
+Os 2 grupos a seguir são **obrigatórios em toda massa** — o script recusa se algum não aparecer
 em `grupos` (mesmo que vazio não vale; tem que ter uma opção escolhida). Se o usuário não disser
 nada sobre proteção/indenização, use o padrão indicado em cada um.
-
-### `Deseja contratar indenização a valor de novo?` — escolha única, obrigatório
-Opções: `SIM` · `NÃO`. Padrão quando o usuário não especificar: `["NÃO"]`.
 
 ### `Existem equipamentos de proteção contra incêndio?` — escolha única, obrigatório
 Opções: `Extintores` · `Extintores e Hidrantes` · `Extintores, hidrantes e sistema de detecção ou alarme de incêndio` · `Extintores, hidrantes e sprinklers` · `Não informado sistema de proteção contra incêndio`.

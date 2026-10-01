@@ -7,6 +7,7 @@ mecanismo de pareamento por nome do empresarial — ver `scripts/preencher_massa
 
 | Cabeçalho | Conteúdo |
 |---|---|
+| `Perfil` | Perfil de quem cota: `Corretor` (padrão) · `Operações` · `Subscrição` |
 | `Corretor` | Nome do corretor |
 | `Tipo Pessoa` | CPF/CNPJ do segurado — ver "Tokens de aleatoriedade" em `catalogo_empresarial.md` (mesmas regras: `#cpf`/`#cnpj`/`#cnpjalfa` ou valor literal) |
 | `Cep` | CEP do risco — token `#cep` ou valor literal |
@@ -34,13 +35,18 @@ Cada um é um `sim`/`<IGNORE>` isolado (não fazem parte de grupo — pode marca
 `Residencial Benefícios Essenciais` · `Benefícios Bike` · `Benefícios Pet` · `Inspeção Kids` ·
 `Inspeção para Acessibilidade` · `Inspeção Sênior` · `Limpeza de Placa Solar`
 
-## Grupos de escolha — chave `grupos`, **os 2 abaixo são obrigatórios**
+## Pergunta de coluna única — chave `perguntas`, obrigatória
 
-O script recusa se algum dos dois não aparecer em `grupos`. Se o usuário não disser nada sobre
+### `Deseja contratar indenização a valor de novo?`
+No template atual é **uma coluna só** (não é mais RDB SIM/NÃO), preenchida com o texto da
+resposta: `sim` ou `não`. Padrão quando o usuário não especificar: `"não"`. Vai em
+`"perguntas": {"Deseja contratar indenização a valor de novo?": "sim"}`. O formato antigo em
+`grupos` (`["SIM"]`/`["NÃO"]`) ainda é aceito e convertido pelo script.
+
+## Grupo de escolha — chave `grupos`, **obrigatório**
+
+O script recusa se ele não aparecer em `grupos` ou vier vazio. Se o usuário não disser nada sobre
 proteção/indenização, use o padrão indicado em cada um.
-
-### `Deseja contratar indenização a valor de novo?` — escolha única, obrigatório
-Opções: `SIM` · `NÃO`. Padrão quando o usuário não especificar: `["NÃO"]`.
 
 ### `Equipamentos de Proteção` — múltipla escolha, obrigatório
 Opções: `Alarme` · `Grades Metálicas em Janelas` · `Inexistência de terreno baldio` ·

@@ -38,7 +38,9 @@ def extrair(caminho):
     ws = openpyxl.load_workbook(caminho, data_only=True)[ABA]
     mapa = montar_mapa(ws)
     ramo = "empresarial" if "Cep Risco" in mapa["campos"] else "residencial"
-    colunas = [mapa["campos"], mapa["combos"], mapa["textos"], mapa["bools"],
+    # celulas de exemplo do template as vezes vem com espaco duro no fim ("Sólida\xa0")
+    limpar = lambda v: v.replace("\xa0", " ").strip() if isinstance(v, str) else v
+    colunas = [mapa["campos"], mapa["combos"], mapa["textos"], mapa["bools"], mapa["perguntas"],
                mapa["coberturas"], mapa["periodos"]]
     todas = [c for d in colunas for c in d.values()]
     todas += [c for g in mapa["grupos"].values() for c in g["opcoes"].values()]
@@ -47,11 +49,12 @@ def extrair(caminho):
     for linha in range(LINHA_DADOS, ws.max_row + 1):
         if all(ws[f"{c}{linha}"].value in (None, "", IGNORAR) for c in todas):
             continue
-        cel = lambda col: ws[f"{col}{linha}"].value
+        cel = lambda col: limpar(ws[f"{col}{linha}"].value)
         massa = {
             "campos": {n: cel(c) for n, c in mapa["campos"].items()},
             "combos": {n: cel(c) for n, c in mapa["combos"].items()},
             "bool": [n for n, c in mapa["bools"].items() if marcado(cel(c))],
+            "perguntas": {n: cel(c) for n, c in mapa["perguntas"].items()},
             "grupos": {g: [o for o, c in info["opcoes"].items() if marcado(cel(c))]
                        for g, info in mapa["grupos"].items()},
             "coberturas": [],
