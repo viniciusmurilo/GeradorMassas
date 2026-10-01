@@ -1,11 +1,24 @@
 # Catálogo de Colunas — Condomínio Amplo e Tradicional
 
 Templates: `templates/template_condominio_amplo.xlsx` (aba `Cotação`, 44 colunas de dados) e
-`templates/template_condominio_tradicional.xlsx` (aba `Planilha1`, 57 colunas). Os dois têm o
+`templates/template_condominio_tradicional.xlsx` (aba `Planilha1`, 56 colunas). Os dois têm o
 cabeçalho na **linha 2** e os dados a partir da **linha 3**. No template original, as linhas 3 a
 10 trazem **listas de opções** (não massas). O script sobrescreve e limpa essas linhas.
 
 `ramo` no JSON: `"condominio_amplo"` ou `"condominio_tradicional"`.
+
+**Formato de preenchimento dos condomínios** (diferente do empresarial/residencial, segue a linha
+de exemplo do template Tradicional enviado pelo usuário):
+
+| | Condomínio |
+|---|---|
+| opção marcada (grupos/RDB/CHK) | `Sim` |
+| opção não marcada | `Não` |
+| cobertura / período / qt de vidas não contratados | célula **vazia** |
+| valores (coberturas e Valor em Risco) | **número** (`1000000`), não texto BR |
+| perguntas | `Sim` / `Não`; quantidade de elevadores como número |
+
+O script aplica esse formato sozinho quando o `ramo` começa com `condominio`.
 
 ## Campos diretos — chave `campos` (obrigatórios)
 
@@ -36,7 +49,7 @@ tem coluna no template: os percentuais "da Ampla" são calculados sobre ele (1.0
 |---|---|
 | `O condomínio está legalmente constituído?` | `Sim` · `Não` |
 | `O Condomínio possui elevador?` | `Sim` · `Não` |
-| `Qual a quantidade de elevadores?` | só quando tem elevador (ex.: `6 ou mais`). Sem elevador, o script grava `<IGNORE>` |
+| `Qual a quantidade de elevadores?` | só quando tem elevador (ex.: `4`). Sem elevador, o script deixa vazio |
 | `O Condomínio Possui Central Telefônica e/ou equipamentos de segurança e/ou monitoramento?` | `Sim` · `Não` |
 
 As respostas exatas aceitas pelo sistema nessas perguntas **ainda serão confirmadas pelo
@@ -47,7 +60,7 @@ pergunte.
 
 | Grupo | Opções | Regra |
 |---|---|---|
-| `Deseja contratar indenização a valor de novo? Condominio` | `SIM` | opcional: `["SIM"]` contrata; sem o grupo = não contrata (`<IGNORE>`) |
+| `Deseja contratar indenização a valor de novo? Condominio` | `SIM` | opcional: `["SIM"]` contrata (grava `Sim`); sem o grupo = não contrata (grava `Não`) |
 | `Quantidade de Pavimentos (incluindo térreo, garagem e subsolos)?` | `1 a 5 andares` · `6 a 10 andares` · `11 a 15 andares` · `Acima de 15 andares` · `Não informado` | obrigatório, escolha única |
 | `Qual a idade do Condomínio?` | `Até 5 anos` · `De 6 a 10` · `De 11 a 20` · `De 21 a 30` · `Mais que 30 anos` | obrigatório, escolha única |
 
@@ -63,7 +76,7 @@ Roubo/furto) · Responsabilidade Civil - Guarda de Veículos + Portões Automát
 Incêndio e Roubo/furto) · Responsabilidade Civil - Portões · Roubo de Valores · Roubo E/ou Furto
 Qualificado de Bens Dos Condôminos · e o Plano de Vida (abaixo)
 
-### Condomínio Tradicional (29 + Ampla)
+### Condomínio Tradicional (29)
 
 `Incêndio, Queda de Raio, Explosão, Queda de Aeronave e Fumaça` (**básica**) ·
 Responsabilidade Civil - Condomínio + Síndico · Responsabilidade Civil - Empregador · Alagamento ·
@@ -75,8 +88,7 @@ RC - Guarda de Veículos + Portões Automáticos (incêndio e Roubo/furto) · RC
 Portões Automáticos (colisão, Incêndio e Roubo/furto) · Responsabilidade Civil - Portões · Roubo
 de Valores · Roubo E/ou Furto Qualificado de Bens do Condomínio · Roubo E/ou Furto Qualificado de
 Bens Dos Condôminos · Ruptura de Tanques e Tubulações · Tumultos, Greves e Lockout · Vendaval,
-Furacão, Ciclone, Tornado, Granizo e Impacto de Veículos · `Ampla` (coluna existe no template,
-**sem regra cadastrada**: não use em massa válida sem confirmar) · e o Plano de Vida (abaixo)
+Furacão, Ciclone, Tornado, Granizo e Impacto de Veículos · e o Plano de Vida (abaixo)
 
 ### Plano de Vida (os dois ramos)
 
