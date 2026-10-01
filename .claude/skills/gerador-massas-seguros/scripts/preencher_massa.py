@@ -174,7 +174,7 @@ def classificar(header):
     m = re.match(r"^CHK\s+(.*)$", h)
     if m:
         return {"tipo": "bool", "chave": m.group(1)}
-    m = re.match(r'^TXT\s+"([^"]+)"\s+Valor da Cobertura$', h)
+    m = re.match(r'^TXT\s+"([^"]+)"\s+Valor da Cobertura$', h, re.IGNORECASE)
     if m:
         return {"tipo": "cobertura", "chave": m.group(1)}
     m = re.match(r'^TXT\s+"([^"]+)"\s+Per[ií]odo Indenit[aá]rio$', h)
