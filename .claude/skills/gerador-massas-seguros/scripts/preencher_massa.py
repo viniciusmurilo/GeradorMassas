@@ -84,7 +84,28 @@ REGRAS_GRUPO = {
     "Equipamentos de Proteção": {
         "modo": "multiplo", "obrigatorio": True, "nao_informado": "Não informado",
     },
+    # condominio: so existe a opcao SIM; sem marcar = nao contrata
+    "Deseja contratar indenização a valor de novo? Condominio": {
+        "modo": "unico", "obrigatorio": False, "nao_informado": None,
+    },
+    "Quantidade de Pavimentos (incluindo térreo, garagem e subsolos)?": {
+        "modo": "unico", "obrigatorio": True, "nao_informado": "Não informado",
+    },
+    "Qual a idade do Condomínio?": {
+        "modo": "unico", "obrigatorio": True, "nao_informado": None,
+    },
 }
+
+# perguntas de coluna unica que so se aplicam conforme a resposta de outra
+# (pergunta -> (pergunta_mae, resposta_que_habilita)); fora disso a coluna vai <IGNORE>
+PERGUNTAS_CONDICIONAIS = {
+    "Qual a quantidade de elevadores?": ("O Condomínio possui elevador?", "sim"),
+}
+
+
+def aba_dados(wb):
+    """Aba de dados: 'Exportation' (empresarial/residencial) ou a primeira (condominios)."""
+    return wb[ABA] if ABA in wb.sheetnames else wb.worksheets[0]
 # grupo novo que aparecer no template sem regra propria: tambem e obrigatorio (todo
 # questionario precisa de pelo menos uma resposta).
 REGRA_GRUPO_PADRAO = {"modo": "multiplo", "obrigatorio": True, "nao_informado": None}
@@ -139,6 +160,18 @@ def classificar(header):
     m = re.match(r'^TXT\s+"([^"]+)"\s+Per[ií]odo Indenit[aá]rio$', h)
     if m:
         return {"tipo": "periodo", "chave": m.group(1)}
+    # formatos dos templates de condominio: TXT "<A>" <B>
+    m = re.match(r'^TXT\s+"\s*([^"]+?)\s*"\s+(.+)$', h)
+    if m:
+        a, b = m.groups()
+        if normalizar(a) == "periodo indenitario":
+            return {"tipo": "periodo", "chave": b}
+        if normalizar(a) == "valor da cobertura":
+            return {"tipo": "cobertura", "chave": b}
+        if normalizar(a) == "qt de vidas":
+            return {"tipo": "qt_vidas", "chave": b}
+        # ex.: TXT "Roubo E/ou Furto Qualificado de Bens Dos Condôminos" Roubo de Valores
+        return {"tipo": "cobertura", "chave": a}
     m = re.match(r"^CBO\s+(.*)$", h)
     if m:
         return {"tipo": "combo", "chave": m.group(1)}
@@ -155,7 +188,8 @@ def classificar(header):
 def montar_mapa(ws):
     """Le a linha de cabecalho e devolve estrutura classificada por coluna."""
     campos, combos, textos, bools, perguntas = {}, {}, {}, {}, {}
-    coberturas, periodos = {}, {}
+    coberturas, periodos, qt_vidas = {}, {}, {}
+    duplicadas = []  # (coluna_principal, coluna_repetida): mesmo cabecalho em 2 colunas
     grupos = {}  # grupo_nome -> {"opcoes": {opcao: col_letter}} (modo/obrigatoriedade: ver REGRAS_GRUPO)
 
     for c in range(1, ws.max_column + 1):
@@ -175,10 +209,12 @@ def montar_mapa(ws):
             perguntas[info["chave"]] = col
         elif tipo == "bool":
             bools[info["chave"]] = col
-        elif tipo == "cobertura":
-            coberturas[info["chave"]] = col
-        elif tipo == "periodo":
-            periodos[info["chave"]] = col
+        elif tipo in ("cobertura", "periodo", "qt_vidas"):
+            destino = {"cobertura": coberturas, "periodo": periodos, "qt_vidas": qt_vidas}[tipo]
+            if info["chave"] in destino:
+                duplicadas.append((destino[info["chave"]], col))
+            else:
+                destino[info["chave"]] = col
         elif tipo == "grupo":
             g = grupos.setdefault(info["grupo"], {"opcoes": {}})
             g["opcoes"][info["opcao"]] = col
@@ -187,11 +223,15 @@ def montar_mapa(ws):
     # nao e a Atividade. Gravados como texto BR, igual as coberturas.
     colunas_valor = {col for nome, col in textos.items() if normalizar(nome) != "atividade"}
     colunas_valor |= set(coberturas.values())
+    colunas_valor |= {col for nome, col in combos.items()
+                      if normalizar(nome).startswith("valor em risco")}
+    colunas_valor |= {d for p, d in duplicadas if p in colunas_valor}
 
     return {
         "campos": campos, "combos": combos, "textos": textos, "bools": bools,
         "perguntas": perguntas,
         "coberturas": coberturas, "periodos": periodos, "grupos": grupos,
+        "qt_vidas": qt_vidas, "duplicadas": duplicadas,
         "colunas_valor": colunas_valor,
     }
 
@@ -246,6 +286,9 @@ def preencher_linha(ws, linha, massa, mapa):
             if chave not in ("sim", "nao"):
                 raise ValueError(f"linha {linha}: '{nome}' aceita só sim/não, recebeu {resp!r}")
             resp = "sim" if chave == "sim" else IGNORAR
+        elif nome in PERGUNTAS_CONDICIONAIS and normalizar(
+                perguntas.get(PERGUNTAS_CONDICIONAIS[nome][0], "")) != PERGUNTAS_CONDICIONAIS[nome][1]:
+            resp = IGNORAR  # nao se aplica (ex.: sem elevador -> sem quantidade)
         elif resp in (None, "", IGNORAR):
             raise ValueError(f"linha {linha}: pergunta '{nome}' sem resposta")
         ws[f"{col}{linha}"] = resp
@@ -325,12 +368,27 @@ def preencher_linha(ws, linha, massa, mapa):
     for nome, col in mapa["periodos"].items():
         ws[f"{col}{linha}"] = periodos_dados.get(nome, IGNORAR)
 
+    # quantidade de vidas (plano de vida dos condominios), junto da cobertura
+    vidas = {}
+    for item in massa.get("coberturas", []):
+        if item.get("qt_vidas") is not None:
+            canon = _indice(mapa["qt_vidas"]).get(normalizar(item["nome"]))
+            if canon is None:
+                raise ValueError(f"linha {linha}: cobertura {item['nome']!r} nao tem coluna de Qt de vidas")
+            vidas[canon] = item["qt_vidas"]
+    for nome, col in mapa["qt_vidas"].items():
+        ws[f"{col}{linha}"] = vidas.get(nome, IGNORAR)
+
+    # cabecalho repetido no template (ex.: bloco de plano de vida em dobro): mesma resposta
+    for principal, repetida in mapa["duplicadas"]:
+        ws[f"{repetida}{linha}"] = ws[f"{principal}{linha}"].value
+
     return solicitadas
 
 
 def preencher(dados, caminho_template, caminho_saida):
     wb = openpyxl.load_workbook(caminho_template)
-    ws = wb[ABA]
+    ws = aba_dados(wb)
     mapa = montar_mapa(ws)
 
     # captura o estilo da primeira linha de dados original (ja formatada) p/ replicar

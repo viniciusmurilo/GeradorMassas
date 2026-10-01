@@ -17,7 +17,7 @@ import sys
 
 import openpyxl
 
-from preencher_massa import ABA, IGNORAR, LINHA_DADOS, montar_mapa, normalizar
+from preencher_massa import IGNORAR, LINHA_DADOS, aba_dados, montar_mapa, normalizar
 
 
 def valor_numero(v):
@@ -35,9 +35,15 @@ def marcado(v):
 
 
 def extrair(caminho):
-    ws = openpyxl.load_workbook(caminho, data_only=True)[ABA]
+    ws = aba_dados(openpyxl.load_workbook(caminho, data_only=True))
     mapa = montar_mapa(ws)
-    ramo = "empresarial" if "Cep Risco" in mapa["campos"] else "residencial"
+    if "Tipo de Condomínio" in mapa["combos"]:
+        # o Tradicional tem a basica de Incendio; o Amplo nao
+        tradicional = any(normalizar(n).startswith("incendio queda de raio")
+                          for n in mapa["coberturas"])
+        ramo = "condominio_tradicional" if tradicional else "condominio_amplo"
+    else:
+        ramo = "empresarial" if "Cep Risco" in mapa["campos"] else "residencial"
     # celulas de exemplo do template as vezes vem com espaco duro no fim ("Sólida\xa0")
     limpar = lambda v: v.replace("\xa0", " ").strip() if isinstance(v, str) else v
     colunas = [mapa["campos"], mapa["combos"], mapa["textos"], mapa["bools"], mapa["perguntas"],
@@ -52,7 +58,9 @@ def extrair(caminho):
         cel = lambda col: limpar(ws[f"{col}{linha}"].value)
         massa = {
             "campos": {n: cel(c) for n, c in mapa["campos"].items()},
-            "combos": {n: cel(c) for n, c in mapa["combos"].items()},
+            "combos": {n: (valor_numero(cel(c)) if c in mapa["colunas_valor"]
+                           and cel(c) not in (None, IGNORAR) else cel(c))
+                       for n, c in mapa["combos"].items()},
             "bool": [n for n, c in mapa["bools"].items() if marcado(cel(c))],
             # indenizacao a valor de novo: "<IGNORE>" na coluna significa "não"
             "perguntas": {n: ("não" if normalizar(n).startswith("deseja contratar indenizacao")
@@ -74,6 +82,9 @@ def extrair(caminho):
             if v in (None, "", IGNORAR):
                 continue
             item = {"nome": n, "valor": valor_numero(v)}
+            vidas = cel(mapa["qt_vidas"][n]) if n in mapa["qt_vidas"] else None
+            if vidas not in (None, "", IGNORAR):
+                item["qt_vidas"] = valor_numero(vidas)
             p = periodos.get(normalizar(n))
             if p not in (None, "", IGNORAR):
                 item["periodo_indenitario"] = valor_numero(p)

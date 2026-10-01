@@ -1,10 +1,9 @@
 # LMI por Cobertura — Condomínio Tradicional (base "Coberturas x LMI", aba `Condominio Tradicional`)
 
-> **Sem template nesta skill ainda.** Não existe `templates/template_condominio_tradicional.xlsx`
-> nem catálogo de colunas — não gere massa deste ramo. Estas regras ficam salvas para quando o
-> template chegar (aí: criar `catalogo_condominio_tradicional.md`, conferir a grafia exata das
-> coberturas no cabeçalho e ligar este arquivo no fluxo do `SKILL.md`). Nomes abaixo estão na
-> grafia da planilha de origem, **não** necessariamente na do futuro template.
+> Template: `templates/template_condominio_tradicional.xlsx`. Catálogo de colunas e formato do
+> JSON: `catalogo_condominio.md`. Regras em dados: `regras_condominio_tradicional.json`. O template
+> também tem a coluna `Ampla` e o Plano de Vida (mesmos valores fixos do Amplo); `Ampla` não tem
+> regra cadastrada neste ramo.
 
 ## Como aplicar
 

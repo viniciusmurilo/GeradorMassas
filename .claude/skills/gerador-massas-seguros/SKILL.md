@@ -1,13 +1,13 @@
 ---
 name: gerador-massas-seguros
-description: Gera, valida e corrige massas de teste para as planilhas de seguro Empresarial e Residencial da HDI (uma linha = uma massa com identificação, características de risco, questionário e coberturas), respeitando as normas de subscrição. Use quando o usuário pedir para gerar, criar ou preencher massa(s) ou dados de teste de seguro empresarial ou residencial, marcar coberturas com valores, preencher características de risco, configurar proteção contra incêndio/roubo, pedir massas aleatórias, testar uma norma específica (limite, análise técnica, cobertura banida), ou validar/corrigir uma planilha de massa que ele subir ("corrige essa massa", "o que está errado nessa planilha"). Dispara mesmo sem menção a "planilha" ou "xlsx".
+description: Gera, valida e corrige massas de teste para as planilhas de seguro Empresarial, Residencial e Condomínio (Amplo e Tradicional) da HDI (uma linha = uma massa com identificação, características de risco, questionário e coberturas), respeitando as normas de subscrição. Use quando o usuário pedir para gerar, criar ou preencher massa(s) ou dados de teste de seguro empresarial, residencial ou condomínio, marcar coberturas com valores, preencher características de risco, configurar proteção contra incêndio/roubo, pedir massas aleatórias, testar uma norma específica (limite, análise técnica, cobertura banida), ou validar/corrigir uma planilha de massa que ele subir ("corrige essa massa", "o que está errado nessa planilha"). Dispara mesmo sem menção a "planilha" ou "xlsx".
 ---
 
 # Gerador de Massa de Teste — Seguros (Empresarial e Residencial)
 
 Você gera massa de teste para as planilhas de exportação de seguro da HDI a partir de texto livre
 em português. Cada "massa" = uma linha de dados. Cabeçalho na **linha 2**, dados a partir da
-**linha 3**, aba `Exportation`. Ao contrário de versões anteriores desta skill, **não há mais
+**linha 3**, aba `Exportation` (nos condomínios, `Cotação`/`Planilha1`). Ao contrário de versões anteriores desta skill, **não há mais
 arquivo separado de cobertura e de característica de risco** — cada ramo tem uma única planilha
 com tudo numa linha só: identificação, características de risco, questionário/proteção e todas as
 coberturas.
@@ -29,16 +29,17 @@ arquivos do ramo relevante antes de interpretar o pedido do usuário, não tente
   dos `lmi_*.md` em formato que o `scripts/validar_massa.py` lê (mínimo, máximo do corretor,
   % da básica, exige, exclui, sem aceitação, limites por tipo de residência, VR Lucros
   Cessantes). Ao mudar uma regra no `.md`, atualize também o `.json`
-- `references/lmi_condominio_amplo.md` / `references/lmi_condominio_tradicional.md` — mesmas
-  regras para Condomínio Amplo e Tradicional. Os templates desses ramos já estão em `templates/`
-  (`template_condominio_amplo.xlsx`, `template_condominio_tradicional.xlsx`), mas são rascunhos:
-  as linhas 3+ trazem listas de opções, não massas, e a geração ainda não está ligada. Se pedirem
-  massa de condomínio, avise que esse ramo ainda está em preparação
+- `references/catalogo_condominio.md` — colunas, perguntas, grupos e coberturas do Condomínio
+  Amplo e do Tradicional, com exemplo de JSON
+- `references/lmi_condominio_amplo.md` / `references/lmi_condominio_tradicional.md` — LMI,
+  dependências e excludentes dos dois condomínios (em dados: `regras_condominio_*.json`)
 
 ## Fluxo obrigatório a cada pedido
 
-1. **Confirme o ramo** (empresarial ou residencial) se o usuário não disser.
-2. Leia `catalogo_<ramo>.md`, `normas_<ramo>.md` e `lmi_<ramo>.md` e interprete o texto do usuário: monte campos
+1. **Confirme o ramo** (empresarial, residencial, condomínio amplo ou condomínio tradicional) se o
+   usuário não disser.
+2. Leia `catalogo_<ramo>.md` (condomínios: `catalogo_condominio.md`), `normas_<ramo>.md` (se
+   existir) e `lmi_<ramo>.md` e interprete o texto do usuário: monte campos
    diretos, combos, texto, booleanos, grupos de proteção e coberturas.
 3. **Por padrão, a massa tem que respeitar todas as normas do ramo** (ver "Normas de subscrição"
    abaixo) — só viole uma norma de propósito se o usuário pedir para testar aquele erro
@@ -59,7 +60,7 @@ arquivos do ramo relevante antes de interpretar o pedido do usuário, não tente
 Quando o usuário subir uma planilha de massa (xlsx no formato do template) para validar ou
 corrigir:
 
-1. `python3 scripts/extrair_massa.py planilha.xlsx massas.json`: lê a aba `Exportation`, detecta
+1. `python3 scripts/extrair_massa.py planilha.xlsx massas.json`: lê a aba de dados, detecta
    o ramo e gera o JSON de entrada, uma massa por linha a partir da linha 3.
 2. `python3 scripts/validar_massa.py massas.json`: relatório por massa, com `ERRO` (o sistema
    rejeita) e `AVISO` (análise técnica, inspeção ou ponto a confirmar).
@@ -181,6 +182,8 @@ vêm **dentro da própria skill**, na pasta `templates/` ao lado de `scripts/`:
 
 - `templates/template_empresarial.xlsx`
 - `templates/template_residencial.xlsx`
+- `templates/template_condominio_amplo.xlsx` (aba `Cotação`)
+- `templates/template_condominio_tradicional.xlsx` (aba `Planilha1`)
 
 **Nunca peça o template ao usuário**: o script acha sozinho o template do ramo (campo `ramo` do
 JSON) nessa pasta. Só passe um template explícito se o usuário anexar um template diferente e
