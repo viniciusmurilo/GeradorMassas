@@ -1,0 +1,340 @@
+{
+ "ramo": "residencial",
+ "basica": "Incêndio, queda de raio, explosão, implosão e queda de aeronaves",
+ "coberturas": {
+  "Incêndio, queda de raio, explosão, implosão e queda de aeronaves": {
+   "codigo": "1000",
+   "min": 10000,
+   "max": 10000000,
+   "acima_max": "analise",
+   "pct_basica": 100
+  },
+  "Bicicletas": {
+   "codigo": "0066",
+   "min": 1000,
+   "max": 300000,
+   "acima_max": "bloqueia",
+   "pct_basica": 30.0
+  },
+  "Danos Elétricos": {
+   "codigo": "0007",
+   "min": 500,
+   "max": 1000000,
+   "acima_max": "bloqueia",
+   "pct_basica": 30.0
+  },
+  "Vendaval, Furacão, Ciclone, Tornado, Granizo, Neve e Geada": {
+   "codigo": "0030",
+   "min": 500,
+   "max": 700000,
+   "acima_max": "bloqueia",
+   "pct_basica": 50.0
+  },
+  "Vendaval, furacão, ciclone, tornado, granizo e fumaça para bens ao ar livre": {
+   "codigo": "1068",
+   "min": 500,
+   "max": 150000,
+   "acima_max": "bloqueia",
+   "pct_basica": 40.0
+  },
+  "Roubo E/ou Furto Qualificado de Bens": {
+   "codigo": "0025",
+   "min": 500,
+   "max": 500000,
+   "acima_max": "bloqueia",
+   "pct_basica": 20.0
+  },
+  "Perda Ou Pagamento de Aluguel": {
+   "codigo": "0031",
+   "min": 500,
+   "max": 1000000,
+   "acima_max": "bloqueia",
+   "pct_basica": 50.0
+  },
+  "Equipamentos Eletrônicos e Eletrodomésticos": {
+   "codigo": "0057",
+   "min": 500,
+   "max": 500000,
+   "acima_max": "bloqueia",
+   "pct_basica": 30.0
+  },
+  "Quebra de Vidros": {
+   "codigo": "0015",
+   "min": 500,
+   "max": 500000,
+   "acima_max": "bloqueia",
+   "pct_basica": 30.0
+  },
+  "Responsabilidade Civil - Familiar": {
+   "codigo": "0040",
+   "min": 500,
+   "max": 3000000,
+   "acima_max": "bloqueia",
+   "pct_basica": 100
+  },
+  "Responsabilidade Civil - Danos Morais": {
+   "codigo": "0039",
+   "min": 500,
+   "max": 300000,
+   "acima_max": "bloqueia",
+   "pct_basica": null,
+   "exige_uma_de": [
+    "Responsabilidade Civil - Familiar"
+   ],
+   "pct_max_da_exigida": 100
+  },
+  "Responsabilidade Civil - Empregados Domésticos": {
+   "codigo": "0067",
+   "min": 500,
+   "max": 600000,
+   "acima_max": "bloqueia",
+   "pct_basica": null,
+   "exige_uma_de": [
+    "Responsabilidade Civil - Familiar"
+   ],
+   "pct_max_da_exigida": 100
+  },
+  "Responsabilidade Civil - Prática de Esporte": {
+   "codigo": "0068",
+   "min": 500,
+   "max": 600000,
+   "acima_max": "bloqueia",
+   "pct_basica": null,
+   "exige_uma_de": [
+    "Responsabilidade Civil - Familiar"
+   ],
+   "pct_max_da_exigida": 100
+  },
+  "Ruptura de Tubulações e Vazamento Acidental": {
+   "codigo": "0019",
+   "min": 500,
+   "max": 200000,
+   "acima_max": "bloqueia",
+   "pct_basica": 50.0
+  },
+  "Tumultos, Greves e Lockout": {
+   "codigo": "0006",
+   "min": 500,
+   "max": 1000000,
+   "acima_max": "bloqueia",
+   "pct_basica": 30.0
+  },
+  "Roubo E/ou Furto Qualificado de Bicicleta Fora da Residência": {
+   "codigo": "0065",
+   "min": 1000,
+   "max": 60000,
+   "acima_max": "bloqueia",
+   "pct_basica": 30.0
+  },
+  "Microempreendedor Em Residência": {
+   "codigo": "0022",
+   "min": 500,
+   "max": 500000,
+   "acima_max": "bloqueia",
+   "pct_basica": 30.0
+  },
+  "Escritório Em Residência": {
+   "codigo": "0020",
+   "min": 500,
+   "max": 500000,
+   "acima_max": "bloqueia",
+   "pct_basica": 30.0
+  },
+  "Impacto de Veículos": {
+   "codigo": "0005",
+   "min": 500,
+   "max": 10000000,
+   "acima_max": "bloqueia",
+   "pct_basica": 100
+  },
+  "Equipamentos de Energia Solar e Fotovoltaico": {
+   "codigo": "0011",
+   "min": 500,
+   "max": 1000000,
+   "acima_max": "bloqueia",
+   "pct_basica": 10.0
+  },
+  "Carro Na Garagem": {
+   "codigo": "0021",
+   "min": 500,
+   "max": 300000,
+   "acima_max": "bloqueia",
+   "pct_basica": 30.0
+  },
+  "Anfitrião": {
+   "codigo": "0023",
+   "min": 500,
+   "max": 500000,
+   "acima_max": "bloqueia",
+   "pct_basica": 30.0
+  },
+  "Alagamento": {
+   "codigo": "0018",
+   "min": 500,
+   "max": 0,
+   "acima_max": "bloqueia",
+   "pct_basica": 100,
+   "sem_aceitacao": true
+  },
+  "All risks": {
+   "codigo": "2110",
+   "min": 500,
+   "max": 0,
+   "acima_max": "bloqueia",
+   "pct_basica": 100,
+   "sem_aceitacao": true
+  },
+  "Desmoronamento": {
+   "codigo": "0032",
+   "min": 500,
+   "max": 0,
+   "acima_max": "bloqueia",
+   "pct_basica": 100,
+   "sem_aceitacao": true
+  },
+  "Objetos de arte e obras de arte": {
+   "codigo": "1042",
+   "min": 500,
+   "max": 0,
+   "acima_max": "bloqueia",
+   "pct_basica": 100,
+   "sem_aceitacao": true
+  },
+  "PAISAGISMO": {
+   "codigo": "2113",
+   "min": 500,
+   "max": 0,
+   "acima_max": "bloqueia",
+   "pct_basica": 100,
+   "sem_aceitacao": true
+  },
+  "Responsabilidade civil - hole-in-one": {
+   "codigo": "2111",
+   "min": 500,
+   "max": 0,
+   "acima_max": "bloqueia",
+   "pct_basica": null,
+   "exige_uma_de": [
+    "Responsabilidade Civil - Familiar"
+   ],
+   "pct_max_da_exigida": 100,
+   "sem_aceitacao": true
+  },
+  "Responsabilidade civil - tacos de golfe": {
+   "codigo": "2112",
+   "min": 500,
+   "max": 0,
+   "acima_max": "bloqueia",
+   "pct_basica": null,
+   "exige_uma_de": [
+    "Responsabilidade Civil - Familiar"
+   ],
+   "pct_max_da_exigida": 100,
+   "sem_aceitacao": true
+  }
+ },
+ "max_corretor_por_tipo": {
+  "Casa Habitual": {},
+  "Casa Veraneio": {
+   "Roubo E/ou Furto Qualificado de Bens": 30000
+  },
+  "Apartamento Habitual": {},
+  "Apartamento Veraneio": {
+   "Roubo E/ou Furto Qualificado de Bens": 30000
+  },
+  "Casa em Condomínio Fechado Habitual": {},
+  "Casa em Condomínio Fechado Veraneio": {
+   "Roubo E/ou Furto Qualificado de Bens": 30000
+  },
+  "Casa Desocupada": {
+   "Danos Elétricos": 0,
+   "Equipamentos Eletrônicos e Eletrodomésticos": 0,
+   "Roubo E/ou Furto Qualificado de Bens": 0,
+   "Vendaval, furacão, ciclone, tornado, granizo e fumaça para bens ao ar livre": 0,
+   "Perda Ou Pagamento de Aluguel": 0,
+   "Quebra de Vidros": 0,
+   "Impacto de Veículos": 0,
+   "Responsabilidade Civil - Familiar": 0,
+   "Responsabilidade Civil - Danos Morais": 0,
+   "Responsabilidade Civil - Empregados Domésticos": 0,
+   "Responsabilidade Civil - Prática de Esporte": 0,
+   "Tumultos, Greves e Lockout": 0,
+   "Anfitrião": 0,
+   "Microempreendedor Em Residência": 0,
+   "Escritório Em Residência": 0,
+   "Ruptura de Tubulações e Vazamento Acidental": 0,
+   "Bicicletas": 0,
+   "Roubo E/ou Furto Qualificado de Bicicleta Fora da Residência": 0,
+   "Equipamentos de Energia Solar e Fotovoltaico": 0,
+   "Carro Na Garagem": 0
+  },
+  "Casa em Condomínio Fechado Desocupada": {
+   "Danos Elétricos": 0,
+   "Equipamentos Eletrônicos e Eletrodomésticos": 0,
+   "Roubo E/ou Furto Qualificado de Bens": 0,
+   "Vendaval, furacão, ciclone, tornado, granizo e fumaça para bens ao ar livre": 0,
+   "Perda Ou Pagamento de Aluguel": 0,
+   "Quebra de Vidros": 0,
+   "Impacto de Veículos": 0,
+   "Responsabilidade Civil - Familiar": 0,
+   "Responsabilidade Civil - Danos Morais": 0,
+   "Responsabilidade Civil - Empregados Domésticos": 0,
+   "Responsabilidade Civil - Prática de Esporte": 0,
+   "Tumultos, Greves e Lockout": 0,
+   "Anfitrião": 0,
+   "Microempreendedor Em Residência": 0,
+   "Escritório Em Residência": 0,
+   "Ruptura de Tubulações e Vazamento Acidental": 0,
+   "Bicicletas": 0,
+   "Roubo E/ou Furto Qualificado de Bicicleta Fora da Residência": 0,
+   "Equipamentos de Energia Solar e Fotovoltaico": 0,
+   "Carro Na Garagem": 0
+  },
+  "Apartamento Desocupado": {
+   "Danos Elétricos": 0,
+   "Equipamentos Eletrônicos e Eletrodomésticos": 0,
+   "Roubo E/ou Furto Qualificado de Bens": 0,
+   "Vendaval, furacão, ciclone, tornado, granizo e fumaça para bens ao ar livre": 0,
+   "Perda Ou Pagamento de Aluguel": 0,
+   "Quebra de Vidros": 0,
+   "Impacto de Veículos": 0,
+   "Responsabilidade Civil - Familiar": 0,
+   "Responsabilidade Civil - Danos Morais": 0,
+   "Responsabilidade Civil - Empregados Domésticos": 0,
+   "Responsabilidade Civil - Prática de Esporte": 0,
+   "Tumultos, Greves e Lockout": 0,
+   "Anfitrião": 0,
+   "Microempreendedor Em Residência": 0,
+   "Escritório Em Residência": 0,
+   "Ruptura de Tubulações e Vazamento Acidental": 0,
+   "Bicicletas": 0,
+   "Roubo E/ou Furto Qualificado de Bicicleta Fora da Residência": 0,
+   "Equipamentos de Energia Solar e Fotovoltaico": 0,
+   "Carro Na Garagem": 0
+  }
+ },
+ "lmg_max": 76000000,
+ "compoem_lmg": [
+  "Incêndio, queda de raio, explosão, implosão e queda de aeronaves",
+  "Perda Ou Pagamento de Aluguel",
+  "Responsabilidade Civil - Familiar",
+  "Responsabilidade Civil - Empregados Domésticos",
+  "Responsabilidade Civil - Prática de Esporte"
+ ],
+ "soma_rc_max": 3000000,
+ "rc_soma": [
+  "Responsabilidade Civil - Familiar",
+  "Responsabilidade Civil - Danos Morais",
+  "Responsabilidade Civil - Empregados Domésticos",
+  "Responsabilidade Civil - Prática de Esporte"
+ ],
+ "objeto_so_predio": [
+  "Casa Desocupada"
+ ],
+ "inspecao_roubo": {
+  "Casa Habitual": 100000,
+  "Casa em Condomínio Fechado Habitual": 100000,
+  "Casa em Condomínio Fechado Veraneio": 50000,
+  "Casa Veraneio": 30000
+ }
+}

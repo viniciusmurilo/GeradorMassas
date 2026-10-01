@@ -1,6 +1,6 @@
 ---
 name: gerador-massas-seguros
-description: Gera massa de teste para as planilhas de seguro Empresarial e Residencial da HDI (uma linha = uma massa completa: identificação, características de risco, questionário/proteção e coberturas) a partir de texto livre em português, respeitando as normas de subscrição por padrão. Use sempre que o usuário pedir para gerar, criar ou preencher massa(s) de teste, dados de teste, ou "N massas" para seguro empresarial ou residencial, incluir/marcar coberturas específicas com valores, preencher características de risco (tipo de construção, objeto segurado, assistência 24h, atividade/tipo de residência, valor em risco), configurar proteção contra incêndio/roubo, ou pedir massas "aleatórias". Também dispara para pedidos de testar um erro/norma específica (limite de cobertura, análise técnica, CEP/UF bloqueado, cobertura banida). Dispara mesmo sem menção a "planilha" ou "xlsx".
+description: Gera massa de teste para as planilhas de seguro Empresarial e Residencial da HDI (uma linha = uma massa completa: identificação, características de risco, questionário/proteção e coberturas) a partir de texto livre em português, respeitando as normas de subscrição por padrão. Use sempre que o usuário pedir para gerar, criar ou preencher massa(s) de teste, dados de teste, ou "N massas" para seguro empresarial ou residencial, incluir/marcar coberturas específicas com valores, preencher características de risco (tipo de construção, objeto segurado, assistência 24h, atividade/tipo de residência, valor em risco), configurar proteção contra incêndio/roubo, ou pedir massas "aleatórias". Também dispara para pedidos de testar um erro/norma específica (limite de cobertura, análise técnica, CEP/UF bloqueado, cobertura banida), e para **validar ou corrigir uma planilha de massa que o usuário subir** ("corrige essa massa", "valida essa planilha", "o que está errado nessa massa"). Dispara mesmo sem menção a "planilha" ou "xlsx".
 ---
 
 # Gerador de Massa de Teste — Seguros (Empresarial e Residencial)
@@ -25,6 +25,10 @@ arquivos do ramo relevante antes de interpretar o pedido do usuário, não tente
 - `references/lmi_empresarial.md` / `references/lmi_residencial.md` — LMI por cobertura
   (mínimo, máximo absoluto, máximo % sobre a cobertura básica), dependências ("cobertura X exige
   Y"), excludentes ("X cancela Y") e coberturas sem aceitação comercial
+- `references/regras_empresarial.json` / `references/regras_residencial.json` — as mesmas regras
+  dos `lmi_*.md` em formato que o `scripts/validar_massa.py` lê (mínimo, máximo do corretor,
+  % da básica, exige, exclui, sem aceitação, limites por tipo de residência, VR Lucros
+  Cessantes). Ao mudar uma regra no `.md`, atualize também o `.json`
 - `references/lmi_condominio_amplo.md` / `references/lmi_condominio_tradicional.md` — mesmas
   regras para Condomínio Amplo e Tradicional. **Ainda não há template desses ramos** — as regras
   ficam salvas para uso futuro; se pedirem massa de condomínio, avise que falta o template
@@ -40,10 +44,39 @@ arquivos do ramo relevante antes de interpretar o pedido do usuário, não tente
 4. Se houver ambiguidade (nome de cobertura parecido, campo obrigatório sem valor, cobertura fora
    do catálogo), **pare e pergunte**. Não chute o nome mais parecido.
 5. Escreva o JSON de entrada (formato na seção "Script" abaixo).
-6. Rode `scripts/preencher_massa.py` sobre o template original do ramo (ver "Templates" abaixo).
-7. Confira a saída do script (contagem de massas, coberturas por linha, erros) e apresente o
+6. **Valide antes de gravar**: `python3 scripts/validar_massa.py entrada.json`. Massa "normal"
+   tem que sair sem nenhum `ERRO`. Se houver, ajuste o JSON e valide de novo. Massa feita para
+   testar uma regra deve mostrar justamente o `ERRO` daquela regra, e só ele.
+7. Rode `scripts/preencher_massa.py` sobre o template original do ramo (ver "Templates" abaixo).
+8. Confira a saída do script (contagem de massas, coberturas por linha, erros) e apresente o
    arquivo gerado.
-8. Responda em uma linha só. Sem relatório longo.
+9. Responda em uma linha só. Sem relatório longo.
+
+## Correção de massa enviada pelo usuário
+
+Quando o usuário subir uma planilha de massa (xlsx no formato do template) para validar ou
+corrigir:
+
+1. `python3 scripts/extrair_massa.py planilha.xlsx massas.json`: lê a aba `Exportation`, detecta
+   o ramo e gera o JSON de entrada, uma massa por linha a partir da linha 3.
+2. `python3 scripts/validar_massa.py massas.json`: relatório por massa, com `ERRO` (o sistema
+   rejeita) e `AVISO` (análise técnica, inspeção ou ponto a confirmar).
+3. Se o usuário só pediu para **validar**, mostre o relatório e pare.
+4. Para **corrigir**: `python3 scripts/validar_massa.py massas.json --corrigir corrigido.json`.
+   As correções mecânicas são aplicadas e cada uma aparece como `CORRIGIDO`:
+   - remove coberturas sem aceitação, indisponíveis para o tipo de residência, sem a cobertura
+     exigida, ou a segunda de um par excludente;
+   - ajusta valores para dentro de [mínimo, teto efetivo];
+   - acerta VR Lucros Cessantes × LC/DF básica, tipo de construção, objeto segurado e
+     questionário vazio.
+5. Se ainda sobrar `ERRO` (ex.: soma de RC acima do limite), corrija você mesmo no
+   `corrigido.json` com o menor ajuste possível e valide de novo até zerar. Se a correção mudar
+   a intenção da massa (ex.: remover a única cobertura que o usuário queria testar), pergunte
+   antes.
+6. `python3 scripts/preencher_massa.py corrigido.json saida.xlsx` para gerar a planilha corrigida
+   no template oficial. Não edite a planilha do usuário diretamente.
+7. Entregue a planilha corrigida e um resumo curto **por massa** do que mudou (as linhas
+   `CORRIGIDO` e os seus ajustes manuais), mais os `AVISO`s que ficaram.
 
 Regras invioláveis:
 
