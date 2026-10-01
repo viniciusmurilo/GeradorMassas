@@ -41,9 +41,16 @@ contratar uma das coberturas: (LUCROS CESSANTES - BÁSICA ou DESPESAS FIXAS - B�
 duas são excludentes entre si, escolha **uma**. A mensagem não cita `Despesas Fixas - Ampla`,
 então não conte com ela sozinha para satisfazer a regra.
 
-Na prática, toda massa empresarial válida leva `Lucros Cessantes - Incêndio` ou
-`Despesas Fixas - Incêndio` com LMI ≤ VR Lucros Cessantes. A única exceção é quando o pedido
-disser explicitamente que é sem lucros cessantes: aí grave `Lucros Cessantes` como `"<IGNORE>"`.
+**A regra vale nos dois sentidos:**
+
+| VR `Lucros Cessantes` | Coberturas de LC/DF |
+|---|---|
+| **com valor** | obrigatório ter `Lucros Cessantes - Incêndio` **ou** `Despesas Fixas - Incêndio` (só uma), com LMI ≤ VR |
+| **sem valor** (`"<IGNORE>"`) | **proibido** ter `Lucros Cessantes - Incêndio`, `Despesas Fixas - Incêndio` e `Despesas Fixas - Ampla`. Também ficam de fora as que dependem delas: `Despesas extraordinárias` e `Honorários de peritos contábeis` |
+
+Padrão numa massa válida: VR Lucros Cessantes com valor + uma das duas coberturas básicas. Quando
+o pedido for sem lucros cessantes, grave `Lucros Cessantes` como `"<IGNORE>"` e não inclua
+nenhuma das coberturas acima.
 
 Compõem o LMG (Limite Máximo de Garantia): básica, Perda Ou Pagamento de Aluguel a Terceiros,
 Despesas Fixas - Ampla/Incêndio, Lucros Cessantes - Incêndio, Despesas com instalação em novo
