@@ -46,8 +46,10 @@ uma massa empresarial.
 ## Pergunta de coluna única — chave `perguntas`, obrigatória
 
 ### `Deseja contratar indenização a valor de novo?`
-No template atual é **uma coluna só** (não é mais RDB SIM/NÃO), preenchida com o texto da
-resposta: `sim` ou `não`. Padrão quando o usuário não especificar: `"não"`. Vai em
+No template atual é **uma coluna só** (não é mais RDB SIM/NÃO). Na planilha, **`sim` = contrata**
+e **`<IGNORE>` = não contrata** (só nesta coluna o `<IGNORE>` significa "não"). No JSON, passe
+`"sim"` ou `"não"`; o script grava `sim` ou `<IGNORE>`. Padrão quando o usuário não especificar:
+`"não"`. Vai em
 `"perguntas": {"Deseja contratar indenização a valor de novo?": "sim"}`. O formato antigo em
 `grupos` (`["SIM"]`/`["NÃO"]`) ainda é aceito e convertido pelo script.
 

@@ -240,10 +240,14 @@ def preencher_linha(ws, linha, massa, mapa):
             perguntas[nome] = opcoes[0] if len(opcoes) == 1 else ""
     for nome, col in mapa["perguntas"].items():
         resp = perguntas.get(nome)
-        if resp in (None, "", IGNORAR):
-            raise ValueError(f"linha {linha}: pergunta '{nome}' sem resposta")
         if normalizar(nome).startswith("deseja contratar indenizacao"):
-            resp = {"sim": "sim", "nao": "não"}.get(normalizar(resp), resp)
+            # coluna unica: "sim" = contrata; "<IGNORE>" = NAO contrata
+            chave = normalizar(resp) if resp not in (None, "", IGNORAR) else "nao"
+            if chave not in ("sim", "nao"):
+                raise ValueError(f"linha {linha}: '{nome}' aceita só sim/não, recebeu {resp!r}")
+            resp = "sim" if chave == "sim" else IGNORAR
+        elif resp in (None, "", IGNORAR):
+            raise ValueError(f"linha {linha}: pergunta '{nome}' sem resposta")
         ws[f"{col}{linha}"] = resp
     sobrando = set(perguntas) - set(mapa["perguntas"])
     if sobrando:

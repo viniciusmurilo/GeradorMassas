@@ -54,7 +54,10 @@ def extrair(caminho):
             "campos": {n: cel(c) for n, c in mapa["campos"].items()},
             "combos": {n: cel(c) for n, c in mapa["combos"].items()},
             "bool": [n for n, c in mapa["bools"].items() if marcado(cel(c))],
-            "perguntas": {n: cel(c) for n, c in mapa["perguntas"].items()},
+            # indenizacao a valor de novo: "<IGNORE>" na coluna significa "não"
+            "perguntas": {n: ("não" if normalizar(n).startswith("deseja contratar indenizacao")
+                              and cel(c) in (None, "", IGNORAR) else cel(c))
+                          for n, c in mapa["perguntas"].items()},
             "grupos": {g: [o for o, c in info["opcoes"].items() if marcado(cel(c))]
                        for g, info in mapa["grupos"].items()},
             "coberturas": [],

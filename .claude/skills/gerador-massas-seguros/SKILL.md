@@ -141,7 +141,8 @@ desocupados só aceitam Incêndio e Vendaval (Neve e Geada).
   dígitos). Nunca gere CPF/CNPJ/CEP você mesmo.
 - **Perfil** (`campos`): `"Corretor"` por padrão (outras opções: `Operações`, `Subscrição`).
 - **Pergunta de indenização** (`perguntas`): `"Deseja contratar indenização a valor de novo?"`
-  é uma coluna só, com `"sim"` ou `"não"` (padrão `"não"`). Obrigatória.
+  é uma coluna só. No JSON passe `"sim"` ou `"não"` (padrão `"não"`). Na planilha o script grava
+  `sim` para sim e `<IGNORE>` para não (só nesta coluna `<IGNORE>` significa "não").
 - **Grupos** (proteção contra incêndio/roubo no empresarial, equipamentos de proteção no
   residencial): passe só as opções marcadas; o resto vira `<IGNORE>` automaticamente.
   Todos são **obrigatórios e precisam de pelo menos uma resposta** — o script recusa se um deles
