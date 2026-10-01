@@ -129,6 +129,8 @@ desocupados só aceitam Incêndio e Vendaval (Neve e Geada).
 - Características de risco e grupos de proteção: sorteie dentro das listas permitidas do ramo,
   respeitando as restrições de atividade/tipo de construção/objeto segurado da norma.
 - Atividade (empresarial): sorteie de `atividades.txt` sem repetir dentro do mesmo lote.
+- Empresarial: `Lucros Cessantes` (VR) preenchido exige `Lucros Cessantes - Incêndio` **ou**
+  `Despesas Fixas - Incêndio` na massa, com LMI ≤ VR (ver `lmi_empresarial.md` §Campos de risco).
 
 ## Templates
 
