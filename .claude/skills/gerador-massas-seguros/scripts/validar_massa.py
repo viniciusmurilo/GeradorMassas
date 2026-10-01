@@ -44,12 +44,26 @@ GRUPOS_RAMO = {
         "Existem equipamentos de proteção contra roubo?",
     ],
     "residencial": ["Equipamentos de Proteção"],
+    "condominio_amplo": ["Quantidade de Pavimentos (incluindo térreo, garagem e subsolos)?",
+                         "Qual a idade do Condomínio?"],
+    "condominio_tradicional": ["Quantidade de Pavimentos (incluindo térreo, garagem e subsolos)?",
+                               "Qual a idade do Condomínio?"],
 }
+PADRAO_GRUPO["Quantidade de Pavimentos (incluindo térreo, garagem e subsolos)?"] = "Não informado"
 # perguntas de coluna unica (chave "perguntas" no JSON) e resposta padrao
 PERGUNTAS_RAMO = {
     "empresarial": {"Deseja contratar indenização a valor de novo?": "não"},
     "residencial": {"Deseja contratar indenização a valor de novo?": "não"},
+    # condominio: respostas ainda a confirmar com o usuario -> sem padrao (None = nao corrige)
+    "condominio_amplo": {
+        "O condomínio está legalmente constituído?": None,
+        "O Condomínio possui elevador?": None,
+        "O Condomínio Possui Central Telefônica e/ou equipamentos de segurança e/ou monitoramento?": None,
+    },
 }
+PERGUNTAS_RAMO["condominio_tradicional"] = PERGUNTAS_RAMO["condominio_amplo"]
+# pergunta -> (pergunta mae, resposta que torna a pergunta obrigatoria)
+PERGUNTAS_CONDICIONAIS = {"Qual a quantidade de elevadores?": ("O Condomínio possui elevador?", "sim")}
 
 
 def norm(s):
@@ -145,7 +159,7 @@ def validar(dados_massa, regras, corrigir=False):
         out.append(("CORRIGIDO", msg))
 
     for n in m.desconhecidas:
-        erro(f"cobertura '{n}' não existe nas regras/template do {ramo}")
+        aviso(f"cobertura '{n}' sem regra cadastrada para {ramo} (não validada)")
 
     combos = dados_massa.get("combos", {})
     texto = dados_massa.get("texto", {})
@@ -167,17 +181,22 @@ def validar(dados_massa, regras, corrigir=False):
         if not perguntas.get(g) and grupos_antigos.get(g):
             perguntas[g] = grupos_antigos.pop(g)[0].lower().replace("nao", "não")
         if not perguntas.get(g) or perguntas[g] == IGNORAR:
-            if corrigir:
+            if corrigir and padrao is not None:
                 perguntas[g] = padrao
                 fix(f"pergunta '{g}' sem resposta → '{padrao}'")
             else:
                 erro(f"pergunta '{g}' sem resposta")
 
+    for g, (mae, habilita) in PERGUNTAS_CONDICIONAIS.items():
+        if g in perguntas or ramo.startswith("condominio"):
+            if norm(perguntas.get(mae, "")) == habilita and perguntas.get(g) in (None, "", IGNORAR):
+                erro(f"pergunta '{g}' sem resposta ('{mae}' = {perguntas.get(mae)})")
+
     # --- questionarios ---
     grupos = dados_massa.setdefault("grupos", {})
     for g in GRUPOS_RAMO[ramo]:
         if not grupos.get(g):
-            if corrigir:
+            if corrigir and g in PADRAO_GRUPO:
                 grupos[g] = [PADRAO_GRUPO[g]]
                 fix(f"questionário '{g}' sem resposta → '{PADRAO_GRUPO[g]}'")
             else:
@@ -234,10 +253,19 @@ def validar(dados_massa, regras, corrigir=False):
                 erro(f"'{nome}' {motivo}")
                 ja_reportadas.add(nome)
 
-    # --- basica ---
-    basica = regras["basica"]
-    if not m.tem(basica):
-        erro(f"falta a cobertura básica '{basica}' (base dos percentuais)")
+    # --- basica (cobertura; no Condominio Amplo e o Valor em Risco) ---
+    basica = regras.get("basica")
+    if regras.get("basica_campo"):
+        basica_v = num(combos.get(regras["basica_campo"]))
+        lim = regras["basica_limites"]
+        if not basica_v:
+            erro(f"'{regras['basica_campo']}' vazio (base dos percentuais)")
+        elif not (lim["min"] <= basica_v <= lim["max"]):
+            erro(f"'{regras['basica_campo']}' {brl(basica_v)} fora de {brl(lim['min'])} a {brl(lim['max'])}")
+    else:
+        basica_v = None
+        if not m.tem(basica):
+            erro(f"falta a cobertura básica '{basica}' (base dos percentuais)")
 
     # --- excludentes (mantem a primeira que aparece na massa) ---
     pares = set()
@@ -319,7 +347,15 @@ def validar(dados_massa, regras, corrigir=False):
         if val is None:
             continue
         minimo = regra.get("min") or 0
-        teto, motivo = teto_efetivo(m, nome, regra, max_corretor(nome), m.v(basica))
+        teto, motivo = teto_efetivo(m, nome, regra, max_corretor(nome),
+                                    basica_v if regras.get("basica_campo") else m.v(basica))
+        if regra.get("valor_fixo") and val != minimo:
+            if corrigir:
+                m.definir(nome, minimo)
+                fix(f"'{nome}' {brl(val)} → valor fixo {brl(minimo)}")
+            else:
+                erro(f"'{nome}' tem valor fixo {brl(minimo)} (recebeu {brl(val)})")
+            continue
         analise = regra.get("acima_max") == "analise"
         if teto is not None and val > teto:
             so_corretor = motivo.startswith("máximo do corretor")
@@ -347,8 +383,8 @@ def validar(dados_massa, regras, corrigir=False):
     if ramo == "empresarial":
         soma_rc = sum(m.v(n) for n in m.cob if norm(n).startswith("responsabilidade civil"))
     else:
-        soma_rc = sum(m.v(n) for n in regras["rc_soma"] if m.tem(n))
-    if soma_rc > regras["soma_rc_max"]:
+        soma_rc = sum(m.v(n) for n in regras.get("rc_soma", []) if m.tem(n))
+    if regras.get("soma_rc_max") and soma_rc > regras["soma_rc_max"]:
         erro(f"soma das RC {brl(soma_rc)} acima de {brl(regras['soma_rc_max'])} "
              "(ajuste manual: reduza as RC)")
     if ramo == "residencial":
@@ -361,7 +397,7 @@ def validar(dados_massa, regras, corrigir=False):
         for n, lim in regras["inspecao"].items():
             if m.tem(n) and m.v(n) > lim:
                 aviso(f"'{n}' acima de {brl(lim)} exige inspeção de risco")
-    elif tipo_res in regras["inspecao_roubo"]:
+    elif ramo == "residencial" and tipo_res in regras["inspecao_roubo"]:
         n = "Roubo E/ou Furto Qualificado de Bens"
         lim = regras["inspecao_roubo"][tipo_res]
         if m.tem(n) and m.v(n) > lim:

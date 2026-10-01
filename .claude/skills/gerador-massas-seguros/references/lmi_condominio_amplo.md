@@ -1,10 +1,9 @@
 # LMI por Cobertura — Condomínio Amplo (base "Coberturas x LMI", aba `Condominio Ampla`)
 
-> **Sem template nesta skill ainda.** Não existe `templates/template_condominio_amplo.xlsx` nem
-> catálogo de colunas — não gere massa deste ramo. Estas regras ficam salvas para quando o
-> template chegar (aí: criar `catalogo_condominio_amplo.md`, conferir a grafia exata das
-> coberturas no cabeçalho e ligar este arquivo no fluxo do `SKILL.md`). Nomes abaixo estão na
-> grafia da planilha de origem, **não** necessariamente na do futuro template.
+> Template: `templates/template_condominio_amplo.xlsx`. Catálogo de colunas e formato do JSON:
+> `catalogo_condominio.md`. Regras em dados: `regras_condominio_amplo.json`. O template **não tem
+> coluna `Ampla`**: a básica é o `Valor em Risco Danos Materiais` (combo), e os percentuais "da
+> Ampla" são calculados sobre ele.
 
 ## Como aplicar
 

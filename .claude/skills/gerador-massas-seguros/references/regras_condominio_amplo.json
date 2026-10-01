@@ -1,0 +1,161 @@
+{
+ "ramo": "condominio_amplo",
+ "basica_campo": "Valor em Risco Danos Materiais",
+ "basica": null,
+ "basica_limites": {
+  "min": 1000000,
+  "max": 100000000
+ },
+ "coberturas": {
+  "Responsabilidade Civil - Condomínio + Síndico": {
+   "min": 50000,
+   "max": 5000000,
+   "acima_max": "bloqueia",
+   "pct_basica": 50
+  },
+  "Despesas com Aluguel Condôminos": {
+   "min": 35000,
+   "max": 20000000,
+   "acima_max": "bloqueia",
+   "pct_basica": null,
+   "exige_uma_de": [
+    "Incêndio de Bens Dos Condôminos"
+   ],
+   "pct_max_da_exigida": 100
+  },
+  "Incêndio de Bens Dos Condôminos": {
+   "min": 75000,
+   "max": 30000000,
+   "acima_max": "bloqueia",
+   "pct_basica": 30
+  },
+  "Perda Ou Pagamento de Aluguel a Terceiros": {
+   "min": 35000,
+   "max": 2000000,
+   "acima_max": "bloqueia",
+   "pct_basica": 10
+  },
+  "Responsabilidade Civil - Danos Morais": {
+   "min": 10000,
+   "max": 600000,
+   "acima_max": "bloqueia",
+   "pct_basica": null,
+   "exige_uma_de": [
+    "Responsabilidade Civil - Condomínio + Síndico"
+   ],
+   "pct_max_da_exigida": 20
+  },
+  "Responsabilidade Civil - Empregador": {
+   "min": 10000,
+   "max": 600000,
+   "acima_max": "bloqueia",
+   "pct_basica": null,
+   "exige_uma_de": [
+    "Responsabilidade Civil - Condomínio + Síndico"
+   ],
+   "pct_max_da_exigida": 100
+  },
+  "Responsabilidade Civil - Guarda de Veículos + Portões Automáticos (incêndio e Roubo/furto)": {
+   "min": 20000,
+   "max": 2500000,
+   "acima_max": "bloqueia",
+   "pct_basica": null,
+   "exige_uma_de": [
+    "Responsabilidade Civil - Condomínio + Síndico"
+   ],
+   "pct_max_da_exigida": 100
+  },
+  "Responsabilidade Civil - Guarda de Veículos + Portões Automáticos (colisão, Incêndio e Roubo/furto)": {
+   "min": 20000,
+   "max": 2500000,
+   "acima_max": "bloqueia",
+   "pct_basica": null,
+   "exige_uma_de": [
+    "Responsabilidade Civil - Condomínio + Síndico"
+   ],
+   "pct_max_da_exigida": 100,
+   "exclui": [
+    "Responsabilidade Civil - Guarda de Veículos + Portões Automáticos (incêndio e Roubo/furto)"
+   ]
+  },
+  "Responsabilidade Civil - Portões": {
+   "min": 20000,
+   "max": 2500000,
+   "acima_max": "bloqueia",
+   "pct_basica": null,
+   "exige_uma_de": [
+    "Responsabilidade Civil - Condomínio + Síndico"
+   ],
+   "pct_max_da_exigida": 100
+  },
+  "Roubo de Valores": {
+   "min": 3000,
+   "max": 50000,
+   "acima_max": "bloqueia",
+   "pct_basica": 50
+  },
+  "Roubo E/ou Furto Qualificado de Bens Dos Condôminos": {
+   "min": 35000,
+   "max": 500000,
+   "acima_max": "bloqueia",
+   "pct_basica": null,
+   "exige_uma_de": [
+    "Incêndio de Bens Dos Condôminos"
+   ],
+   "pct_max_da_exigida": 15
+  },
+  "Morte": {
+   "min": 5000,
+   "max": 100000,
+   "acima_max": "bloqueia",
+   "pct_basica": 100,
+   "exige_uma_de": [
+    "Invalidez Permanente Total Ou Parcial Por Acidente (ipa)"
+   ]
+  },
+  "Invalidez Permanente Total Ou Parcial Por Acidente (ipa)": {
+   "min": 5000,
+   "max": 5000,
+   "acima_max": "bloqueia",
+   "pct_basica": null,
+   "valor_fixo": true
+  },
+  "Indenização Especial Por Acidente (iea)": {
+   "min": 5000,
+   "max": 5000,
+   "acima_max": "bloqueia",
+   "pct_basica": null,
+   "valor_fixo": true
+  },
+  "Invalidez Funcional Permanente Total Por Doença (ifpd)": {
+   "min": 5000,
+   "max": 5000,
+   "acima_max": "bloqueia",
+   "pct_basica": null,
+   "valor_fixo": true
+  },
+  "Cesta Básica": {
+   "min": 1000,
+   "max": 1000,
+   "acima_max": "bloqueia",
+   "pct_basica": null,
+   "valor_fixo": true
+  },
+  "Morte Cônjuge": {
+   "min": 2500,
+   "max": 2500,
+   "acima_max": "bloqueia",
+   "pct_basica": null,
+   "valor_fixo": true
+  },
+  "Auxílio Funeral": {
+   "min": 3000,
+   "max": 3000,
+   "acima_max": "bloqueia",
+   "pct_basica": null,
+   "valor_fixo": true
+  }
+ },
+ "lmg_max": 150000000,
+ "soma_rc_max": null
+}
