@@ -210,7 +210,7 @@ def preencher_linha(ws, linha, massa, mapa):
 
     for nome, valor in diretos.items():
         col = mapa["campos"].get(nome) or mapa["combos"].get(nome) or mapa["textos"].get(nome)
-        if col in mapa["colunas_valor"]:
+        if col in mapa["colunas_valor"] and valor != IGNORAR:
             # mesmo formato das coberturas: texto BR "10.000.000,00", nao numero com mascara
             valor = formatar_valor_br(valor)
         ws[f"{col}{linha}"] = valor

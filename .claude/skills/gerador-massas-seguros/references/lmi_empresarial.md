@@ -34,6 +34,17 @@ Teto efetivo = **o menor** de todos esses valores. Por isso:
 passar do valor informado em `Lucros Cessantes` (campo de texto). Numa massa com qualquer uma
 delas, preencha `Lucros Cessantes` com valor ≥ ao LMI dessas coberturas.
 
+**VR Lucros Cessantes exige cobertura básica de LC/DF** (confirmado no sistema): se o campo
+`Lucros Cessantes` tiver valor, a massa precisa ter `Lucros Cessantes - Incêndio` **ou**
+`Despesas Fixas - Incêndio`. Mensagem: "Para contratar o VR Lucros Cessantes é necessário
+contratar uma das coberturas: (LUCROS CESSANTES - BÁSICA ou DESPESAS FIXAS - BÁSICA)". Como as
+duas são excludentes entre si, escolha **uma**. A mensagem não cita `Despesas Fixas - Ampla`,
+então não conte com ela sozinha para satisfazer a regra.
+
+Na prática, toda massa empresarial válida leva `Lucros Cessantes - Incêndio` ou
+`Despesas Fixas - Incêndio` com LMI ≤ VR Lucros Cessantes. A única exceção é quando o pedido
+disser explicitamente que é sem lucros cessantes: aí grave `Lucros Cessantes` como `"<IGNORE>"`.
+
 Compõem o LMG (Limite Máximo de Garantia): básica, Perda Ou Pagamento de Aluguel a Terceiros,
 Despesas Fixas - Ampla/Incêndio, Lucros Cessantes - Incêndio, Despesas com instalação em novo
 local, Despesas extraordinárias e todas as RC Operações.
