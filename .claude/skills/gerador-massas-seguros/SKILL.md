@@ -30,8 +30,10 @@ arquivos do ramo relevante antes de interpretar o pedido do usuário, não tente
   % da básica, exige, exclui, sem aceitação, limites por tipo de residência, VR Lucros
   Cessantes). Ao mudar uma regra no `.md`, atualize também o `.json`
 - `references/lmi_condominio_amplo.md` / `references/lmi_condominio_tradicional.md` — mesmas
-  regras para Condomínio Amplo e Tradicional. **Ainda não há template desses ramos** — as regras
-  ficam salvas para uso futuro; se pedirem massa de condomínio, avise que falta o template
+  regras para Condomínio Amplo e Tradicional. Os templates desses ramos já estão em `templates/`
+  (`template_condominio_amplo.xlsx`, `template_condominio_tradicional.xlsx`), mas são rascunhos:
+  as linhas 3+ trazem listas de opções, não massas, e a geração ainda não está ligada. Se pedirem
+  massa de condomínio, avise que esse ramo ainda está em preparação
 
 ## Fluxo obrigatório a cada pedido
 
@@ -137,11 +139,15 @@ desocupados só aceitam Incêndio e Vendaval (Neve e Geada).
   grave o token literal (`#cpf`, `#cnpj`, `#cnpjalfa`, `#cep`) — um robô externo substitui depois
   pelo valor real. Valor **específico** informado pelo usuário → grave o valor literal (só
   dígitos). Nunca gere CPF/CNPJ/CEP você mesmo.
-- **Grupos** (proteção contra incêndio/roubo, indenização a valor de novo, equipamentos de
-  proteção residencial): passe só as opções marcadas; o resto vira `<IGNORE>` automaticamente.
+- **Perfil** (`campos`): `"Corretor"` por padrão (outras opções: `Operações`, `Subscrição`).
+- **Pergunta de indenização** (`perguntas`): `"Deseja contratar indenização a valor de novo?"`
+  é uma coluna só. No JSON passe `"sim"` ou `"não"` (padrão `"não"`). Na planilha o script grava
+  `sim` para sim e `<IGNORE>` para não (só nesta coluna `<IGNORE>` significa "não").
+- **Grupos** (proteção contra incêndio/roubo no empresarial, equipamentos de proteção no
+  residencial): passe só as opções marcadas; o resto vira `<IGNORE>` automaticamente.
   Todos são **obrigatórios e precisam de pelo menos uma resposta** — o script recusa se um deles
   não aparecer em `grupos` ou vier vazio (`[]`); use o padrão
-  documentado no catálogo (`["NÃO"]` / `["Não informado..."]`) quando o usuário não especificar
+  documentado no catálogo (`["Não informado..."]`) quando o usuário não especificar
   nada. Grupo de escolha única com mais de uma opção no JSON = erro. Nos grupos de múltipla
   escolha, a opção `Não informado...`/`Não informado` é exclusiva — não pode vir junto com outra
   opção do mesmo grupo, também é erro do script.
@@ -202,14 +208,14 @@ usa `templates/template_<ramo>.xlsx` da skill.
   "ramo": "empresarial",
   "massas": [
     {
-      "campos": {"Corretor": "COI", "Tipo Pessoa": "#cpf", "Cep Risco": "#cep"},
+      "campos": {"Perfil": "Corretor", "Corretor": "COI", "Tipo Pessoa": "#cpf", "Cep Risco": "#cep"},
       "combos": {"Tipo de Construção": "Superior", "Objeto Segurado": "Prédio e Conteúdo",
                  "Assistência 24h": "Assistência Empresarial Plano Superior"},
       "texto": {"Atividade": "Academias", "Valor em Risco - Danos Materiais": 10000000,
                 "Lucros Cessantes": 10000},
       "bool": [],
+      "perguntas": {"Deseja contratar indenização a valor de novo?": "sim"},
       "grupos": {
-        "Deseja contratar indenização a valor de novo?": ["SIM"],
         "Existem equipamentos de proteção contra incêndio?": ["Extintores"],
         "Existem equipamentos de proteção contra roubo?": ["Sistema de alarme contra roubo"]
       },
@@ -225,7 +231,8 @@ usa `templates/template_<ramo>.xlsx` da skill.
 Para residencial: chaves iguais, mas `campos` usa `"Cep"` (não `"Cep Risco"`), `combos` inclui
 `"Tipo de Residência"`, não existe `texto` (não há Atividade/Valor em Risco nesse ramo), `bool`
 lista os 7 benefícios independentes (ver catálogo), e `grupos` usa
-`"Equipamentos de Proteção"` em vez dos dois grupos de incêndio/roubo do empresarial. Nenhuma
+`"Equipamentos de Proteção"` em vez dos dois grupos de incêndio/roubo do empresarial (a
+pergunta de indenização vai em `perguntas`, igual ao empresarial). Nenhuma
 cobertura residencial aceita `periodo_indenitario`.
 
 Uma chamada do script preenche **todas** as massas de um lote (uma por item em `massas`) num
