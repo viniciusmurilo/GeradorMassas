@@ -106,7 +106,8 @@ desocupados só aceitam Incêndio e Vendaval (Neve e Geada).
   dígitos). Nunca gere CPF/CNPJ/CEP você mesmo.
 - **Grupos** (proteção contra incêndio/roubo, indenização a valor de novo, equipamentos de
   proteção residencial): passe só as opções marcadas; o resto vira `<IGNORE>` automaticamente.
-  Todos são **obrigatórios** — o script recusa se um deles não aparecer em `grupos`; use o padrão
+  Todos são **obrigatórios e precisam de pelo menos uma resposta** — o script recusa se um deles
+  não aparecer em `grupos` ou vier vazio (`[]`); use o padrão
   documentado no catálogo (`["NÃO"]` / `["Não informado..."]`) quando o usuário não especificar
   nada. Grupo de escolha única com mais de uma opção no JSON = erro. Nos grupos de múltipla
   escolha, a opção `Não informado...`/`Não informado` é exclusiva — não pode vir junto com outra

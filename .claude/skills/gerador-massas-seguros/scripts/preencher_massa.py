@@ -85,7 +85,9 @@ REGRAS_GRUPO = {
         "modo": "multiplo", "obrigatorio": True, "nao_informado": "Não informado",
     },
 }
-REGRA_GRUPO_PADRAO = {"modo": "multiplo", "obrigatorio": False, "nao_informado": None}
+# grupo novo que aparecer no template sem regra propria: tambem e obrigatorio (todo
+# questionario precisa de pelo menos uma resposta).
+REGRA_GRUPO_PADRAO = {"modo": "multiplo", "obrigatorio": True, "nao_informado": None}
 
 
 def normalizar(texto):
@@ -247,6 +249,11 @@ def preencher_linha(ws, linha, massa, mapa):
                     f"(opcoes validas: {sorted(ginfo['opcoes'])})"
                 )
             canon_selecionadas.append(canon)
+        if regra["obrigatorio"] and not canon_selecionadas:
+            raise ValueError(
+                f"linha {linha}: questionario '{grupo_nome}' sem resposta — marque pelo menos "
+                f"uma opcao (opcoes validas: {sorted(ginfo['opcoes'])})"
+            )
         if regra["modo"] == "unico" and len(canon_selecionadas) > 1:
             raise ValueError(
                 f"linha {linha}: grupo '{grupo_nome}' e de escolha unica, "
