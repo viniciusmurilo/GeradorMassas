@@ -1,0 +1,1014 @@
+{
+ "ramo": "empresarial",
+ "basica": "Incêndio, Queda de Raio, Queda de Aeronaves, Implosão, Explosão e Fumaça",
+ "coberturas": {
+  "Incêndio, Queda de Raio, Queda de Aeronaves, Implosão, Explosão e Fumaça": {
+   "codigo": 1,
+   "min": 55000,
+   "max": 150000000,
+   "acima_max": "analise",
+   "pct_basica": 100
+  },
+  "Danos Elétricos": {
+   "codigo": 7,
+   "min": 1000,
+   "max": 5000000,
+   "acima_max": "analise",
+   "pct_basica": 60
+  },
+  "Vendaval para concessionárias (exceto veículos ao ar livre)": {
+   "codigo": 535,
+   "min": 5000,
+   "max": 7500000,
+   "acima_max": "analise",
+   "pct_basica": 50,
+   "exclui": [
+    "Vendaval para concessionárias (inclusive veículos ao ar livre)",
+    "Vendaval, Furacão, Ciclone, Tornado, Granizo e Impacto de Veículos"
+   ]
+  },
+  "Vendaval, Furacão, Ciclone, Tornado, Granizo e Impacto de Veículos": {
+   "codigo": 1070,
+   "min": 5000,
+   "max": 7500000,
+   "acima_max": "analise",
+   "pct_basica": 50,
+   "exclui": [
+    "Vendaval para concessionárias (exceto veículos ao ar livre)",
+    "Vendaval para concessionárias (inclusive veículos ao ar livre)"
+   ]
+  },
+  "Vendaval para concessionárias (inclusive veículos ao ar livre)": {
+   "codigo": 536,
+   "min": 5000,
+   "max": 1000000,
+   "acima_max": "analise",
+   "pct_basica": 50,
+   "exclui": [
+    "Vendaval para concessionárias (exceto veículos ao ar livre)",
+    "Vendaval, Furacão, Ciclone, Tornado, Granizo e Impacto de Veículos"
+   ]
+  },
+  "Vendaval, Furacão, Ciclone, Tornado, Granizo e Impacto de Veículos - para Bens Ao Ar Livre": {
+   "codigo": 1068,
+   "min": 5000,
+   "max": 1000000,
+   "acima_max": "analise",
+   "pct_basica": 10
+  },
+  "Roubo E/ou Furto Qualificado de Bens": {
+   "codigo": 25,
+   "min": 1000,
+   "max": 500000,
+   "acima_max": "analise",
+   "pct_basica": 30
+  },
+  "Perda Ou Pagamento de Aluguel a Terceiros": {
+   "codigo": 31,
+   "min": 1000,
+   "max": 15000000,
+   "acima_max": "analise",
+   "pct_basica": 50
+  },
+  "Quebra de Vidros": {
+   "codigo": 15,
+   "min": 1000,
+   "max": 1000000,
+   "acima_max": "analise",
+   "pct_basica": 20
+  },
+  "Equipamentos Eletrônicos": {
+   "codigo": 1067,
+   "min": 1000,
+   "max": 3000000,
+   "acima_max": "bloqueia",
+   "pct_basica": 20
+  },
+  "Alagamento": {
+   "codigo": 18,
+   "min": 1000,
+   "max": 500000,
+   "acima_max": "bloqueia",
+   "pct_basica": 20
+  },
+  "Anúncios Luminosos": {
+   "codigo": 20,
+   "min": 1000,
+   "max": 1000000,
+   "acima_max": "analise",
+   "pct_basica": 20
+  },
+  "Demolição e Remoção de Entulho": {
+   "codigo": 1048,
+   "min": 5000,
+   "max": 30000000,
+   "acima_max": "bloqueia",
+   "pct_basica": 100
+  },
+  "Derrame Ou Vazamento de Chuveiros Automáticos (sprinklers)": {
+   "codigo": 24,
+   "min": 5000,
+   "max": 5000000,
+   "acima_max": "analise",
+   "pct_basica": 20
+  },
+  "Desmoronamento": {
+   "codigo": 32,
+   "min": 5000,
+   "max": 1000000,
+   "acima_max": "analise",
+   "pct_basica": 40
+  },
+  "Despesas Fixas - Ampla": {
+   "codigo": 1050,
+   "min": 5000,
+   "max": 20000000,
+   "acima_max": "analise",
+   "pct_basica": 100,
+   "exclui": [
+    "Despesas Fixas - Incêndio",
+    "Despesas fixas - danos elétricos",
+    "Lucros cessantes - danos elétricos",
+    "Lucros Cessantes - Incêndio",
+    "Despesas fixas - vendaval",
+    "Despesas fixas - vendaval para bens ao ar livre",
+    "Despesas fixas - vendaval para concessionárias (exceto veículos ao ar livre)",
+    "Despesas fixas - vendaval para concessionárias (inclusive veículos ao ar livre)",
+    "Lucros cessantes - vendaval",
+    "Lucros cessantes - vendaval para bens ao ar livre",
+    "Lucros cessantes - vendaval para concessionárias (exceto veículos ao ar livre)",
+    "Lucros cessantes - vendaval para concessionárias (inclusive veículos ao ar livre)"
+   ]
+  },
+  "Despesas Fixas - Incêndio": {
+   "codigo": 1051,
+   "min": 5000,
+   "max": 20000000,
+   "acima_max": "analise",
+   "pct_basica": 100,
+   "exclui": [
+    "Despesas Fixas - Ampla",
+    "Lucros Cessantes - Incêndio"
+   ]
+  },
+  "Deterioração de Mercadorias Em Ambientes Frigorificados": {
+   "codigo": 21,
+   "min": 1000,
+   "max": 500000,
+   "acima_max": "bloqueia",
+   "pct_basica": 10
+  },
+  "Deterioração de Vacinas para Pet Shop, Consultório, Agropecuária e Veterinário": {
+   "codigo": 1083,
+   "min": 1000,
+   "max": 50000,
+   "acima_max": "bloqueia",
+   "pct_basica": 10
+  },
+  "Equipamentos Estacionários": {
+   "codigo": 22,
+   "min": 1000,
+   "max": 3000000,
+   "acima_max": "bloqueia",
+   "pct_basica": 20
+  },
+  "Equipamentos Móveis": {
+   "codigo": 9,
+   "min": 1000,
+   "max": 3000000,
+   "acima_max": "bloqueia",
+   "pct_basica": 20
+  },
+  "Escritório Em Casa de Funcionário": {
+   "codigo": 1400,
+   "min": 1000,
+   "max": 50000,
+   "acima_max": "bloqueia",
+   "pct_basica": 10
+  },
+  "Lucros Cessantes - Incêndio": {
+   "codigo": 44,
+   "min": 5000,
+   "max": 20000000,
+   "acima_max": "analise",
+   "pct_basica": 100,
+   "exclui": [
+    "Despesas Fixas - Ampla",
+    "Despesas Fixas - Incêndio"
+   ]
+  },
+  "Pátio - Até 100 Km": {
+   "codigo": 529,
+   "min": 5000,
+   "max": 10000000,
+   "acima_max": "bloqueia",
+   "pct_basica": 70,
+   "exclui": [
+    "Pátio - Até 200 Km",
+    "Pátio - Até 300 Km"
+   ]
+  },
+  "Pátio - Até 200 Km": {
+   "codigo": 530,
+   "min": 5000,
+   "max": 10000000,
+   "acima_max": "bloqueia",
+   "pct_basica": 70,
+   "exclui": [
+    "Pátio - Até 100 Km",
+    "Pátio - Até 300 Km"
+   ]
+  },
+  "Pátio - Até 300 Km": {
+   "codigo": 531,
+   "min": 5000,
+   "max": 10000000,
+   "acima_max": "bloqueia",
+   "pct_basica": 70,
+   "exclui": [
+    "Pátio - Até 100 Km",
+    "Pátio - Até 200 Km"
+   ]
+  },
+  "Recomposição de Registros e Documentos": {
+   "codigo": 14,
+   "min": 1000,
+   "max": 5000000,
+   "acima_max": "bloqueia",
+   "pct_basica": 10
+  },
+  "Responsabilidade civil - operações concessionárias até 100 km": {
+   "codigo": 532,
+   "min": 1000,
+   "max": 3000000,
+   "acima_max": "bloqueia",
+   "pct_basica": 70,
+   "exclui": [
+    "Responsabilidade civil - operações concessionárias até 200 km",
+    "Responsabilidade civil - operações concessionárias até 300 km"
+   ]
+  },
+  "Responsabilidade civil - operações concessionárias até 200 km": {
+   "codigo": 533,
+   "min": 1000,
+   "max": 3000000,
+   "acima_max": "bloqueia",
+   "pct_basica": 70,
+   "exclui": [
+    "Responsabilidade civil - operações concessionárias até 100 km",
+    "Responsabilidade civil - operações concessionárias até 300 km"
+   ]
+  },
+  "Responsabilidade Civil - Operações": {
+   "codigo": 26,
+   "min": 1000,
+   "max": 3000000,
+   "acima_max": "bloqueia",
+   "pct_basica": 50,
+   "exclui": [
+    "Responsabilidade civil - operações pet shop e/ou clínica veterinária"
+   ]
+  },
+  "RESPONSABILIDADE CIVIL - BARES E RESTAURANTES": {
+   "codigo": 306,
+   "min": 1000,
+   "max": 3000000,
+   "acima_max": "bloqueia",
+   "pct_basica": 50
+  },
+  "Responsabilidade civil - operações clubes, agremiações e associações recreativas": {
+   "codigo": 1036,
+   "min": 1000,
+   "max": 3000000,
+   "acima_max": "bloqueia",
+   "pct_basica": 50
+  },
+  "Responsabilidade civil - operações concessionárias até 300 km": {
+   "codigo": 534,
+   "min": 1000,
+   "max": 3000000,
+   "acima_max": "bloqueia",
+   "pct_basica": 70,
+   "exclui": [
+    "Responsabilidade civil - operações concessionárias até 100 km",
+    "Responsabilidade civil - operações concessionárias até 200 km"
+   ]
+  },
+  "Responsabilidade civil - operações estabelecimento de ensino": {
+   "codigo": 304,
+   "min": 1000,
+   "max": 3000000,
+   "acima_max": "bloqueia",
+   "pct_basica": 50
+  },
+  "Responsabilidade civil - operações hotéis e pousadas": {
+   "codigo": 510,
+   "min": 1000,
+   "max": 3000000,
+   "acima_max": "bloqueia",
+   "pct_basica": 50
+  },
+  "Responsabilidade civil - operações pet shop e/ou clínica veterinária": {
+   "codigo": 512,
+   "min": 1000,
+   "max": 1000000,
+   "acima_max": "bloqueia",
+   "pct_basica": 50
+  },
+  "Responsabilidade civil - operações salões de beleza": {
+   "codigo": 513,
+   "min": 1000,
+   "max": 1000000,
+   "acima_max": "bloqueia",
+   "pct_basica": 50
+  },
+  "Responsabilidade Civil - Empregador": {
+   "codigo": 1074,
+   "min": 1000,
+   "max": 3000000,
+   "acima_max": "bloqueia",
+   "pct_basica": 50,
+   "exige_uma_de": [
+    "RESPONSABILIDADE CIVIL - BARES E RESTAURANTES",
+    "Responsabilidade civil - operações clubes, agremiações e associações recreativas",
+    "Responsabilidade civil - operações concessionárias até 100 km",
+    "Responsabilidade civil - operações concessionárias até 200 km",
+    "Responsabilidade civil - operações concessionárias até 300 km",
+    "Responsabilidade civil - operações estabelecimento de ensino",
+    "Responsabilidade civil - operações hotéis e pousadas",
+    "Responsabilidade Civil - Operações",
+    "Responsabilidade civil - operações pet shop e/ou clínica veterinária",
+    "Responsabilidade civil - operações salões de beleza"
+   ],
+   "pct_max_da_exigida": 100.0
+  },
+  "Responsabilidade Civil - Danos Morais": {
+   "codigo": 310,
+   "min": 1000,
+   "max": 1000000,
+   "acima_max": "bloqueia",
+   "pct_basica": 50,
+   "exige_uma_de": [
+    "RESPONSABILIDADE CIVIL - BARES E RESTAURANTES",
+    "Responsabilidade civil - operações clubes, agremiações e associações recreativas",
+    "Responsabilidade civil - operações concessionárias até 100 km",
+    "Responsabilidade civil - operações concessionárias até 200 km",
+    "Responsabilidade civil - operações concessionárias até 300 km",
+    "Responsabilidade civil - operações estabelecimento de ensino",
+    "Responsabilidade civil - operações hotéis e pousadas",
+    "Responsabilidade Civil - Operações",
+    "Responsabilidade civil - operações pet shop e/ou clínica veterinária",
+    "Responsabilidade civil - operações salões de beleza"
+   ],
+   "pct_max_da_exigida": 100.0
+  },
+  "Responsabilidade civil - banho e tosa": {
+   "codigo": 505,
+   "min": 1000,
+   "max": 50000,
+   "acima_max": "bloqueia",
+   "pct_basica": 10,
+   "exige_uma_de": [
+    "Responsabilidade civil - operações pet shop e/ou clínica veterinária"
+   ],
+   "pct_max_da_exigida": 20.0
+  },
+  "Responsabilidade civil - dog walker": {
+   "codigo": 506,
+   "min": 1000,
+   "max": 50000,
+   "acima_max": "bloqueia",
+   "pct_basica": 10,
+   "exige_uma_de": [
+    "Responsabilidade civil - operações pet shop e/ou clínica veterinária"
+   ],
+   "pct_max_da_exigida": 20.0
+  },
+  "Responsabilidade civil - guarda de bicicletas": {
+   "codigo": 508,
+   "min": 1000,
+   "max": 50000,
+   "acima_max": "bloqueia",
+   "pct_basica": 10,
+   "exige_uma_de": [
+    "Responsabilidade Civil - Operações",
+    "Responsabilidade civil - operações estabelecimento de ensino"
+   ],
+   "pct_max_da_exigida": 20.0
+  },
+  "Responsabilidade Civil - Guarda de Veículo - Incêndio e Roubo": {
+   "codigo": 1038,
+   "min": 1000,
+   "max": 500000,
+   "acima_max": "analise",
+   "pct_basica": 10,
+   "exclui": [
+    "Responsabilidade civil - guarda de veículos - compreensiva"
+   ]
+  },
+  "Responsabilidade civil - hotel pet": {
+   "codigo": 511,
+   "min": 1000,
+   "max": 50000,
+   "acima_max": "bloqueia",
+   "pct_basica": 10,
+   "exige_uma_de": [
+    "Responsabilidade civil - operações pet shop e/ou clínica veterinária"
+   ],
+   "pct_max_da_exigida": 20.0
+  },
+  "Responsabilidade civil - ocorrência de bullying em escolas": {
+   "codigo": 507,
+   "min": 1000,
+   "max": 50000,
+   "acima_max": "bloqueia",
+   "pct_basica": 10,
+   "exige_uma_de": [
+    "Responsabilidade Civil - Operações",
+    "Responsabilidade civil - operações estabelecimento de ensino"
+   ],
+   "pct_max_da_exigida": 20.0
+  },
+  "Responsabilidade civil - taxi dog": {
+   "codigo": 515,
+   "min": 1000,
+   "max": 50000,
+   "acima_max": "bloqueia",
+   "pct_basica": 10,
+   "exige_uma_de": [
+    "Responsabilidade civil - operações pet shop e/ou clínica veterinária"
+   ],
+   "pct_max_da_exigida": 20.0
+  },
+  "Responsabilidade civil - alimentos distribuídos pela escola": {
+   "codigo": 504,
+   "min": 1000,
+   "max": 50000,
+   "acima_max": "bloqueia",
+   "pct_basica": 10,
+   "exige_uma_de": [
+    "Responsabilidade Civil - Operações",
+    "Responsabilidade civil - operações estabelecimento de ensino"
+   ],
+   "pct_max_da_exigida": 20.0
+  },
+  "Roubo de Valores Em Mãos de Portadores": {
+   "codigo": 3,
+   "min": 1000,
+   "max": 50000,
+   "acima_max": "analise",
+   "pct_basica": 10
+  },
+  "Roubo de Valores No Interior do Estabelecimento": {
+   "codigo": 4,
+   "min": 1000,
+   "max": 50000,
+   "acima_max": "analise",
+   "pct_basica": 10
+  },
+  "Roubo E/ou Furto Qualificado de Bens de Hóspedes": {
+   "codigo": 1082,
+   "min": 1000,
+   "max": 100000,
+   "acima_max": "bloqueia",
+   "pct_basica": 20,
+   "exige_uma_de": [
+    "Roubo E/ou Furto Qualificado de Bens"
+   ]
+  },
+  "Tumultos, Greves e Lockout": {
+   "codigo": 6,
+   "min": 1000,
+   "max": 4000000,
+   "acima_max": "analise",
+   "pct_basica": 50,
+   "exclui": [
+    "Tumultos, Greves e Lockout - Atos Dolosos"
+   ]
+  },
+  "Tumultos, Greves e Lockout - Atos Dolosos": {
+   "codigo": 516,
+   "min": 1000,
+   "max": 4000000,
+   "acima_max": "analise",
+   "pct_basica": 50,
+   "exclui": [
+    "Tumultos, Greves e Lockout"
+   ]
+  },
+  "Vazamento de Tanques e Ruptura de Tubulações": {
+   "codigo": 538,
+   "min": 1000,
+   "max": 1000000,
+   "acima_max": "bloqueia",
+   "pct_basica": 50
+  },
+  "Despesas com instalação em novo local": {
+   "codigo": 76,
+   "min": 5000,
+   "max": 12000000,
+   "acima_max": "bloqueia",
+   "pct_basica": 100
+  },
+  "Bens depositados em guarda volumes": {
+   "codigo": 300,
+   "min": 1000,
+   "max": 20000,
+   "acima_max": "bloqueia",
+   "pct_basica": 20
+  },
+  "Danos à fabricação": {
+   "codigo": 1079,
+   "min": 5000,
+   "max": 500000,
+   "acima_max": "bloqueia",
+   "pct_basica": 50
+  },
+  "Danos à mercadoria por quebra de vidro": {
+   "codigo": 1084,
+   "min": 1000,
+   "max": 50000,
+   "acima_max": "bloqueia",
+   "pct_basica": 10
+  },
+  "Derrame de material em estado de fusão": {
+   "codigo": 13,
+   "min": 5000,
+   "max": 500000,
+   "acima_max": "bloqueia",
+   "pct_basica": 50
+  },
+  "Despesas extraordinárias": {
+   "codigo": 1057,
+   "min": 5000,
+   "max": 2000000,
+   "acima_max": "bloqueia",
+   "pct_basica": 50,
+   "exige_uma_de": [
+    "Lucros Cessantes - Incêndio",
+    "Despesas Fixas - Ampla",
+    "Despesas Fixas - Incêndio"
+   ],
+   "pct_max_da_exigida": 10.0
+  },
+  "Benefícios fiscais": {
+   "codigo": 501,
+   "min": 1000,
+   "max": 0,
+   "acima_max": "bloqueia",
+   "pct_basica": 1,
+   "sem_aceitacao": true
+  },
+  "Bens do segurado em locais especificados": {
+   "codigo": 1080,
+   "min": 1000,
+   "max": 0,
+   "acima_max": "bloqueia",
+   "pct_basica": 5,
+   "sem_aceitacao": true
+  },
+  "Bens do segurado em locais não especificados": {
+   "codigo": 1081,
+   "min": 1000,
+   "max": 0,
+   "acima_max": "bloqueia",
+   "pct_basica": 5,
+   "sem_aceitacao": true
+  },
+  "Bens do segurado em locais não especificados - ampla": {
+   "codigo": 523,
+   "min": 1000,
+   "max": 0,
+   "acima_max": "bloqueia",
+   "pct_basica": 5,
+   "sem_aceitacao": true
+  },
+  "Despesas fixas - danos elétricos": {
+   "codigo": 502,
+   "min": 1000,
+   "max": 1000000,
+   "acima_max": "bloqueia",
+   "pct_basica": 20,
+   "exige_uma_de": [
+    "Danos Elétricos"
+   ],
+   "exclui": [
+    "Despesas Fixas - Ampla"
+   ]
+  },
+  "Despesas fixas - vendaval": {
+   "codigo": 503,
+   "min": 1000,
+   "max": 3000000,
+   "acima_max": "bloqueia",
+   "pct_basica": 50,
+   "exige_uma_de": [
+    "Vendaval, Furacão, Ciclone, Tornado, Granizo e Impacto de Veículos"
+   ],
+   "exclui": [
+    "Despesas Fixas - Ampla",
+    "Lucros cessantes - vendaval",
+    "Lucros cessantes - vendaval para bens ao ar livre",
+    "Lucros cessantes - vendaval para concessionárias (exceto veículos ao ar livre)",
+    "Lucros cessantes - vendaval para concessionárias (inclusive veículos ao ar livre)",
+    "Despesas fixas - vendaval para bens ao ar livre",
+    "Despesas fixas - vendaval para concessionárias (exceto veículos ao ar livre)",
+    "Despesas fixas - vendaval para concessionárias (inclusive veículos ao ar livre)"
+   ]
+  },
+  "Despesas fixas - vendaval para bens ao ar livre": {
+   "codigo": 520,
+   "min": 1000,
+   "max": 3000000,
+   "acima_max": "bloqueia",
+   "pct_basica": 50,
+   "exige_uma_de": [
+    "Vendaval, Furacão, Ciclone, Tornado, Granizo e Impacto de Veículos - para Bens Ao Ar Livre"
+   ],
+   "exclui": [
+    "Despesas Fixas - Ampla",
+    "Lucros cessantes - vendaval",
+    "Lucros cessantes - vendaval para bens ao ar livre",
+    "Lucros cessantes - vendaval para concessionárias (exceto veículos ao ar livre)",
+    "Lucros cessantes - vendaval para concessionárias (inclusive veículos ao ar livre)",
+    "Despesas fixas - vendaval",
+    "Despesas fixas - vendaval para concessionárias (exceto veículos ao ar livre)",
+    "Despesas fixas - vendaval para concessionárias (inclusive veículos ao ar livre)"
+   ]
+  },
+  "Despesas fixas - vendaval para concessionárias (exceto veículos ao ar livre)": {
+   "codigo": 521,
+   "min": 5000,
+   "max": 3000000,
+   "acima_max": "bloqueia",
+   "pct_basica": 50,
+   "exige_uma_de": [
+    "Vendaval para concessionárias (exceto veículos ao ar livre)"
+   ],
+   "exclui": [
+    "Despesas Fixas - Ampla",
+    "Lucros cessantes - vendaval",
+    "Lucros cessantes - vendaval para bens ao ar livre",
+    "Lucros cessantes - vendaval para concessionárias (exceto veículos ao ar livre)",
+    "Lucros cessantes - vendaval para concessionárias (inclusive veículos ao ar livre)",
+    "Despesas fixas - vendaval",
+    "Despesas fixas - vendaval para bens ao ar livre",
+    "Despesas fixas - vendaval para concessionárias (inclusive veículos ao ar livre)"
+   ]
+  },
+  "Despesas fixas - vendaval para concessionárias (inclusive veículos ao ar livre)": {
+   "codigo": 522,
+   "min": 5000,
+   "max": 3000000,
+   "acima_max": "bloqueia",
+   "pct_basica": 50,
+   "exige_uma_de": [
+    "Vendaval para concessionárias (inclusive veículos ao ar livre)"
+   ],
+   "exclui": [
+    "Despesas Fixas - Ampla",
+    "Lucros cessantes - vendaval",
+    "Lucros cessantes - vendaval para bens ao ar livre",
+    "Lucros cessantes - vendaval para concessionárias (exceto veículos ao ar livre)",
+    "Lucros cessantes - vendaval para concessionárias (inclusive veículos ao ar livre)",
+    "Despesas fixas - vendaval",
+    "Despesas fixas - vendaval para bens ao ar livre",
+    "Despesas fixas - vendaval para concessionárias (exceto veículos ao ar livre)"
+   ]
+  },
+  "Deterioração de flores em câmaras frias": {
+   "codigo": 301,
+   "min": 1000,
+   "max": 100000,
+   "acima_max": "bloqueia",
+   "pct_basica": 20
+  },
+  "Equipamentos cinematográficos, fotográficos e de vídeo": {
+   "codigo": 10,
+   "min": 1000,
+   "max": 200000,
+   "acima_max": "bloqueia",
+   "pct_basica": 20
+  },
+  "Equipamentos e/ou objetos portáteis": {
+   "codigo": 1049,
+   "min": 1000,
+   "max": 100000,
+   "acima_max": "bloqueia",
+   "pct_basica": 20
+  },
+  "Equipamentos em exposição": {
+   "codigo": 8,
+   "min": 1000,
+   "max": 1000000,
+   "acima_max": "bloqueia",
+   "pct_basica": 20
+  },
+  "Fidelidade de empregados": {
+   "codigo": 16,
+   "min": 1000,
+   "max": 250000,
+   "acima_max": "bloqueia",
+   "pct_basica": 10
+  },
+  "Honorários de peritos contábeis": {
+   "codigo": 1046,
+   "min": 1000,
+   "max": 500000,
+   "acima_max": "bloqueia",
+   "pct_basica": 1,
+   "exige_uma_de": [
+    "Lucros Cessantes - Incêndio",
+    "Despesas Fixas - Ampla",
+    "Despesas Fixas - Incêndio"
+   ]
+  },
+  "Lucros cessantes - danos elétricos": {
+   "codigo": 45,
+   "min": 5000,
+   "max": 3000000,
+   "acima_max": "bloqueia",
+   "pct_basica": 20,
+   "exige_uma_de": [
+    "Danos Elétricos"
+   ],
+   "exclui": [
+    "Despesas Fixas - Ampla"
+   ]
+  },
+  "Lucros cessantes - vendaval": {
+   "codigo": 46,
+   "min": 5000,
+   "max": 3000000,
+   "acima_max": "bloqueia",
+   "pct_basica": 50,
+   "exige_uma_de": [
+    "Vendaval, Furacão, Ciclone, Tornado, Granizo e Impacto de Veículos"
+   ],
+   "exclui": [
+    "Despesas Fixas - Ampla",
+    "Lucros cessantes - vendaval para bens ao ar livre",
+    "Lucros cessantes - vendaval para concessionárias (exceto veículos ao ar livre)",
+    "Lucros cessantes - vendaval para concessionárias (inclusive veículos ao ar livre)",
+    "Despesas fixas - vendaval",
+    "Despesas fixas - vendaval para bens ao ar livre",
+    "Despesas fixas - vendaval para concessionárias (exceto veículos ao ar livre)",
+    "Despesas fixas - vendaval para concessionárias (inclusive veículos ao ar livre)"
+   ]
+  },
+  "Lucros cessantes - vendaval para bens ao ar livre": {
+   "codigo": 525,
+   "min": 5000,
+   "max": 3000000,
+   "acima_max": "bloqueia",
+   "pct_basica": 50,
+   "exige_uma_de": [
+    "Vendaval, Furacão, Ciclone, Tornado, Granizo e Impacto de Veículos - para Bens Ao Ar Livre"
+   ],
+   "exclui": [
+    "Despesas Fixas - Ampla",
+    "Lucros cessantes - vendaval",
+    "Lucros cessantes - vendaval para concessionárias (exceto veículos ao ar livre)",
+    "Lucros cessantes - vendaval para concessionárias (inclusive veículos ao ar livre)",
+    "Despesas fixas - vendaval",
+    "Despesas fixas - vendaval para bens ao ar livre",
+    "Despesas fixas - vendaval para concessionárias (exceto veículos ao ar livre)",
+    "Despesas fixas - vendaval para concessionárias (inclusive veículos ao ar livre)"
+   ]
+  },
+  "Lucros cessantes - vendaval para concessionárias (exceto veículos ao ar livre)": {
+   "codigo": 526,
+   "min": 5000,
+   "max": 3000000,
+   "acima_max": "bloqueia",
+   "pct_basica": 50,
+   "exige_uma_de": [
+    "Vendaval para concessionárias (exceto veículos ao ar livre)"
+   ],
+   "exclui": [
+    "Despesas Fixas - Ampla",
+    "Lucros cessantes - vendaval",
+    "Lucros cessantes - vendaval para bens ao ar livre",
+    "Lucros cessantes - vendaval para concessionárias (inclusive veículos ao ar livre)",
+    "Despesas fixas - vendaval",
+    "Despesas fixas - vendaval para bens ao ar livre",
+    "Despesas fixas - vendaval para concessionárias (exceto veículos ao ar livre)",
+    "Despesas fixas - vendaval para concessionárias (inclusive veículos ao ar livre)"
+   ]
+  },
+  "Lucros cessantes - vendaval para concessionárias (inclusive veículos ao ar livre)": {
+   "codigo": 527,
+   "min": 5000,
+   "max": 3000000,
+   "acima_max": "bloqueia",
+   "pct_basica": 30,
+   "exige_uma_de": [
+    "Vendaval para concessionárias (inclusive veículos ao ar livre)"
+   ],
+   "exclui": [
+    "Despesas Fixas - Ampla",
+    "Lucros cessantes - vendaval",
+    "Lucros cessantes - vendaval para bens ao ar livre",
+    "Lucros cessantes - vendaval para concessionárias (exceto veículos ao ar livre)",
+    "Despesas fixas - vendaval",
+    "Despesas fixas - vendaval para bens ao ar livre",
+    "Despesas fixas - vendaval para concessionárias (exceto veículos ao ar livre)",
+    "Despesas fixas - vendaval para concessionárias (inclusive veículos ao ar livre)"
+   ]
+  },
+  "Moldes e matrizes": {
+   "codigo": 1063,
+   "min": 1000,
+   "max": 20000,
+   "acima_max": "analise",
+   "pct_basica": 10
+  },
+  "Lucros cessantes - quebra de máquinas": {
+   "codigo": 524,
+   "min": 5000,
+   "max": 0,
+   "acima_max": "bloqueia",
+   "pct_basica": 50,
+   "sem_aceitacao": true
+  },
+  "Movimentação interna": {
+   "codigo": 1085,
+   "min": 1000,
+   "max": 500000,
+   "acima_max": "bloqueia",
+   "pct_basica": 50
+  },
+  "Operações de carga, descarga, içamento e descida": {
+   "codigo": 19,
+   "min": 1000,
+   "max": 500000,
+   "acima_max": "bloqueia",
+   "pct_basica": 50
+  },
+  "Pequenas obras de engenharia": {
+   "codigo": 63,
+   "min": 5000,
+   "max": 1000000,
+   "acima_max": "bloqueia",
+   "pct_basica": 5
+  },
+  "Obras de arte": {
+   "codigo": 528,
+   "min": 500,
+   "max": 0,
+   "acima_max": "bloqueia",
+   "pct_basica": 20,
+   "sem_aceitacao": true
+  },
+  "Quebra de máquinas": {
+   "codigo": 52,
+   "min": 5000,
+   "max": 300000,
+   "acima_max": "bloqueia",
+   "pct_basica": 50
+  },
+  "Quebra de vidro de utensílio de cozinha": {
+   "codigo": 537,
+   "min": 1000,
+   "max": 50000,
+   "acima_max": "bloqueia",
+   "pct_basica": 10
+  },
+  "Responsabilidade civil - contingentes de veículos": {
+   "codigo": 1076,
+   "min": 1000,
+   "max": 3000000,
+   "acima_max": "bloqueia",
+   "pct_basica": 50,
+   "exige_uma_de": [
+    "RESPONSABILIDADE CIVIL - BARES E RESTAURANTES",
+    "Responsabilidade civil - operações clubes, agremiações e associações recreativas",
+    "Responsabilidade civil - operações concessionárias até 100 km",
+    "Responsabilidade civil - operações concessionárias até 200 km",
+    "Responsabilidade civil - operações concessionárias até 300 km",
+    "Responsabilidade civil - operações estabelecimento de ensino",
+    "Responsabilidade civil - operações hotéis e pousadas",
+    "Responsabilidade Civil - Operações",
+    "Responsabilidade civil - operações pet shop e/ou clínica veterinária",
+    "Responsabilidade civil - operações salões de beleza"
+   ],
+   "pct_max_da_exigida": 100.0
+  },
+  "Queimadas em zonas rurais": {
+   "codigo": 1065,
+   "min": 5000,
+   "max": 0,
+   "acima_max": "bloqueia",
+   "pct_basica": 100,
+   "sem_aceitacao": true
+  },
+  "Responsabilidade civil - guarda de veículos - compreensiva": {
+   "codigo": 1037,
+   "min": 1000,
+   "max": 500000,
+   "acima_max": "analise",
+   "pct_basica": 10,
+   "exclui": [
+    "Responsabilidade Civil - Guarda de Veículo - Incêndio e Roubo"
+   ]
+  },
+  "Responsabilidade civil - guarda de embarcações de terceiros": {
+   "codigo": 509,
+   "min": 1000,
+   "max": 0,
+   "acima_max": "bloqueia",
+   "pct_basica": 50,
+   "sem_aceitacao": true
+  },
+  "Responsabilidade civil - serviços de manobrista": {
+   "codigo": 514,
+   "min": 1000,
+   "max": 200000,
+   "acima_max": "bloqueia",
+   "pct_basica": 10,
+   "exige_uma_de": [
+    "Responsabilidade civil - guarda de veículos - compreensiva"
+   ],
+   "pct_max_da_exigida": 20.0
+  },
+  "Responsabilidade civil - movimentação de carga e descarga": {
+   "codigo": 309,
+   "min": 1000,
+   "max": 0,
+   "acima_max": "bloqueia",
+   "pct_basica": 50,
+   "sem_aceitacao": true
+  },
+  "Roubo de valores e/ou bens de clientes": {
+   "codigo": 302,
+   "min": 1000,
+   "max": 20000,
+   "acima_max": "bloqueia",
+   "pct_basica": 20
+  },
+  "Responsabilidade civil - produtos": {
+   "codigo": 1064,
+   "min": 1000,
+   "max": 0,
+   "acima_max": "bloqueia",
+   "pct_basica": 50,
+   "sem_aceitacao": true
+  },
+  "Terremoto, tremor de terra e maremoto": {
+   "codigo": 539,
+   "min": 1000,
+   "max": 0,
+   "acima_max": "bloqueia",
+   "pct_basica": 20,
+   "sem_aceitacao": true
+  }
+ },
+ "valor_em_risco": {
+  "min": 55000,
+  "max": 150000000
+ },
+ "lucros_cessantes_basicas": [
+  "Lucros Cessantes - Incêndio",
+  "Despesas Fixas - Incêndio"
+ ],
+ "limitadas_pelo_vr_lucros_cessantes": [
+  "Despesas Fixas - Ampla",
+  "Despesas Fixas - Incêndio",
+  "Lucros Cessantes - Incêndio"
+ ],
+ "proibidas_sem_vr_lucros_cessantes": [
+  "Lucros Cessantes - Incêndio",
+  "Despesas Fixas - Incêndio",
+  "Despesas Fixas - Ampla",
+  "Despesas extraordinárias",
+  "Honorários de peritos contábeis"
+ ],
+ "soma_rc_max": 5000000,
+ "tipo_construcao_sem_aceitacao": [
+  "Mista",
+  "Inferior"
+ ],
+ "atividades_so_solida": [
+  "Arroz - Beneficiamento e Engenho",
+  "Grãos em Geral - Loja",
+  "Grãos em Geral - Beneficiamento / Depósito (Exceto Amendoim)"
+ ],
+ "atividades_so_predio": [
+  "Edificação Vertical Exclusivamente Comercial",
+  "Joalheria - Loja e Depósito",
+  "Joias - Fábrica",
+  "Edifício, Desocupado",
+  "Guarda-Móveis"
+ ],
+ "avisos_par_excludente": [
+  [
+   "Responsabilidade Civil - Operações",
+   "Responsabilidade civil - operações estabelecimento de ensino"
+  ]
+ ],
+ "inspecao": {
+  "Alagamento": 50000,
+  "Quebra de máquinas": 100000,
+  "Roubo E/ou Furto Qualificado de Bens": 100000
+ }
+}
