@@ -152,8 +152,8 @@ desocupados só aceitam Incêndio e Vendaval (Neve e Geada).
   nada. Grupo de escolha única com mais de uma opção no JSON = erro. Nos grupos de múltipla
   escolha, a opção `Não informado...`/`Não informado` é exclusiva — não pode vir junto com outra
   opção do mesmo grupo, também é erro do script.
-- **Condomínios** usam outro formato de célula (marcado `Sim`, desmarcado `Não`, cobertura não
-  contratada vazia, valores como número). O script aplica sozinho pelo `ramo`. Ver
+- **Condomínios** usam outro formato de célula (marcado `Sim`, desmarcado `<IGNORE>`, indenização
+  do condomínio `Sim`/`Não`, valores como número). O script aplica sozinho pelo `ramo`. Ver
   `catalogo_condominio.md`.
 - Nenhuma célula de dado pode ficar vazia (empresarial/residencial): o script garante que toda coluna reconhecida recebe
   valor ou `<IGNORE>`, e todo campo obrigatório (`campos`/`combos`/`texto`) tem que estar presente
