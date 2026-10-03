@@ -104,12 +104,16 @@ PERGUNTAS_CONDICIONAIS = {
 
 
 # Formato de preenchimento por ramo. Empresarial/residencial: opcao marcada "sim", resto e
-# cobertura nao contratada "<IGNORE>", valores em texto BR ("10.000,00"). Condominios (pelo
-# exemplo do template do usuario): marcada "Sim", desmarcada "Não", cobertura nao contratada
-# vazia, valores como numero.
+# cobertura nao contratada "<IGNORE>", valores em texto BR ("10.000,00"). Condominios (pelas
+# linhas de exemplo dos templates do usuario): marcada "Sim", desmarcada e cobertura nao
+# contratada "<IGNORE>", valores como numero. "desmarcado_grupo" sobrepoe por grupo.
 ESTILOS = {
-    "padrao": {"marcado": SIM, "desmarcado": IGNORAR, "vazio": IGNORAR, "valor": "br"},
-    "condominio": {"marcado": "Sim", "desmarcado": "Não", "vazio": None, "valor": "numero"},
+    "padrao": {"marcado": SIM, "desmarcado": IGNORAR, "vazio": IGNORAR, "valor": "br",
+               "desmarcado_grupo": {}},
+    "condominio": {"marcado": "Sim", "desmarcado": IGNORAR, "vazio": IGNORAR, "valor": "numero",
+                   # indenizacao do condominio (so tem a opcao SIM): nao contratar = "Não"
+                   "desmarcado_grupo": {
+                       "Deseja contratar indenização a valor de novo? Condominio": "Não"}},
 }
 
 
@@ -362,8 +366,9 @@ def preencher_linha(ws, linha, massa, mapa, estilo=ESTILOS["padrao"]):
                 f"nao pode vir com outras opcoes ({canon_selecionadas})"
             )
         marcadas = set(canon_selecionadas)
+        desmarcado = estilo["desmarcado_grupo"].get(grupo_nome, DESMARCADO)
         for opcao, col in ginfo["opcoes"].items():
-            ws[f"{col}{linha}"] = MARCADO if opcao in marcadas else DESMARCADO
+            ws[f"{col}{linha}"] = MARCADO if opcao in marcadas else desmarcado
 
     # --- coberturas + periodo indenitario ---
     idx_cob = _indice(mapa["coberturas"])

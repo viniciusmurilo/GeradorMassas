@@ -7,14 +7,15 @@ cabeçalho na **linha 2** e os dados a partir da **linha 3**. No template origin
 
 `ramo` no JSON: `"condominio_amplo"` ou `"condominio_tradicional"`.
 
-**Formato de preenchimento dos condomínios** (diferente do empresarial/residencial, segue a linha
-de exemplo do template Tradicional enviado pelo usuário):
+**Formato de preenchimento dos condomínios** (segue as linhas de exemplo dos templates enviados
+pelo usuário):
 
 | | Condomínio |
 |---|---|
-| opção marcada (grupos/RDB/CHK) | `Sim` |
-| opção não marcada | `Não` |
-| cobertura / período / qt de vidas não contratados | célula **vazia** |
+| opção marcada (Pavimentos, Idade) | `Sim` |
+| opção não marcada | `<IGNORE>` |
+| indenização do condomínio (`RDB "SIM" …`) | `Sim` contrata · `Não` não contrata |
+| cobertura / período / qt de vidas não contratados | `<IGNORE>` |
 | valores (coberturas e Valor em Risco) | **número** (`1000000`), não texto BR |
 | perguntas | `Sim` / `Não`; quantidade de elevadores como número |
 
@@ -49,7 +50,7 @@ tem coluna no template: os percentuais "da Ampla" são calculados sobre ele (1.0
 |---|---|
 | `O condomínio está legalmente constituído?` | `Sim` · `Não` |
 | `O Condomínio possui elevador?` | `Sim` · `Não` |
-| `Qual a quantidade de elevadores?` | só quando tem elevador (ex.: `4`). Sem elevador, o script deixa vazio |
+| `Qual a quantidade de elevadores?` | só quando tem elevador (ex.: `4`). Sem elevador, o script grava `<IGNORE>` |
 | `O Condomínio Possui Central Telefônica e/ou equipamentos de segurança e/ou monitoramento?` | `Sim` · `Não` |
 
 As respostas exatas aceitas pelo sistema nessas perguntas **ainda serão confirmadas pelo
