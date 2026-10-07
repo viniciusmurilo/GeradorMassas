@@ -37,7 +37,9 @@ def marcado(v):
 def extrair(caminho):
     ws = aba_dados(openpyxl.load_workbook(caminho, data_only=True))
     mapa = montar_mapa(ws)
-    if "Tipo de Condomínio" in mapa["combos"]:
+    if "Numero Cotacao" in mapa["campos"]:
+        ramo = "proposta"  # template de proposta, comum a todos os produtos
+    elif "Tipo de Condomínio" in mapa["combos"]:
         # o Tradicional tem a basica de Incendio; o Amplo nao
         tradicional = any(normalizar(n).startswith("incendio queda de raio")
                           for n in mapa["coberturas"])
@@ -89,6 +91,10 @@ def extrair(caminho):
             if p not in (None, "", IGNORAR):
                 item["periodo_indenitario"] = valor_numero(p)
             massa["coberturas"].append(item)
+        # bloco de proposta: so as colunas preenchidas
+        proposta = {n: cel(c) for n, c in mapa["proposta"].items() if cel(c) not in (None, "", IGNORAR)}
+        if proposta:
+            massa["proposta"] = proposta
         # residencial nao tem bools fora do catalogo; empresarial nunca usa o CHK orfao
         if ramo == "empresarial":
             massa["bool"] = []

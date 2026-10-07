@@ -42,6 +42,15 @@
       desmarcado_grupo: { "Deseja contratar indenização a valor de novo? Condominio": "Não" },
     },
   };
+  // Bloco de proposta: igual em todos os templates e no template_proposta.xlsx.
+  const PREFIXOS_PROPOSTA = ["proponente", "endereco proponente", "contato ", "proposta "];
+  const OPCOES_PROPOSTA = {
+    "Proponente PF - Tipo Documento": ["RG", "RNE"],
+    "Contato - Tipo Telefone": ["Celular", "Residencial", "Comercial"],
+    "Proposta - Forma Pagamento": ["Carnê", "Débito", "Cartão de Crédito"],
+    "Proposta - Quantidade Parcelas": ["1 + 1", "1 + 2", "0 + 1"],
+    "Proposta Débito - Proponente Titular": ["Sim", "Não"],
+  };
   const estiloDoRamo = (ramo) => ESTILOS[String(ramo).startsWith("condominio") ? "condominio" : "padrao"];
 
   // ---------------------------------------------------------------- utilidades
@@ -126,6 +135,7 @@
     if (m) return { tipo: "combo", chave: m[1] };
     m = h.match(/^TXT\s+(.*)$/);
     if (m) return { tipo: "texto", chave: m[1] };
+    if (PREFIXOS_PROPOSTA.some((p) => normalizar(h).startsWith(p))) return { tipo: "proposta", chave: h };
     if (h.endsWith("?")) return { tipo: "pergunta", chave: h };
     return { tipo: "direto", chave: h };
   }
@@ -142,7 +152,7 @@
 
   /** montar_mapa(): cabeçalho da linha 2 classificado. Colunas são números (1 = A). */
   function montarMapa(ws) {
-    const mapa = { campos: {}, combos: {}, textos: {}, bools: {}, perguntas: {}, coberturas: {},
+    const mapa = { campos: {}, combos: {}, textos: {}, bools: {}, perguntas: {}, proposta: {}, coberturas: {},
       periodos: {}, qt_vidas: {}, grupos: {}, duplicadas: [], colunas_valor: new Set() };
     const maxCol = ultimaColuna(ws);
     for (let c = 1; c <= maxCol; c++) {
@@ -154,6 +164,7 @@
       else if (t === "combo") mapa.combos[info.chave] = c;
       else if (t === "texto") mapa.textos[info.chave] = c;
       else if (t === "pergunta") mapa.perguntas[info.chave] = c;
+      else if (t === "proposta") mapa.proposta[info.chave] = c;
       else if (t === "bool") mapa.bools[info.chave] = c;
       else if (t === "cobertura" || t === "periodo" || t === "qt_vidas") {
         const destino = { cobertura: mapa.coberturas, periodo: mapa.periodos, qt_vidas: mapa.qt_vidas }[t];
@@ -213,6 +224,17 @@
       let valor = valor0;
       if (mapa.colunas_valor.has(col) && valor !== IGNORAR && !vazio(valor)) valor = fmtValor(valor);
       set(col, valor);
+    }
+
+    const idxProp = indice(mapa.proposta), dadosProp = {};
+    for (const [nome, valor] of Object.entries(massa.proposta || {})) {
+      const canon = idxProp[normalizar(nome)];
+      if (!canon) throw new Error(`linha ${linha}: coluna de proposta inexistente no template: '${nome}'`);
+      dadosProp[canon] = valor;
+    }
+    for (const [nome, col] of Object.entries(mapa.proposta)) {
+      const v = dadosProp[nome];
+      set(col, v === undefined || v === null || v === "" ? IGNORAR : v);
     }
 
     const marcadosBool = new Set(massa.bool || []);
@@ -333,6 +355,7 @@
   const marcadoCel = (v) => v !== null && v !== undefined && ["sim", "s", "x", "true", "1"].includes(normalizar(v));
 
   function detectarRamo(mapa) {
+    if ("Numero Cotacao" in mapa.campos) return "proposta";
     if ("Tipo de Condomínio" in mapa.combos) {
       const trad = Object.keys(mapa.coberturas).some((n) => normalizar(n).startsWith("incendio queda de raio"));
       return trad ? "condominio_tradicional" : "condominio_amplo";
@@ -376,6 +399,8 @@
           return [n, !mapa.colunas_valor.has(c) || vazio(v) ? v : valorNumero(v)];
         }));
       }
+      const proposta = Object.fromEntries(Object.entries(mapa.proposta).map(([n, c]) => [n, cel(c)]).filter(([, v]) => !vazio(v)));
+      if (Object.keys(proposta).length) massa.proposta = proposta;
       const periodos = Object.fromEntries(Object.entries(mapa.periodos).map(([n, c]) => [normalizar(n), cel(c)]));
       for (const [n, c] of Object.entries(mapa.coberturas)) {
         const v = cel(c);
@@ -398,7 +423,7 @@
     const mapa = montarMapa(abaDados(wb));
     return {
       campos: Object.keys(mapa.campos), combos: Object.keys(mapa.combos), textos: Object.keys(mapa.textos),
-      bools: Object.keys(mapa.bools), perguntas: Object.keys(mapa.perguntas),
+      bools: Object.keys(mapa.bools), perguntas: Object.keys(mapa.perguntas), proposta: Object.keys(mapa.proposta),
       grupos: Object.fromEntries(Object.entries(mapa.grupos).map(([g, i]) =>
         [g, { opcoes: Object.keys(i.opcoes), ...(REGRAS_GRUPO[g] || REGRA_GRUPO_PADRAO) }])),
       coberturas: Object.keys(mapa.coberturas), periodos: Object.keys(mapa.periodos), qt_vidas: Object.keys(mapa.qt_vidas),
@@ -464,12 +489,37 @@
     return tetos.reduce((a, b) => (b[0] < a[0] ? b : a));
   }
 
+  /** Bloco de proposta (opcional): valores das listas do template. */
+  function validarProposta(massa, corrigir, erro, fix) {
+    const proposta = massa.proposta || {};
+    for (const [nome, opcoes] of Object.entries(OPCOES_PROPOSTA)) {
+      const v = proposta[nome];
+      if (vazio(v) || opcoes.includes(v)) continue;
+      const chave = (x) => norm(x).replace(/ /g, "");
+      const canon = opcoes.find((o) => chave(o) === chave(v));
+      if (canon && corrigir) { proposta[nome] = canon; fix(`proposta '${nome}': '${v}' → '${canon}'`); }
+      else if (canon) erro(`proposta '${nome}': use '${canon}' (recebeu '${v}')`);
+      else erro(`proposta '${nome}': '${v}' não existe na lista ${listaPy(opcoes)}`);
+    }
+  }
+
   /** validar(): devolve [[nivel, mensagem]]; com corrigir=true altera a massa no lugar. */
   function validar(massa, regras, corrigir = false) {
     const ramo = regras.ramo;
     const m = new Massa(massa, regras);
     const out = [];
     const erro = (s) => out.push(["ERRO", s]), aviso = (s) => out.push(["AVISO", s]), fix = (s) => out.push(["CORRIGIDO", s]);
+
+    validarProposta(massa, corrigir, erro, fix);
+    if (ramo === "proposta") {
+      const campos = (massa.campos = massa.campos || {});
+      if (!campos.Perfil) {
+        if (corrigir) { campos.Perfil = "Corretor"; fix("Perfil vazio → 'Corretor'"); }
+        else erro("campo 'Perfil' vazio (ex.: 'Corretor')");
+      }
+      if (vazio(campos["Numero Cotacao"])) erro("campo 'Numero Cotacao' vazio (número da cotação a que a proposta se refere)");
+      return out;
+    }
 
     for (const n of m.desconhecidas) aviso(`cobertura '${n}' sem regra cadastrada para ${ramo} (não validada)`);
     const combos = massa.combos || {};
@@ -687,7 +737,7 @@
   }
 
   return {
-    IGNORAR, LINHA_DADOS, normalizar, norm, brl, num, classificar, montarMapa, abrir, abaDados,
+    IGNORAR, LINHA_DADOS, OPCOES_PROPOSTA, normalizar, norm, brl, num, classificar, montarMapa, abrir, abaDados,
     preencher, extrair, estruturaTemplate, validar, validarLote, detectarRamo, REGRAS_GRUPO,
   };
 });

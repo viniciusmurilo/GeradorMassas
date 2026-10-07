@@ -24,7 +24,8 @@ Formato do JSON de entrada:
            "Existem equipamentos de proteção contra incêndio?": ["Extintores"],
            "Existem equipamentos de proteção contra roubo?": ["Sistema de alarme contra roubo"]
          },
-         "coberturas": [{"nome": "Danos Elétricos", "valor": 200000}]
+         "coberturas": [{"nome": "Danos Elétricos", "valor": 200000}],
+         "proposta": {"Contato - Tipo Telefone": "Celular"}   # opcional
        }
      ]}
 
@@ -163,6 +164,18 @@ def formatar_valor_br(v):
     return texto.translate(str.maketrans({",": "", ".": ","})).replace("", ".")
 
 
+# Colunas do bloco de proposta, iguais em todos os templates e no template_proposta.xlsx.
+PREFIXOS_PROPOSTA = ("proponente", "endereco proponente", "contato ", "proposta ")
+# Opcoes das listas do bloco de proposta (template_proposta.xlsx, linhas 3 a 5).
+OPCOES_PROPOSTA = {
+    "Proponente PF - Tipo Documento": ["RG", "RNE"],
+    "Contato - Tipo Telefone": ["Celular", "Residencial", "Comercial"],
+    "Proposta - Forma Pagamento": ["Carnê", "Débito", "Cartão de Crédito"],
+    "Proposta - Quantidade Parcelas": ["1 + 1", "1 + 2", "0 + 1"],
+    "Proposta Débito - Proponente Titular": ["Sim", "Não"],
+}
+
+
 def classificar(header):
     h = str(header).strip()
     m = re.match(r'^(RDB|CHK)\s+"([^"]+)"\s+(.*)$', h)
@@ -202,6 +215,9 @@ def classificar(header):
     m = re.match(r"^TXT\s+(.*)$", h)
     if m:
         return {"tipo": "texto", "chave": m.group(1)}
+    if normalizar(h).startswith(PREFIXOS_PROPOSTA):
+        # bloco de proposta (proponente, contato, pagamento, debito): opcional, chave "proposta"
+        return {"tipo": "proposta", "chave": h}
     if h.endswith("?"):
         # pergunta de coluna unica (ex.: "Deseja contratar indenização a valor de novo?"),
         # respondida com o texto da resposta ("sim"/"não"...)
@@ -211,7 +227,7 @@ def classificar(header):
 
 def montar_mapa(ws):
     """Le a linha de cabecalho e devolve estrutura classificada por coluna."""
-    campos, combos, textos, bools, perguntas = {}, {}, {}, {}, {}
+    campos, combos, textos, bools, perguntas, proposta = {}, {}, {}, {}, {}, {}
     coberturas, periodos, qt_vidas = {}, {}, {}
     duplicadas = []  # (coluna_principal, coluna_repetida): mesmo cabecalho em 2 colunas
     grupos = {}  # grupo_nome -> {"opcoes": {opcao: col_letter}} (modo/obrigatoriedade: ver REGRAS_GRUPO)
@@ -231,6 +247,8 @@ def montar_mapa(ws):
             textos[info["chave"]] = col
         elif tipo == "pergunta":
             perguntas[info["chave"]] = col
+        elif tipo == "proposta":
+            proposta[info["chave"]] = col
         elif tipo == "bool":
             bools[info["chave"]] = col
         elif tipo in ("cobertura", "periodo", "qt_vidas"):
@@ -253,7 +271,7 @@ def montar_mapa(ws):
 
     return {
         "campos": campos, "combos": combos, "textos": textos, "bools": bools,
-        "perguntas": perguntas,
+        "perguntas": perguntas, "proposta": proposta,
         "coberturas": coberturas, "periodos": periodos, "grupos": grupos,
         "qt_vidas": qt_vidas, "duplicadas": duplicadas,
         "colunas_valor": colunas_valor,
@@ -287,6 +305,19 @@ def preencher_linha(ws, linha, massa, mapa, estilo=ESTILOS["padrao"]):
             # mesmo formato das coberturas (texto BR "10.000.000,00" ou numero, conforme o ramo)
             valor = fmt_valor(valor)
         ws[f"{col}{linha}"] = valor
+
+    # --- bloco de proposta: opcional; coluna sem valor fica <IGNORE> ---
+    proposta = massa.get("proposta") or {}
+    idx_prop = _indice(mapa["proposta"])
+    dados_prop = {}
+    for nome, valor in proposta.items():
+        canon = idx_prop.get(normalizar(nome))
+        if canon is None:
+            raise ValueError(f"linha {linha}: coluna de proposta inexistente no template: {nome!r}")
+        dados_prop[canon] = valor
+    for nome, col in mapa["proposta"].items():
+        valor = dados_prop.get(nome)
+        ws[f"{col}{linha}"] = IGNORAR if valor in (None, "") else valor
 
     # --- bool independentes ---
     marcados_bool = set(massa.get("bool", []))
