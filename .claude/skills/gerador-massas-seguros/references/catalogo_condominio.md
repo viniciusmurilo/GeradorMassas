@@ -42,7 +42,7 @@ O script aplica esse formato sozinho quando o `ramo` começa com `condominio`.
 
 No **Amplo**, o `Valor em Risco Danos Materiais` faz o papel da cobertura básica `Ampla`, que não
 tem coluna no template: os percentuais "da Ampla" são calculados sobre ele (1.000.000,00 a
-100.000.000,00).
+150.000.000,00).
 
 ## Perguntas de coluna única — chave `perguntas`
 
@@ -98,8 +98,13 @@ Furacão, Ciclone, Tornado, Granizo e Impacto de Veículos · e o Plano de Vida 
 (iea)` · `Invalidez Funcional Permanente Total Por Doença (ifpd)` · `Cesta Básica` ·
 `Morte Cônjuge` · `Auxílio Funeral`
 
-Valores fixos: IPA, IEA e IFPD = 5.000,00 · Cesta Básica = 1.000,00 · Morte Cônjuge = 2.500,00 ·
-Auxílio Funeral = 3.000,00. `Morte` vai de 5.000,00 a 100.000,00 e exige IPA.
+Sem valores fixos. Cada cobertura tem mínimo e máximo, e elas dependem umas das outras em cadeia:
+IPA exige Morte; IEA exige IPA; IFPD exige IEA ou IPA; Cesta Básica exige IFPD; Auxílio Funeral
+exige Morte (até 100%); Morte Cônjuge exige Morte (até 50%). Ver `lmi_condominio_*.md`.
+
+Despesas com Aluguel Condôminos, Incêndio de Bens Dos Condôminos e Roubo E/ou Furto Qualificado de
+Bens Dos Condôminos **não são aceitas** em condomínio Comercial - Vertical, de Consultórios, de
+Escritórios, Misto - Vertical ou Residencial com Comércio no Térreo.
 
 Limites, dependências e excludentes: `lmi_condominio_amplo.md` / `lmi_condominio_tradicional.md`
 (em dados: `regras_condominio_amplo.json` / `regras_condominio_tradicional.json`).
