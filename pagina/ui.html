@@ -278,6 +278,7 @@
 <datalist id="lista-pessoa"><option value="#cnpj"><option value="#cpf"><option value="#cnpjalfa"></datalist>
 <datalist id="lista-cep"><option value="#cep"></datalist>
 
+<!--LIBS-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.4.0/exceljs.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <script>
@@ -285,6 +286,7 @@
   if (!window.ExcelJS) document.write('<script src="https://cdn.jsdelivr.net/npm/exceljs@4.4.0/dist/exceljs.min.js"><\/script>');
   if (!window.JSZip) document.write('<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"><\/script>');
 </script>
+<!--/LIBS-->
 <script>
 /*NUCLEO*/
 </script>
@@ -393,7 +395,15 @@ const sampleP = claudeP("sample");
 
 async function baixar(nome, bytes, el) {
   const dl = await downloadsP;
-  if (!dl) { status(el, "Download indisponível nesta visualização. Abra a página pelo claude.ai.", "erro"); return; }
+  if (!dl) {
+    // Fora do claude.ai (arquivo aberto direto no navegador): download comum.
+    const url = URL.createObjectURL(new Blob([bytes], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" }));
+    const a = h("a", { href: url, download: nome });
+    document.body.append(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 60000);
+    status(el, "Arquivo baixado: " + nome, "ok");
+    return;
+  }
   status(el, "Confirme o download…");
   try {
     await dl.save({ filename: nome, data: new Blob([bytes]) });
