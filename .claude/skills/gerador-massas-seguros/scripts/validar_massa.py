@@ -32,6 +32,15 @@ AQUI = os.path.dirname(os.path.abspath(__file__))
 REFS = os.path.join(AQUI, "..", "references")
 IGNORAR = "<IGNORE>"
 
+# Listas do bloco de proposta (iguais a OPCOES_PROPOSTA do preencher_massa.py).
+OPCOES_PROPOSTA = {
+    "Proponente PF - Tipo Documento": ["RG", "RNE"],
+    "Contato - Tipo Telefone": ["Celular", "Residencial", "Comercial"],
+    "Proposta - Forma Pagamento": ["Carnê", "Débito", "Cartão de Crédito"],
+    "Proposta - Quantidade Parcelas": ["1 + 1", "1 + 2", "0 + 1"],
+    "Proposta Débito - Proponente Titular": ["Sim", "Não"],
+}
+
 PADRAO_GRUPO = {
     "Deseja contratar indenização a valor de novo?": "NÃO",
     "Existem equipamentos de proteção contra incêndio?": "Não informado sistema de proteção contra incêndio",
@@ -143,6 +152,23 @@ def teto_efetivo(m, nome, regra, max_corretor, basica_v):
     return min(tetos, key=lambda t: t[0])
 
 
+def validar_proposta(dados_massa, corrigir, erro, fix):
+    """Bloco de proposta (opcional): valores das listas do template."""
+    proposta = dados_massa.get("proposta") or {}
+    for nome, opcoes in OPCOES_PROPOSTA.items():
+        v = proposta.get(nome)
+        if v in (None, "", IGNORAR) or v in opcoes:
+            continue
+        canon = {norm(o).replace(" ", ""): o for o in opcoes}.get(norm(v).replace(" ", ""))
+        if canon and corrigir:
+            proposta[nome] = canon
+            fix(f"proposta '{nome}': '{v}' → '{canon}'")
+        elif canon:
+            erro(f"proposta '{nome}': use '{canon}' (recebeu '{v}')")
+        else:
+            erro(f"proposta '{nome}': '{v}' não existe na lista {opcoes}")
+
+
 def validar(dados_massa, regras, corrigir=False):
     """Devolve lista de (nivel, mensagem). Com corrigir=True altera dados_massa no lugar."""
     ramo = regras["ramo"]
@@ -157,6 +183,19 @@ def validar(dados_massa, regras, corrigir=False):
 
     def fix(msg):
         out.append(("CORRIGIDO", msg))
+
+    validar_proposta(dados_massa, corrigir, erro, fix)
+    if ramo == "proposta":
+        campos = dados_massa.setdefault("campos", {})
+        if not campos.get("Perfil"):
+            if corrigir:
+                campos["Perfil"] = "Corretor"
+                fix("Perfil vazio → 'Corretor'")
+            else:
+                erro("campo 'Perfil' vazio (ex.: 'Corretor')")
+        if campos.get("Numero Cotacao") in (None, "", IGNORAR):
+            erro("campo 'Numero Cotacao' vazio (número da cotação a que a proposta se refere)")
+        return out
 
     for n in m.desconhecidas:
         aviso(f"cobertura '{n}' sem regra cadastrada para {ramo} (não validada)")
