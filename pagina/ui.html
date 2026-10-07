@@ -167,9 +167,8 @@
 
   <nav class="abas" role="tablist" aria-label="Modos">
     <button role="tab" id="aba-corrigir" aria-controls="corrigir" aria-selected="true"><span class="n">01</span>Corrigir planilha</button>
-    <button role="tab" id="aba-texto" aria-controls="texto" aria-selected="false"><span class="n">02</span>Gerar por texto</button>
-    <button role="tab" id="aba-formulario" aria-controls="formulario" aria-selected="false"><span class="n">03</span>Formulário</button>
-    <button role="tab" id="aba-templates" aria-controls="templates" aria-selected="false"><span class="n">04</span>Templates</button>
+    <button role="tab" id="aba-formulario" aria-controls="formulario" aria-selected="false"><span class="n">02</span>Montar massa</button>
+    <button role="tab" id="aba-templates" aria-controls="templates" aria-selected="false"><span class="n">03</span>Templates</button>
   </nav>
 
   <!-- 01 corrigir -->
@@ -187,45 +186,13 @@
       <div class="caixa resumo" id="corrigir-resumo"></div>
       <div class="linha">
         <button class="btn primario" id="corrigir-baixar">Baixar Excel corrigido</button>
-        <button class="btn" id="corrigir-claude" hidden>Pedir ao Claude para resolver o que sobrou</button>
         <span class="status" id="corrigir-baixar-status"></span>
       </div>
       <div class="massas" id="corrigir-massas"></div>
     </div>
   </section>
 
-  <!-- 02 texto -->
-  <section class="painel" id="texto" role="tabpanel" aria-labelledby="aba-texto" hidden>
-    <p class="intro">Descreva as massas como faria no chat. O Claude monta o JSON seguindo o catálogo, as normas e
-      os LMI do ramo, valida com as regras da skill antes de responder, e a página gera o Excel.</p>
-    <div class="caixa painel">
-      <div class="grade2">
-        <label class="campo"><span class="nome">Ramo</span>
-          <select id="texto-ramo"></select></label>
-      </div>
-      <label class="campo"><span class="nome">Pedido</span>
-        <textarea id="texto-pedido" placeholder="Ex.: gera 3 massas de empresarial, atividade Academias, VR 2 milhões, com Incêndio 2 milhões, Danos Elétricos 100 mil, Roubo 50 mil e RC Operações 300 mil, CNPJ aleatório"></textarea></label>
-      <div class="linha">
-        <button class="btn primario" id="texto-gerar">Gerar massas</button>
-        <button class="btn" id="texto-parar" hidden>Parar</button>
-        <span class="status" id="texto-status" role="status"></span>
-      </div>
-    </div>
-    <div id="texto-resultado" hidden class="painel">
-      <div class="caixa painel" id="texto-obs-caixa" hidden>
-        <h3>Observações do Claude</h3>
-        <ul class="obs" id="texto-obs"></ul>
-      </div>
-      <div class="caixa resumo" id="texto-resumo"></div>
-      <div class="linha">
-        <button class="btn primario" id="texto-baixar">Baixar Excel</button>
-        <span class="status" id="texto-baixar-status"></span>
-      </div>
-      <div class="massas" id="texto-massas"></div>
-    </div>
-  </section>
-
-  <!-- 03 formulário -->
+  <!-- 02 formulário -->
   <section class="painel" id="formulario" role="tabpanel" aria-labelledby="aba-formulario" hidden>
     <p class="intro">Monte a massa campo a campo. As regras do ramo são conferidas enquanto você digita; adicione
       quantas massas quiser à lista e baixe tudo num Excel só.</p>
@@ -261,7 +228,7 @@
     <div id="form-resultado" class="massas"></div>
   </section>
 
-  <!-- 04 templates -->
+  <!-- 03 templates -->
   <section class="painel" id="templates" role="tabpanel" aria-labelledby="aba-templates" hidden>
     <p class="intro">Os templates originais, do jeito que estão na skill. São a base de todo Excel gerado aqui.</p>
     <div class="templates" id="lista-templates"></div>
@@ -391,7 +358,6 @@ function lerValor(texto) {
 const claudeP = (nome) => (window.claude && typeof window.claude.use === "function"
   ? window.claude.use(nome).catch(() => null) : Promise.resolve(null));
 const downloadsP = claudeP("downloads");
-const sampleP = claudeP("sample");
 
 async function baixar(nome, bytes, el) {
   const dl = await downloadsP;
@@ -489,7 +455,7 @@ function renderMassas(el, ramo, dados, relatorio) {
 }
 
 // ------------------------------------------------------------------ abas
-const ABAS = ["corrigir", "texto", "formulario", "templates"];
+const ABAS = ["corrigir", "formulario", "templates"];
 function abrirAba(id) {
   for (const a of ABAS) {
     $("aba-" + a).setAttribute("aria-selected", String(a === id));
@@ -507,97 +473,6 @@ for (const a of ABAS) $("aba-" + a).addEventListener("click", () => abrirAba(a))
 function encherSelectRamo(sel, valor) {
   sel.replaceChildren(...Object.entries(RAMOS).map(([id, nome]) => h("option", { value: id }, nome)));
   sel.value = valor;
-}
-
-// ------------------------------------------------------------------ Claude (texto e “resolver o que sobrou”)
-function catalogoDo(ramo) { return ramo.startsWith("condominio") ? D.refs["catalogo_condominio.md"] : D.refs[`catalogo_${ramo}.md`]; }
-
-async function montarPrompt(ramo, pedido, comFerramenta) {
-  const est = await estruturaDo(ramo);
-  const partes = [
-    "Você é o gerador de massas de teste de seguro da skill gerador-massas-seguros, rodando dentro de uma página web.",
-    "Siga TODAS as regras da skill abaixo. Onde a skill fala em rodar scripts Python, nesta página isso é a ferramenta " +
-      (comFerramenta ? "validar_massas (chame-a)" : "de validação que roda depois da sua resposta") +
-      "; o Excel é gerado pela página a partir do seu JSON.",
-    "", "=== SKILL.md ===", D.refs["SKILL.md"],
-    "", `=== Catálogo do ramo ${RAMOS[ramo]} ===`, catalogoDo(ramo),
-  ];
-  if (D.refs[`normas_${ramo}.md`]) partes.push("", "=== Normas de subscrição ===", D.refs[`normas_${ramo}.md`]);
-  partes.push("", "=== LMI, dependências e excludentes ===", D.refs[`lmi_${ramo}.md`]);
-  if (ramo === "empresarial") partes.push("", "=== Atividades aceitas (texto exato) ===", D.atividades.join("\n"));
-  partes.push("", "=== Nomes exatos das colunas do template deste ramo ===", JSON.stringify(est));
-  partes.push("",
-    "=== Instruções desta página ===",
-    `- Ramo: ${ramo}. Use exatamente esses nomes de campos, combos, perguntas, grupos, opções e coberturas.`,
-    "- Toda massa precisa ter TODOS os campos, combos" + (est.textos.length ? ", textos (chave \"texto\")" : "") +
-      " e perguntas do template. Valor opcional não informado (ex.: Lucros Cessantes) = \"<IGNORE>\".",
-    "- Valores em número puro (1000000), nunca texto formatado.",
-    "- Aqui não dá para fazer perguntas ao usuário: quando algo for ambíguo, escolha a opção mais plausível e registre a escolha em \"observacoes\".",
-    "- Sem pedido de erro proposital, a massa tem que sair sem nenhum ERRO." +
-      (comFerramenta ? " Chame validar_massas com as massas antes de responder e ajuste até não sobrar ERRO." : ""),
-    "- Responda SOMENTE com um JSON neste formato: {\"ramo\": \"" + ramo + "\", \"massas\": [ ... ], \"observacoes\": [\"...\"]}",
-    "", "=== Pedido do usuário ===", pedido);
-  return partes.join("\n");
-}
-
-function ferramentaValidar(ramo, aoUsar) {
-  return {
-    name: "validar_massas",
-    description: "Valida massas com as regras da skill (mínimo, máximo, % da básica, exige, exclui, sem aceitação, questionário) " +
-      "e testa o preenchimento no template. Retorna os ERROs e AVISOs de cada massa. Chame antes de responder.",
-    inputSchema: {
-      type: "object",
-      properties: { massas: { type: "array", items: { type: "object" }, description: "Lista de massas no formato JSON da skill" } },
-      required: ["massas"],
-    },
-    async execute(input) {
-      aoUsar && aoUsar();
-      if (!Array.isArray(input.massas)) throw new Error("'massas' precisa ser uma lista");
-      const dados = { ramo, massas: input.massas };
-      let lote;
-      try { lote = N.validarLote(dados, D.regras[ramo], false); } catch (e) { throw new Error("massa malformada: " + e.message); }
-      let preenchimento = "ok";
-      try { await N.preencher(lote.dados, tplBuf(ramo)); } catch (e) { preenchimento = e.message; }
-      return {
-        massas: lote.relatorio.map((r) => ({
-          massa: r.massa,
-          erros: r.problemas.filter((p) => p[0] === "ERRO").map((p) => p[1]),
-          avisos: r.problemas.filter((p) => p[0] === "AVISO").map((p) => p[1]),
-        })),
-        preenchimento_do_template: preenchimento,
-      };
-    },
-  };
-}
-
-const MSG_CLAUDE = {
-  not_granted: "O uso do Claude não foi autorizado nesta página.",
-  sampling_disabled: "O Claude não está disponível nesta conta.",
-  rate_limited: "Muitas chamadas seguidas ou limite de uso atingido. Tente de novo daqui a pouco.",
-  session_expired: "Sua sessão expirou. Entre de novo no claude.ai.",
-  refused: "O Claude recusou esse pedido. Reformule o texto.",
-  invalid_json: "A resposta veio fora do formato esperado. Tente de novo.",
-  prompt_too_large: "O pedido ficou grande demais. Peça menos massas por vez.",
-  empty_completion: "O Claude não respondeu nada. Simplifique o pedido.",
-  formato: "A resposta não trouxe a lista de massas. Tente de novo.",
-  indisponivel: "Este modo precisa do Claude: abra a página pelo claude.ai.",
-};
-
-/** Chama o Claude e devolve {massas, observacoes}. */
-async function pedirAoClaude(ramo, pedido, ctl, progresso) {
-  const sample = await sampleP;
-  if (!sample) throw { code: "indisponivel" };
-  const lim = await sample.limits().catch(() => null);
-  const comFerramenta = !!(lim && lim.tools);
-  const prompt = await montarPrompt(ramo, pedido, comFerramenta);
-  progresso("Pensando… (costuma levar de 30 s a 2 min)");
-  const opts = { signal: ctl.signal, modelTier: "default", onText: () => progresso("Escrevendo as massas…") };
-  if (comFerramenta) opts.tools = [ferramentaValidar(ramo, () => progresso("Validando as massas com as regras…"))];
-  else opts.cache = false;
-  const r = await sample.json(prompt, opts);
-  const massas = Array.isArray(r) ? r : r && Array.isArray(r.massas) ? r.massas : null;
-  if (!massas || !massas.length) throw { code: "formato" };
-  return { massas, observacoes: r && Array.isArray(r.observacoes) ? r.observacoes.map(String) : [] };
 }
 
 // ------------------------------------------------------------------ 01 corrigir
@@ -628,7 +503,6 @@ async function mostrarCorrecao(dados) {
   corrigir.resultado = r;
   renderResumo($("corrigir-resumo"), dados.ramo, r.dados, r.relatorio);
   renderMassas($("corrigir-massas"), dados.ramo, r.dados, r.relatorio);
-  $("corrigir-claude").hidden = !r.erros;
   $("corrigir-resultado").hidden = false;
 }
 
@@ -645,71 +519,9 @@ async function mostrarCorrecao(dados) {
   $("corrigir-baixar").addEventListener("click", () => {
     if (corrigir.resultado) baixar(`${corrigir.nome}_corrigido.xlsx`, corrigir.resultado.buffer, $("corrigir-baixar-status"));
   });
-  $("corrigir-claude").addEventListener("click", async () => {
-    const btn = $("corrigir-claude"), st = $("corrigir-baixar-status");
-    const r = corrigir.resultado; if (!r) return;
-    const ramo = corrigir.dados.ramo;
-    const pendentes = r.relatorio.filter((x) => x.problemas.some((p) => p[0] === "ERRO"))
-      .map((x) => `massa ${x.massa}: ` + x.problemas.filter((p) => p[0] === "ERRO").map((p) => p[1]).join(" | "));
-    const pedido = "Corrija as massas abaixo para que não sobre nenhum ERRO, mudando o mínimo possível " +
-      "(mantenha a quantidade e a ordem das massas). Registre em observacoes o que você mudou.\n\nERROs que sobraram:\n" +
-      pendentes.join("\n") + "\n\nJSON atual:\n" + JSON.stringify({ ramo, massas: r.dados.massas });
-    btn.disabled = true;
-    const ctl = new AbortController();
-    try {
-      const resp = await pedirAoClaude(ramo, pedido, ctl, (t) => status(st, t));
-      corrigir.dados = { ramo, massas: resp.massas };
-      await mostrarCorrecao(corrigir.dados);
-      status(st, resp.observacoes.length ? "Claude: " + resp.observacoes.join(" · ") : "Massas revisadas pelo Claude.", "ok");
-    } catch (e) {
-      console.error(e);
-      if (e && e.code === "not_granted") btn.hidden = true;
-      status(st, MSG_CLAUDE[e && e.code] || "Falha ao falar com o Claude" + (e && e.message ? ": " + e.message : "."), "erro");
-    } finally { btn.disabled = false; }
-  });
 }
 
-// ------------------------------------------------------------------ 02 texto
-const texto = { resultado: null, ctl: null };
-encherSelectRamo($("texto-ramo"), "empresarial");
-try { const v = localStorage.getItem("gm-texto"); if (v) $("texto-pedido").value = v; } catch { /* sem storage */ }
-$("texto-pedido").addEventListener("input", () => { try { localStorage.setItem("gm-texto", $("texto-pedido").value); } catch { /* sem storage */ } });
-
-$("texto-gerar").addEventListener("click", async () => {
-  const pedido = $("texto-pedido").value.trim(), ramo = $("texto-ramo").value, st = $("texto-status");
-  if (!pedido) { status(st, "Escreva o pedido primeiro.", "erro"); $("texto-pedido").focus(); return; }
-  const btn = $("texto-gerar"), parar = $("texto-parar");
-  btn.disabled = true; parar.hidden = false;
-  $("texto-resultado").hidden = true;
-  texto.ctl = new AbortController();
-  status(st, "Preparando…");
-  try {
-    const resp = await pedirAoClaude(ramo, pedido, texto.ctl, (t) => status(st, t));
-    status(st, "Gerando o Excel…");
-    const r = await gerarExcel({ ramo, massas: resp.massas }, true);
-    texto.resultado = r;
-    $("texto-obs").replaceChildren(...resp.observacoes.map((o) => h("li", null, o)));
-    $("texto-obs-caixa").hidden = !resp.observacoes.length;
-    renderResumo($("texto-resumo"), ramo, r.dados, r.relatorio);
-    renderMassas($("texto-massas"), ramo, r.dados, r.relatorio);
-    status($("texto-baixar-status"), "");
-    $("texto-resultado").hidden = false;
-    status(st, r.erros ? "Pronto, mas ainda há ERRO para ajuste manual (veja abaixo)." : "Pronto. Nenhum erro nas regras.", r.erros ? "erro" : "ok");
-  } catch (e) {
-    console.error(e);
-    if (e && e.code === "cancelled") status(st, "Parado.");
-    else status(st, MSG_CLAUDE[e && e.code] || "Não deu certo: " + ((e && e.message) || "erro desconhecido"), "erro");
-    if (e && ["not_granted", "sampling_disabled", "indisponivel"].includes(e.code)) btn.hidden = true;
-  } finally {
-    btn.disabled = false; parar.hidden = true;
-  }
-});
-$("texto-parar").addEventListener("click", () => texto.ctl && texto.ctl.abort());
-$("texto-baixar").addEventListener("click", () => {
-  if (texto.resultado) baixar(`massas_${$("texto-ramo").value}_${dataHora()}.xlsx`, texto.resultado.buffer, $("texto-baixar-status"));
-});
-
-// ------------------------------------------------------------------ 03 formulário
+// ------------------------------------------------------------------ 02 formulário
 const form = { ramo: "empresarial", est: null, fila: [], ler: null };
 encherSelectRamo($("form-ramo"), "empresarial");
 $("lista-atividades").replaceChildren(...D.atividades.map((a) => h("option", { value: a })));
@@ -989,7 +801,7 @@ $("form-baixar").addEventListener("click", async () => {
   }
 });
 
-// ------------------------------------------------------------------ 04 templates
+// ------------------------------------------------------------------ 03 templates
 async function montarTemplates() {
   const lista = $("lista-templates");
   for (const [ramo, nome] of Object.entries(RAMOS)) {
@@ -1019,11 +831,5 @@ async function montarTemplates() {
   renderFila();
   await montarFormulario("empresarial");
   await montarTemplates();
-  sampleP.then((s) => {
-    if (!s) {
-      $("texto-gerar").disabled = true;
-      status($("texto-status"), MSG_CLAUDE.indisponivel);
-    }
-  });
 })();
 </script>
