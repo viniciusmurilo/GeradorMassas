@@ -1,17 +1,23 @@
-# Página do Gerador de Massas
+# Gerador de Massas (página HTML)
 
-Versão no navegador da skill `gerador-massas-seguros`, com quatro abas:
+`dist/gerador_massas.html` é um arquivo único: dê dois cliques e ele abre no navegador. Funciona
+sem servidor, sem login e sem internet, e qualquer pessoa pode usar.
 
-1. **Corrigir planilha**: sobe um .xlsx de massas, valida, corrige e devolve o Excel corrigido.
-2. **Gerar por texto**: descreve as massas como no chat, o Claude monta e valida, a página gera o Excel.
-3. **Formulário**: monta a massa campo a campo, com validação ao vivo.
-4. **Templates**: baixa os templates originais.
+Abas:
+
+1. **Corrigir planilha**: sobe um .xlsx de massas, valida, corrige o que dá e devolve o Excel corrigido.
+   O que não dá para corrigir sozinho aparece como ERRO, para ajuste manual.
+2. **Montar massa**: formulário campo a campo, com as regras conferidas enquanto você digita. Junta
+   várias massas e baixa tudo num Excel.
+3. **Templates**: baixa os templates originais da skill.
+
+Arquivos:
 
 - `nucleo.js`: porta em JavaScript (ExcelJS) do `preencher_massa.py`, do `extrair_massa.py` e do
   `validar_massa.py`. Dá o mesmo resultado dos scripts Python (testado nas 30 planilhas de teste).
 - `ui.html`: a página.
-- `montar.py`: gera `dist/gerador_massas.html`, um arquivo único que embute o núcleo, os templates,
-  as regras e as referências da skill.
+- `vendor/`: ExcelJS 4.4.0 e JSZip 3.10.2 (licença MIT), embutidos no HTML final.
+- `montar.py`: gera `dist/gerador_massas.html` com tudo dentro (bibliotecas, núcleo, templates, regras).
 
-Depois de mudar uma regra, um template ou a página, rode `python3 pagina/montar.py` e publique
-de novo o `dist/gerador_massas.html`.
+Depois de mudar uma regra ou um template da skill, rode `python3 pagina/montar.py` e distribua de
+novo o `dist/gerador_massas.html`.
