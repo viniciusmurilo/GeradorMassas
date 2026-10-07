@@ -15,7 +15,7 @@ import os
 
 AQUI = os.path.dirname(os.path.abspath(__file__))
 SKILL = os.path.join(AQUI, "..", ".claude", "skills", "gerador-massas-seguros")
-RAMOS = ["empresarial", "residencial", "condominio_amplo", "condominio_tradicional"]
+RAMOS = ["empresarial", "residencial", "condominio_amplo", "condominio_tradicional", "proposta"]
 
 
 def ler(*partes):

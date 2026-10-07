@@ -24,7 +24,8 @@ Formato do JSON de entrada:
            "Existem equipamentos de proteção contra incêndio?": ["Extintores"],
            "Existem equipamentos de proteção contra roubo?": ["Sistema de alarme contra roubo"]
          },
-         "coberturas": [{"nome": "Danos Elétricos", "valor": 200000}]
+         "coberturas": [{"nome": "Danos Elétricos", "valor": 200000}],
+         "proposta": {"Contato - Tipo Telefone": "Celular"}   # opcional
        }
      ]}
 

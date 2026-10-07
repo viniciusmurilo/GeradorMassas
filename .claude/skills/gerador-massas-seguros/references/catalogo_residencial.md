@@ -122,3 +122,8 @@ vazado que já existia com `CHK Residencial Benefícios Essenciais` no empresari
 
 Ver `references/catalogo_empresarial.md` §Overlap com Residencial — 7 nomes em comum, grafia
 idêntica nos dois catálogos.
+
+## Proposta — chave `proposta` (opcional)
+
+O template termina com as colunas de proposta (proponente, contato, pagamento, débito). Sem a
+chave `proposta`, ficam `<IGNORE>`. Colunas e valores: `references/catalogo_proposta.md`.

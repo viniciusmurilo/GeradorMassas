@@ -134,3 +134,8 @@ Limites, dependências e excludentes: `lmi_condominio_amplo.md` / `lmi_condomini
 
 No Tradicional, inclua sempre a básica `Incêndio, Queda de Raio, Explosão, Queda de Aeronave e
 Fumaça` (600.000,00 a 150.000.000,00) e calcule as demais a partir dela.
+
+## Proposta — chave `proposta` (opcional)
+
+O template termina com as colunas de proposta (proponente, contato, pagamento, débito). Sem a
+chave `proposta`, ficam `<IGNORE>`. Colunas e valores: `references/catalogo_proposta.md`.

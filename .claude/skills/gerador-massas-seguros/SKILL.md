@@ -1,6 +1,6 @@
 ---
 name: gerador-massas-seguros
-description: Gera, valida e corrige massas de teste para as planilhas de seguro Empresarial, Residencial e Condomínio (Amplo e Tradicional) da HDI (uma linha = uma massa com identificação, características de risco, questionário e coberturas), respeitando as normas de subscrição. Use quando o usuário pedir para gerar, criar ou preencher massa(s) ou dados de teste de seguro empresarial, residencial ou condomínio, marcar coberturas com valores, preencher características de risco, configurar proteção contra incêndio/roubo, pedir massas aleatórias, testar uma norma específica (limite, análise técnica, cobertura banida), ou validar/corrigir uma planilha de massa que ele subir ("corrige essa massa", "o que está errado nessa planilha"). Dispara mesmo sem menção a "planilha" ou "xlsx".
+description: Gera, valida e corrige massas de teste para as planilhas de seguro Empresarial, Residencial e Condomínio (Amplo e Tradicional) da HDI, e a planilha de Proposta (uma linha = uma massa com identificação, características de risco, questionário e coberturas), respeitando as normas de subscrição. Use quando o usuário pedir para gerar, criar ou preencher massa(s) ou dados de teste de seguro empresarial, residencial ou condomínio, marcar coberturas com valores, preencher características de risco, configurar proteção contra incêndio/roubo, pedir massas aleatórias, testar uma norma específica (limite, análise técnica, cobertura banida), ou validar/corrigir uma planilha de massa que ele subir ("corrige essa massa", "o que está errado nessa planilha"). Dispara mesmo sem menção a "planilha" ou "xlsx".
 ---
 
 # Gerador de Massa de Teste — Seguros (Empresarial e Residencial)
@@ -33,6 +33,9 @@ arquivos do ramo relevante antes de interpretar o pedido do usuário, não tente
   Amplo e do Tradicional, com exemplo de JSON
 - `references/lmi_condominio_amplo.md` / `references/lmi_condominio_tradicional.md` — LMI,
   dependências e excludentes dos dois condomínios (em dados: `regras_condominio_*.json`)
+- `references/catalogo_proposta.md` — bloco opcional de proposta (proponente, contato,
+  pagamento, débito), que existe no fim dos 4 templates de cotação e no template próprio de
+  proposta (`"ramo": "proposta"`, para quando o usuário pede só a proposta)
 
 ## Fluxo obrigatório a cada pedido
 
@@ -187,6 +190,11 @@ vêm **dentro da própria skill**, na pasta `templates/` ao lado de `scripts/`:
 - `templates/template_residencial.xlsx`
 - `templates/template_condominio_amplo.xlsx` (aba `Cotação`)
 - `templates/template_condominio_tradicional.xlsx` (aba `Planilha1`)
+- `templates/template_proposta.xlsx` (aba `Proposta`): só a proposta, igual para todos os
+  produtos (ver `references/catalogo_proposta.md`)
+
+Os 4 templates de cotação terminam com as colunas de proposta. Elas são opcionais: sem a chave
+`proposta` na massa, ficam `<IGNORE>`.
 
 **Nunca peça o template ao usuário**: o script acha sozinho o template do ramo (campo `ramo` do
 JSON) nessa pasta. Só passe um template explícito se o usuário anexar um template diferente e

@@ -195,3 +195,8 @@ Os demais são exclusivos de cada ramo — **nunca misture os catálogos**. Em p
 `Vendaval, Furacão, Ciclone, Tornado, Granizo e Impacto de Veículos - para Bens Ao Ar Livre` é
 **só do empresarial**: existia por engano também no template residencial e foi removida de lá
 (ver `catalogo_residencial.md` §Correção do template) — não use esse nome numa massa residencial.
+
+## Proposta — chave `proposta` (opcional)
+
+O template termina com as colunas de proposta (proponente, contato, pagamento, débito). Sem a
+chave `proposta`, ficam `<IGNORE>`. Colunas e valores: `references/catalogo_proposta.md`.

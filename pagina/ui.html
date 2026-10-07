@@ -89,7 +89,7 @@
   .soltar strong { font-weight: 600; }
   .soltar input { position: absolute; width: 1px; height: 1px; opacity: 0; }
 
-  .status { font-size: .9rem; color: var(--muted); min-height: 1.4em; }
+  .status { font-size: .9rem; color: var(--muted); min-height: 1.4em; overflow-wrap: anywhere; }
   .status.erro { color: var(--err); }
   .status.ok { color: var(--ok); }
 
@@ -161,7 +161,7 @@
     <p>Massas de teste de seguro validadas com as mesmas regras da skill.</p>
     <div class="ramos-linha" aria-label="Ramos atendidos">
       <span class="tag">Empresarial</span><span class="tag">Residencial</span>
-      <span class="tag">Condomínio Amplo</span><span class="tag">Condomínio Tradicional</span>
+      <span class="tag">Condomínio Amplo</span><span class="tag">Condomínio Tradicional</span><span class="tag">Proposta</span>
     </div>
   </header>
 
@@ -270,6 +270,7 @@ const RAMOS = {
   residencial: "Residencial",
   condominio_amplo: "Condomínio Amplo",
   condominio_tradicional: "Condomínio Tradicional",
+  proposta: "Proposta",
 };
 const TIPOS_COND = [
   "Condomínio Comercial - Vertical", "Condomínio de Consultórios", "Condomínio de Escritórios",
@@ -311,6 +312,7 @@ const BOOL_ORFAO = "Residencial Benefícios Essenciais"; // coluna vazada no tem
 const ARQUIVOS = {
   empresarial: "template_empresarial.xlsx", residencial: "template_residencial.xlsx",
   condominio_amplo: "template_condominio_amplo.xlsx", condominio_tradicional: "template_condominio_tradicional.xlsx",
+  proposta: "template_proposta.xlsx",
 };
 
 // ------------------------------------------------------------------ utilidades
@@ -399,6 +401,10 @@ async function gerarExcel(dados, corrigir) {
 // ------------------------------------------------------------------ relatório
 function principalDa(massa, ramo) {
   const c = massa.combos || {}, t = massa.texto || {};
+  if (ramo === "proposta") {
+    const n = (massa.campos || {})["Numero Cotacao"];
+    return [n ? "cotação " + n : null, (massa.proposta || {})["Proposta - Forma Pagamento"]].filter(Boolean).join(" · ");
+  }
   if (ramo === "empresarial") return [t.Atividade, t["Valor em Risco - Danos Materiais"] ? "VR " + brl(N.num(t["Valor em Risco - Danos Materiais"])) : null].filter(Boolean).join(" · ");
   if (ramo === "residencial") return [c["Tipo de Residência"], c["Objeto Segurado"]].filter(Boolean).join(" · ");
   const vr = N.num(c["Valor em Risco Danos Materiais"]);
@@ -723,16 +729,52 @@ async function montarFormulario(ramo, base) {
   const iniciais = b.coberturas && b.coberturas.length ? b.coberturas
     : regras.basica && est.coberturas.includes(regras.basica) ? [{ nome: regras.basica, valor: Math.max(regras.coberturas[regras.basica].min || 0, 1000000) }] : [];
   iniciais.forEach((it) => novaLinha(it));
-  if (!iniciais.length) novaLinha(null);
+  if (!iniciais.length && est.coberturas.length) novaLinha(null);
   const addBtn = h("button", { class: "btn", type: "button", onclick: () => novaLinha(null).focus() }, "+ Cobertura");
   leitores.push((m) => { m.coberturas = linhas.map((l) => l.ler()).filter(Boolean); });
 
-  corpo.replaceChildren(
+  // Proposta: opcional na cotação, sempre presente no template de proposta
+  let propostaEl = null;
+  if (est.proposta.length) {
+    const soProposta = ramo === "proposta";
+    const atualProp = b.proposta || {};
+    const incluir = h("input", { type: "checkbox", checked: soProposta || Object.keys(atualProp).length > 0 });
+    const grade = h("div", { class: "grade2" });
+    const ctrls = est.proposta.map((nome) => {
+      const opcoes = N.OPCOES_PROPOSTA[nome];
+      const atual = atualProp[nome];
+      let ctrl;
+      if (opcoes) {
+        ctrl = h("select", null, h("option", { value: "" }, "— não informar —"), opcoes.map((o) => h("option", { value: o }, o)));
+        ctrl.value = atual && opcoes.includes(atual) ? atual : "";
+      } else {
+        ctrl = h("input", { type: "text", value: atual !== undefined && atual !== null ? String(atual) : "", placeholder: "vazio = <IGNORE>" });
+      }
+      grade.append(h("label", { class: "campo" }, h("span", { class: "nome" }, nome), ctrl));
+      return [nome, ctrl];
+    });
+    const sync = () => { grade.hidden = !incluir.checked; };
+    incluir.addEventListener("change", sync); sync();
+    propostaEl = h("div", { class: "bloco" }, h("h3", null, "Proposta"),
+      soProposta ? null : h("div", { class: "opcoes" }, h("label", null, incluir, "Preencher os dados da proposta nesta massa")),
+      grade);
+    leitores.push((m) => {
+      if (!incluir.checked) return;
+      const p = {};
+      for (const [nome, ctrl] of ctrls) if (ctrl.value.trim()) p[nome] = ctrl.value.trim();
+      if (Object.keys(p).length) m.proposta = p;
+    });
+  }
+
+  const temCarac = est.combos.length || est.textos.length || boolEl;
+  const temQuest = est.perguntas.length || Object.keys(est.grupos).length;
+  corpo.replaceChildren(...[
     h("div", { class: "bloco" }, h("h3", null, "Identificação"), ident),
-    h("div", { class: "bloco" }, h("h3", null, "Características do risco"), carac, boolEl),
-    h("div", { class: "bloco" }, h("h3", null, "Perguntas e questionário"), quest),
-    h("div", { class: "bloco" }, h("h3", null, `Coberturas (${est.coberturas.length} no template)`), dl, listaCob, h("div", null, addBtn)),
-  );
+    temCarac ? h("div", { class: "bloco" }, h("h3", null, "Características do risco"), carac, boolEl) : null,
+    temQuest ? h("div", { class: "bloco" }, h("h3", null, "Perguntas e questionário"), quest) : null,
+    est.coberturas.length ? h("div", { class: "bloco" }, h("h3", null, `Coberturas (${est.coberturas.length} no template)`), dl, listaCob, h("div", null, addBtn)) : null,
+    propostaEl,
+  ].filter(Boolean));
 
   form.ler = () => {
     const m = { campos: {}, combos: {}, perguntas: {}, grupos: {}, coberturas: [] };
@@ -778,6 +820,7 @@ function renderFila() {
 $("form-ramo").addEventListener("change", async () => {
   if (form.fila.length) status($("form-status"), "Lista esvaziada: cada Excel é de um ramo só.");
   form.fila = []; renderFila();
+  $("form-resultado").replaceChildren();
   await montarFormulario($("form-ramo").value);
 });
 $("form-adicionar").addEventListener("click", () => {
