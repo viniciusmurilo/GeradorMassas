@@ -1,56 +1,61 @@
-# LMI por Cobertura — Condomínio Amplo (base "Coberturas x LMI", aba `Condominio Ampla`)
+# Regras por Cobertura — Condomínio Amplo (produto 229)
 
-> Template: `templates/template_condominio_amplo.xlsx`. Catálogo de colunas e formato do JSON:
-> `catalogo_condominio.md`. Regras em dados: `regras_condominio_amplo.json`. O template **não tem
-> coluna `Ampla`**: a básica é o `Valor em Risco Danos Materiais` (combo), e os percentuais "da
-> Ampla" são calculados sobre ele.
+Fonte: planilha **"Resumo coberturas condomínio"** (abas de coberturas, limites e "Cobertura
+restrita"). Em dados: `regras_condominio_amplo.json`, lido pelo `scripts/validar_massa.py`.
+Catálogo de colunas e formato do JSON: `catalogo_condominio.md`.
 
 ## Como aplicar
 
-Mesma lógica dos outros ramos: teto efetivo = o menor entre o máximo absoluto e o percentual ×
-LMI da cobertura de referência. Aqui a cobertura básica é **`Ampla`**.
+Cobertura básica: `Ampla`, que no template é o campo `Valor em Risco Danos Materiais`. Teto efetivo de cada cobertura = o menor entre o máximo do corretor,
+o % da básica e o % da cobertura exigida. Acima do máximo do corretor a cotação não é
+automática (vai para as alçadas da tabela).
 
-## Cobertura básica e LMG
+- `Valor em Risco Danos Materiais` (Ampla): 1.000.000,00 a 150.000.000,00.
 
-- `Ampla`: LMI entre **R$ 1.000.000,00** e **R$ 150.000.000,00** (fonte também cita faixa técnica
-  até R$ 999.999.999,99, mas o limite de negócio é 150 mi).
-- "O valor de LMI da cobertura básica não pode ser maior que **R$ 100.000.000,00**" — mensagem
-  também presente na fonte; numa massa válida mantenha `Ampla` ≤ 100.000.000,00 (o mais
-  restritivo).
-- LMG do item ≤ **R$ 150.000.000,00** ("O item 1 possui LMG de ..., que excede o limite máximo
-  permitido de R$ 150.000.000,00").
-- `Condomínio Benefícios Essenciais` e `Assistência Condomínio Plano Básico`: LMI ≤ LMI da básica.
+- Compõem o LMG (até 150.000.000,00): Responsabilidade Civil - Condomínio + Síndico · Despesas com Aluguel Condôminos · Incêndio de Bens Dos Condôminos · Perda Ou Pagamento de Aluguel a Terceiros · Responsabilidade Civil - Danos Morais.
 
-## Tabela de LMI
+## Tabela de limites
 
-| Cobertura | Mín (R$) | Máx (R$) | Máx % | Observação |
-|---|---:|---:|---|---|
-| Ampla | 1.000.000,00 | 150.000.000,00 | — | básica (ver acima: ≤ 100 mi) |
-| Responsabilidade Civil - Condomínio + Síndico | 50.000,00 | 5.000.000,00 | 50% da Ampla | erro de teto CB16.26019 |
-| Despesas com Aluguel Condôminos | 35.000,00 | 20.000.000,00 | 100% de Incêndio de Bens dos Condôminos | exige Incêndio de Bens dos Condôminos · ≤ LMI da básica |
-| Incêndio de Bens Dos Condôminos | 75.000,00 | 30.000.000,00 | 30% da Ampla | |
-| Perda Ou Pagamento de Aluguel a Terceiros | 35.000,00 | 2.000.000,00 | 10% da Ampla | |
-| Responsabilidade Civil - Danos Morais | 10.000,00 | 600.000,00 | 20% de RC Condomínio + Síndico | exige RC Condomínio + Síndico |
-| Responsabilidade Civil - Empregador | 10.000,00 | 600.000,00 | 100% de RC Condomínio + Síndico | exige RC Condomínio + Síndico |
-| Responsabilidade Civil - Guarda de Veículos + Portões Automáticos (incêndio e Roubo/furto) | 20.000,00 | 2.500.000,00 | 100% de RC Condomínio + Síndico | |
-| Responsabilidade Civil - Guarda de Veículos + Portões Automáticos (colisão, Incêndio e Roubo/furto) | 20.000,00 | 2.500.000,00 | — | exige RC Condomínio + Síndico · excludente com a versão (incêndio e Roubo/furto) |
-| Responsabilidade Civil - Portões | 20.000,00 | 2.500.000,00 | — | exige RC Condomínio + Síndico |
-| Roubo de Valores | 3.000,00 | 50.000,00 | 50% da Ampla | |
-| Roubo E/ou Furto Qualificado de Bens Dos Condôminos | 35.000,00 | 500.000,00 | 15% de Incêndio de Bens dos Condôminos | exige Incêndio de Bens dos Condôminos |
-| Morte | 5.000,00 | 100.000,00 | 100% da Ampla | exige IPA (Plano Vida) · franquia obrigatória |
-| Invalidez Permanente Total Ou Parcial Por Acidente (IPA) | 5.000,00 | 5.000,00 | — | valor fixo |
-| Indenização Especial Por Acidente (IEA) | 5.000,00 | 5.000,00 | — | valor fixo |
-| Invalidez Funcional Permanente Total Por Doença (IFPD) | 5.000,00 | 5.000,00 | — | valor fixo |
-| Cesta Básica | 1.000,00 | 1.000,00 | — | valor fixo |
-| Morte Cônjuge | 2.500,00 | 2.500,00 | — | fonte: "LMI tem que ser 50% menor que o valor da cobertura Morte" |
-| Auxílio Funeral | 3.000,00 | 3.000,00 | — | valor fixo |
+| Cobertura | Cód | Mín (R$) | Máx corretor (R$) | % máx da básica | Exige (uma de) | % máx da exigida | Alçadas Analista / Coord / Gerente |
+|---|---:|---:|---:|---:|---|---:|---|
+| Responsabilidade Civil - Condomínio + Síndico | 1601 | 50.000,00 | 5.000.000,00 | 50% | — | — | — / — / 150.000.000,00 |
+| Despesas com Aluguel Condôminos | 1053 | 35.000,00 | 20.000.000,00 | — | Incêndio de Bens Dos Condôminos | 100% | — / 30.000.000,00 / 150.000.000,00 |
+| Incêndio de Bens Dos Condôminos | 1055 | 75.000,00 | 30.000.000,00 | 30% | — | — | 50.000.000,00 / 100.000.000,00 / 150.000.000,00 |
+| Perda Ou Pagamento de Aluguel a Terceiros | 31 | 35.000,00 | 2.000.000,00 | 10% | — | — | 5.000.000,00 / 20.000.000,00 / 150.000.000,00 |
+| Responsabilidade Civil - Danos Morais | 310 | 10.000,00 | 600.000,00 | — | Responsabilidade Civil - Condomínio + Síndico | 20% | — / 1.000.000,00 / 150.000.000,00 |
+| Responsabilidade Civil - Empregador | 1074 | 10.000,00 | 600.000,00 | — | Responsabilidade Civil - Condomínio + Síndico | 100% | 1.000.000,00 / 2.500.000,00 / 150.000.000,00 |
+| Responsabilidade Civil - Guarda de Veículos + Portões Automáticos (incêndio e Roubo/furto) | 1038 | 20.000,00 | 2.500.000,00 | — | Responsabilidade Civil - Condomínio + Síndico | 100% | — / 3.000.000,00 / 150.000.000,00 |
+| Responsabilidade Civil - Guarda de Veículos + Portões Automáticos (colisão, Incêndio e Roubo/furto) | 1037 | 20.000,00 | 2.500.000,00 | — | Responsabilidade Civil - Condomínio + Síndico | 100% | — / 3.000.000,00 / 150.000.000,00 |
+| Responsabilidade Civil - Portões | 1058 | 20.000,00 | 2.500.000,00 | — | Responsabilidade Civil - Condomínio + Síndico | 50% | — / — / 150.000.000,00 |
+| Roubo de Valores | 1062 | 3.000,00 | 50.000,00 | 50% | — | — | 100.000,00 / 200.000,00 / 150.000.000,00 |
+| Roubo E/ou Furto Qualificado de Bens Dos Condôminos | 1060 | 35.000,00 | 500.000,00 | — | Incêndio de Bens Dos Condôminos | 15% | — / 1.000.000,00 / 150.000.000,00 |
+| Auxílio Funeral | 1607 | 3.000,00 | 5.000.000,00 | — | Morte | 100% | — / 10.000.000,00 / 150.000.000,00 |
+| Cesta Básica | 1605 | 1.000,00 | 5.000.000,00 | — | Invalidez Funcional Permanente Total Por Doença (ifpd) | 100% | — / 10.000.000,00 / 150.000.000,00 |
+| Indenização Especial Por Acidente (iea) | 1077 | 5.000,00 | 5.000.000,00 | — | Invalidez Permanente Total Ou Parcial Por Acidente (ipa) | 100% | — / 10.000.000,00 / 150.000.000,00 |
+| Invalidez Funcional Permanente Total Por Doença (ifpd) | 1079 | 5.000,00 | 5.000.000,00 | — | Indenização Especial Por Acidente (iea) · Invalidez Permanente Total Ou Parcial Por Acidente (ipa) | 100% | — / 10.000.000,00 / 150.000.000,00 |
+| Invalidez Permanente Total Ou Parcial Por Acidente (ipa) | 1078 | 5.000,00 | 5.000.000,00 | — | Morte | 100% | — / 10.000.000,00 / 150.000.000,00 |
+| Morte | 1076 | 5.000,00 | 5.000.000,00 | 100% | — | — | — / 10.000.000,00 / 150.000.000,00 |
+| Morte Cônjuge | 1603 | 2.500,00 | 5.000.000,00 | — | Morte | 50% | — / 10.000.000,00 / 150.000.000,00 |
 
-## Dependências e excludentes (resumo)
+## Excludentes
 
-- `Despesas com Aluguel Condôminos` e `Roubo E/ou Furto Qualificado de Bens Dos Condôminos` →
-  exigem `Incêndio de Bens Dos Condôminos`.
-- `RC - Danos Morais`, `RC - Empregador`, `RC - Portões`, `RC - Guarda de Veículos + Portões
-  Automáticos (colisão...)` → exigem `Responsabilidade Civil - Condomínio + Síndico`.
-- `RC - Guarda de Veículos + Portões Automáticos (colisão, Incêndio e Roubo/furto)` cancela
-  `RC - Guarda de Veículos + Portões Automáticos (incêndio e Roubo/furto)` — escolha uma.
-- `Morte` → exige `Invalidez Permanente Total Ou Parcial Por Acidente (IPA)` e franquia.
+- `Responsabilidade Civil - Guarda de Veículos + Portões Automáticos (incêndio e Roubo/furto)` × `Responsabilidade Civil - Guarda de Veículos + Portões Automáticos (colisão, Incêndio e Roubo/furto)`
+
+## Coberturas restritas por Tipo de Condomínio
+
+Não são aceitas quando o `Tipo de Condomínio` for `Condomínio Comercial - Vertical` · `Condomínio de Consultórios` · `Condomínio de Escritórios` · `Condomínio Misto - Vertical` · `Condomínio Residencial com Comércio no Térreo`:
+
+- `Despesas com Aluguel Condôminos`
+- `Incêndio de Bens Dos Condôminos`
+- `Roubo E/ou Furto Qualificado de Bens Dos Condôminos`
+
+Nesses tipos, use só as demais coberturas. Elas são aceitas em `Condomínio Exclusivamente
+Residencial - Horizontal`, `Condomínio Exclusivamente Residencial - Vertical` e `Condomínio Flat /
+Apart-Hotel`.
+
+## Plano de Vida (dependências em cadeia)
+
+`Morte` (até 100% da básica) → `IPA` exige Morte → `IEA` exige IPA → `IFPD` exige IEA ou IPA →
+`Cesta Básica` exige IFPD. `Auxílio Funeral` exige Morte (até 100%) e `Morte Cônjuge` exige
+Morte (até 50%). Todas de 5.000.000,00 no máximo do corretor. Os mínimos estão na tabela.
+Não há mais valores fixos.

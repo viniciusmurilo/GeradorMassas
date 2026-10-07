@@ -1,161 +1,300 @@
 {
  "ramo": "condominio_amplo",
- "basica_campo": "Valor em Risco Danos Materiais",
- "basica": null,
- "basica_limites": {
-  "min": 1000000,
-  "max": 100000000
- },
  "coberturas": {
   "Responsabilidade Civil - Condomínio + Síndico": {
+   "codigo": "1601",
    "min": 50000,
    "max": 5000000,
    "acima_max": "bloqueia",
-   "pct_basica": 50
+   "pct_basica": 50,
+   "alcadas": {
+    "gerente": 150000000
+   }
   },
   "Despesas com Aluguel Condôminos": {
+   "codigo": "1053",
    "min": 35000,
    "max": 20000000,
    "acima_max": "bloqueia",
    "pct_basica": null,
+   "alcadas": {
+    "coordenador": 30000000,
+    "gerente": 150000000
+   },
    "exige_uma_de": [
     "Incêndio de Bens Dos Condôminos"
    ],
-   "pct_max_da_exigida": 100
+   "pct_max_da_exigida": 100.0,
+   "proibida_para_tipo_condominio": [
+    "Condomínio Comercial - Vertical",
+    "Condomínio de Consultórios",
+    "Condomínio de Escritórios",
+    "Condomínio Misto - Vertical",
+    "Condomínio Residencial com Comércio no Térreo"
+   ]
   },
   "Incêndio de Bens Dos Condôminos": {
+   "codigo": "1055",
    "min": 75000,
    "max": 30000000,
    "acima_max": "bloqueia",
-   "pct_basica": 30
+   "pct_basica": 30,
+   "alcadas": {
+    "analista": 50000000,
+    "coordenador": 100000000,
+    "gerente": 150000000
+   },
+   "proibida_para_tipo_condominio": [
+    "Condomínio Comercial - Vertical",
+    "Condomínio de Consultórios",
+    "Condomínio de Escritórios",
+    "Condomínio Misto - Vertical",
+    "Condomínio Residencial com Comércio no Térreo"
+   ]
   },
   "Perda Ou Pagamento de Aluguel a Terceiros": {
+   "codigo": "31",
    "min": 35000,
    "max": 2000000,
    "acima_max": "bloqueia",
-   "pct_basica": 10
+   "pct_basica": 10,
+   "alcadas": {
+    "analista": 5000000,
+    "coordenador": 20000000,
+    "gerente": 150000000
+   }
   },
   "Responsabilidade Civil - Danos Morais": {
+   "codigo": "310",
    "min": 10000,
    "max": 600000,
    "acima_max": "bloqueia",
    "pct_basica": null,
+   "alcadas": {
+    "coordenador": 1000000,
+    "gerente": 150000000
+   },
    "exige_uma_de": [
     "Responsabilidade Civil - Condomínio + Síndico"
    ],
-   "pct_max_da_exigida": 20
+   "pct_max_da_exigida": 20.0
   },
   "Responsabilidade Civil - Empregador": {
+   "codigo": "1074",
    "min": 10000,
    "max": 600000,
    "acima_max": "bloqueia",
    "pct_basica": null,
+   "alcadas": {
+    "analista": 1000000,
+    "coordenador": 2500000,
+    "gerente": 150000000
+   },
    "exige_uma_de": [
     "Responsabilidade Civil - Condomínio + Síndico"
    ],
-   "pct_max_da_exigida": 100
+   "pct_max_da_exigida": 100.0
   },
   "Responsabilidade Civil - Guarda de Veículos + Portões Automáticos (incêndio e Roubo/furto)": {
+   "codigo": "1038",
    "min": 20000,
    "max": 2500000,
    "acima_max": "bloqueia",
    "pct_basica": null,
+   "alcadas": {
+    "coordenador": 3000000,
+    "gerente": 150000000
+   },
    "exige_uma_de": [
     "Responsabilidade Civil - Condomínio + Síndico"
    ],
-   "pct_max_da_exigida": 100
+   "pct_max_da_exigida": 100.0,
+   "exclui": [
+    "Responsabilidade Civil - Guarda de Veículos + Portões Automáticos (colisão, Incêndio e Roubo/furto)"
+   ]
   },
   "Responsabilidade Civil - Guarda de Veículos + Portões Automáticos (colisão, Incêndio e Roubo/furto)": {
+   "codigo": "1037",
    "min": 20000,
    "max": 2500000,
    "acima_max": "bloqueia",
    "pct_basica": null,
+   "alcadas": {
+    "coordenador": 3000000,
+    "gerente": 150000000
+   },
    "exige_uma_de": [
     "Responsabilidade Civil - Condomínio + Síndico"
    ],
-   "pct_max_da_exigida": 100,
+   "pct_max_da_exigida": 100.0,
    "exclui": [
     "Responsabilidade Civil - Guarda de Veículos + Portões Automáticos (incêndio e Roubo/furto)"
    ]
   },
   "Responsabilidade Civil - Portões": {
+   "codigo": "1058",
    "min": 20000,
    "max": 2500000,
    "acima_max": "bloqueia",
    "pct_basica": null,
+   "alcadas": {
+    "gerente": 150000000
+   },
    "exige_uma_de": [
     "Responsabilidade Civil - Condomínio + Síndico"
    ],
-   "pct_max_da_exigida": 100
+   "pct_max_da_exigida": 50.0
   },
   "Roubo de Valores": {
+   "codigo": "1062",
    "min": 3000,
    "max": 50000,
    "acima_max": "bloqueia",
-   "pct_basica": 50
+   "pct_basica": 50,
+   "alcadas": {
+    "analista": 100000,
+    "coordenador": 200000,
+    "gerente": 150000000
+   }
   },
   "Roubo E/ou Furto Qualificado de Bens Dos Condôminos": {
+   "codigo": "1060",
    "min": 35000,
    "max": 500000,
    "acima_max": "bloqueia",
    "pct_basica": null,
+   "alcadas": {
+    "coordenador": 1000000,
+    "gerente": 150000000
+   },
    "exige_uma_de": [
     "Incêndio de Bens Dos Condôminos"
    ],
-   "pct_max_da_exigida": 15
-  },
-  "Morte": {
-   "min": 5000,
-   "max": 100000,
-   "acima_max": "bloqueia",
-   "pct_basica": 100,
-   "exige_uma_de": [
-    "Invalidez Permanente Total Ou Parcial Por Acidente (ipa)"
+   "pct_max_da_exigida": 15.0,
+   "proibida_para_tipo_condominio": [
+    "Condomínio Comercial - Vertical",
+    "Condomínio de Consultórios",
+    "Condomínio de Escritórios",
+    "Condomínio Misto - Vertical",
+    "Condomínio Residencial com Comércio no Térreo"
    ]
   },
-  "Invalidez Permanente Total Ou Parcial Por Acidente (ipa)": {
-   "min": 5000,
-   "max": 5000,
+  "Auxílio Funeral": {
+   "codigo": "1607",
+   "min": 3000,
+   "max": 5000000,
    "acima_max": "bloqueia",
    "pct_basica": null,
-   "valor_fixo": true
-  },
-  "Indenização Especial Por Acidente (iea)": {
-   "min": 5000,
-   "max": 5000,
-   "acima_max": "bloqueia",
-   "pct_basica": null,
-   "valor_fixo": true
-  },
-  "Invalidez Funcional Permanente Total Por Doença (ifpd)": {
-   "min": 5000,
-   "max": 5000,
-   "acima_max": "bloqueia",
-   "pct_basica": null,
-   "valor_fixo": true
+   "alcadas": {
+    "coordenador": 10000000,
+    "gerente": 150000000
+   },
+   "exige_uma_de": [
+    "Morte"
+   ],
+   "pct_max_da_exigida": 100.0
   },
   "Cesta Básica": {
+   "codigo": "1605",
    "min": 1000,
-   "max": 1000,
+   "max": 5000000,
    "acima_max": "bloqueia",
    "pct_basica": null,
-   "valor_fixo": true
+   "alcadas": {
+    "coordenador": 10000000,
+    "gerente": 150000000
+   },
+   "exige_uma_de": [
+    "Invalidez Funcional Permanente Total Por Doença (ifpd)"
+   ],
+   "pct_max_da_exigida": 100.0
+  },
+  "Indenização Especial Por Acidente (iea)": {
+   "codigo": "1077",
+   "min": 5000,
+   "max": 5000000,
+   "acima_max": "bloqueia",
+   "pct_basica": null,
+   "alcadas": {
+    "coordenador": 10000000,
+    "gerente": 150000000
+   },
+   "exige_uma_de": [
+    "Invalidez Permanente Total Ou Parcial Por Acidente (ipa)"
+   ],
+   "pct_max_da_exigida": 100.0
+  },
+  "Invalidez Funcional Permanente Total Por Doença (ifpd)": {
+   "codigo": "1079",
+   "min": 5000,
+   "max": 5000000,
+   "acima_max": "bloqueia",
+   "pct_basica": null,
+   "alcadas": {
+    "coordenador": 10000000,
+    "gerente": 150000000
+   },
+   "exige_uma_de": [
+    "Indenização Especial Por Acidente (iea)",
+    "Invalidez Permanente Total Ou Parcial Por Acidente (ipa)"
+   ],
+   "pct_max_da_exigida": 100.0
+  },
+  "Invalidez Permanente Total Ou Parcial Por Acidente (ipa)": {
+   "codigo": "1078",
+   "min": 5000,
+   "max": 5000000,
+   "acima_max": "bloqueia",
+   "pct_basica": null,
+   "alcadas": {
+    "coordenador": 10000000,
+    "gerente": 150000000
+   },
+   "exige_uma_de": [
+    "Morte"
+   ],
+   "pct_max_da_exigida": 100.0
+  },
+  "Morte": {
+   "codigo": "1076",
+   "min": 5000,
+   "max": 5000000,
+   "acima_max": "bloqueia",
+   "pct_basica": 100,
+   "alcadas": {
+    "coordenador": 10000000,
+    "gerente": 150000000
+   }
   },
   "Morte Cônjuge": {
+   "codigo": "1603",
    "min": 2500,
-   "max": 2500,
+   "max": 5000000,
    "acima_max": "bloqueia",
    "pct_basica": null,
-   "valor_fixo": true
-  },
-  "Auxílio Funeral": {
-   "min": 3000,
-   "max": 3000,
-   "acima_max": "bloqueia",
-   "pct_basica": null,
-   "valor_fixo": true
+   "alcadas": {
+    "coordenador": 10000000,
+    "gerente": 150000000
+   },
+   "exige_uma_de": [
+    "Morte"
+   ],
+   "pct_max_da_exigida": 50.0
   }
  },
+ "compoem_lmg": [
+  "Responsabilidade Civil - Condomínio + Síndico",
+  "Despesas com Aluguel Condôminos",
+  "Incêndio de Bens Dos Condôminos",
+  "Perda Ou Pagamento de Aluguel a Terceiros",
+  "Responsabilidade Civil - Danos Morais"
+ ],
+ "soma_rc_max": null,
  "lmg_max": 150000000,
- "soma_rc_max": null
+ "basica": null,
+ "basica_campo": "Valor em Risco Danos Materiais",
+ "basica_limites": {
+  "min": 1000000,
+  "max": 150000000
+ }
 }

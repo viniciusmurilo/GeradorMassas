@@ -253,6 +253,18 @@ def validar(dados_massa, regras, corrigir=False):
                 erro(f"'{nome}' {motivo}")
                 ja_reportadas.add(nome)
 
+    # --- cobertura proibida para o tipo de condominio ---
+    tipo_cond = combos.get("Tipo de Condomínio")
+    for nome in list(m.cob):
+        proibidos = regras["coberturas"][nome].get("proibida_para_tipo_condominio", [])
+        if tipo_cond and norm(tipo_cond) in {norm(t) for t in proibidos}:
+            if corrigir:
+                m.remover(nome)
+                fix(f"removida '{nome}' (não aceita para '{tipo_cond}')")
+            else:
+                erro(f"'{nome}' não é aceita para '{tipo_cond}'")
+                ja_reportadas.add(nome)
+
     # --- basica (cobertura; no Condominio Amplo e o Valor em Risco) ---
     basica = regras.get("basica")
     if regras.get("basica_campo"):
