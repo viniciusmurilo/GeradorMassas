@@ -1,0 +1,1019 @@
+<title>Gerador de Massas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+  :root {
+    --bg: #f3f5f8; --surface: #ffffff; --sunken: #eaeef3; --line: #d7dde6; --line-strong: #b9c2cf;
+    --fg: #18202b; --muted: #5a6575; --accent: #1f4f91; --accent-fg: #ffffff; --accent-soft: #e3ebf7;
+    --ok: #26734a; --ok-soft: #e1f1e7; --warn: #8a5a06; --warn-soft: #fbf0d9;
+    --err: #a8261d; --err-soft: #f9e3e1; --fix: #1f4f91; --fix-soft: #e3ebf7;
+    --focus: #3d7be0;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #11151b; --surface: #182029; --sunken: #0d1116; --line: #2a3441; --line-strong: #3c4858;
+      --fg: #e5e9ef; --muted: #98a3b3; --accent: #86adec; --accent-fg: #0d1520; --accent-soft: #1c2b42;
+      --ok: #73c796; --ok-soft: #16301f; --warn: #e3ae55; --warn-soft: #33270f;
+      --err: #f08f86; --err-soft: #3a1a17; --fix: #86adec; --fix-soft: #1c2b42; --focus: #86adec;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #11151b; --surface: #182029; --sunken: #0d1116; --line: #2a3441; --line-strong: #3c4858;
+    --fg: #e5e9ef; --muted: #98a3b3; --accent: #86adec; --accent-fg: #0d1520; --accent-soft: #1c2b42;
+    --ok: #73c796; --ok-soft: #16301f; --warn: #e3ae55; --warn-soft: #33270f;
+    --err: #f08f86; --err-soft: #3a1a17; --fix: #86adec; --fix-soft: #1c2b42; --focus: #86adec;
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  body {
+    background: var(--bg); color: var(--fg);
+    font: 15px/1.5 "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  .mono, code { font-family: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace; font-size: .92em; }
+  .wrap { max-width: 1040px; margin: 0 auto; padding-inline: 20px; padding-block: 28px 56px; }
+  @media (max-width: 520px) { .wrap { padding-inline: 16px; } }
+
+  header.top { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 16px; margin-bottom: 20px; }
+  header.top h1 { font-size: 1.55rem; font-weight: 600; margin: 0; letter-spacing: -.01em; text-wrap: balance; }
+  header.top p { margin: 0; color: var(--muted); }
+  .ramos-linha { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 2px; }
+  .tag { font-size: .78rem; letter-spacing: .03em; text-transform: uppercase; color: var(--muted);
+         border: 1px solid var(--line); border-radius: 999px; padding: 1px 9px; background: var(--surface); }
+
+  nav.abas { display: flex; gap: 2px; border-bottom: 1px solid var(--line); overflow-x: auto; margin-bottom: 22px; }
+  nav.abas button {
+    appearance: none; border: 0; background: none; color: var(--muted); font: inherit; font-weight: 500;
+    padding: 10px 14px; border-bottom: 2px solid transparent; margin-bottom: -1px; cursor: pointer; white-space: nowrap;
+  }
+  nav.abas button[aria-selected="true"] { color: var(--fg); border-bottom-color: var(--accent); }
+  nav.abas button:hover { color: var(--fg); }
+  nav.abas .n { font-family: "IBM Plex Mono", monospace; font-size: .8em; color: var(--muted); margin-right: 6px; }
+
+  .painel { display: grid; gap: 18px; }
+  #form-corpo > .bloco { border-top: 1px solid var(--line); padding-top: 16px; margin-top: 16px; }
+  .intro { color: var(--muted); max-width: 68ch; margin: 0; }
+  h2 { font-size: 1.1rem; margin: 0; font-weight: 600; }
+  h3 { font-size: .8rem; margin: 0 0 8px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+
+  .caixa { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 18px; min-width: 0; }
+  .linha { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+  .grade2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px 16px; }
+  label.campo { display: grid; gap: 4px; font-size: .86rem; color: var(--muted); min-width: 0; }
+  label.campo > span.nome { overflow-wrap: anywhere; }
+  input[type=text], input[type=number], select, textarea {
+    font: inherit; color: var(--fg); background: var(--surface); border: 1px solid var(--line-strong);
+    border-radius: 7px; padding: 8px 10px; width: 100%; min-width: 0;
+  }
+  textarea { min-height: 150px; resize: vertical; line-height: 1.5; }
+  input:focus-visible, select:focus-visible, textarea:focus-visible, button:focus-visible, .soltar:focus-within {
+    outline: 2px solid var(--focus); outline-offset: 1px;
+  }
+  .dica { font-size: .8rem; color: var(--muted); font-family: "IBM Plex Mono", monospace; min-height: 1.2em; }
+
+  button.btn {
+    appearance: none; font: inherit; font-weight: 500; border-radius: 7px; padding: 8px 14px; cursor: pointer;
+    border: 1px solid var(--line-strong); background: var(--surface); color: var(--fg);
+  }
+  button.btn.primario { background: var(--accent); border-color: var(--accent); color: var(--accent-fg); }
+  button.btn:disabled { opacity: .5; cursor: not-allowed; }
+  button.btn.leve { border-color: transparent; background: none; color: var(--accent); padding-inline: 6px; }
+  button.x { appearance: none; border: 0; background: none; color: var(--muted); cursor: pointer; font-size: 1.1rem; padding: 2px 8px; border-radius: 6px; }
+  button.x:hover { color: var(--err); background: var(--err-soft); }
+
+  .soltar {
+    display: grid; place-items: center; text-align: center; gap: 6px; padding: 34px 16px;
+    border: 1.5px dashed var(--line-strong); border-radius: 10px; background: var(--surface); cursor: pointer;
+  }
+  .soltar.sobre { border-color: var(--accent); background: var(--accent-soft); }
+  .soltar strong { font-weight: 600; }
+  .soltar input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+
+  .status { font-size: .9rem; color: var(--muted); min-height: 1.4em; }
+  .status.erro { color: var(--err); }
+  .status.ok { color: var(--ok); }
+
+  .chip { display: inline-block; font-family: "IBM Plex Mono", monospace; font-size: .72rem; font-weight: 500;
+          letter-spacing: .04em; padding: 1px 7px; border-radius: 5px; white-space: nowrap; }
+  .chip.ERRO { color: var(--err); background: var(--err-soft); }
+  .chip.AVISO { color: var(--warn); background: var(--warn-soft); }
+  .chip.CORRIGIDO { color: var(--fix); background: var(--fix-soft); }
+  .chip.OK { color: var(--ok); background: var(--ok-soft); }
+
+  .resumo { display: flex; flex-wrap: wrap; gap: 8px 18px; align-items: baseline; }
+  .resumo .num { font-variant-numeric: tabular-nums; font-weight: 600; }
+  .massas { display: grid; gap: 10px; }
+  .massa { border: 1px solid var(--line); border-radius: 9px; background: var(--surface); min-width: 0; }
+  .massa > header { display: flex; flex-wrap: wrap; gap: 6px 12px; align-items: baseline; padding: 10px 14px; border-bottom: 1px solid var(--line); }
+  .massa > header .t { font-weight: 600; }
+  .massa > header .sub { color: var(--muted); font-size: .86rem; overflow-wrap: anywhere; }
+  .massa > header .chips { margin-left: auto; display: flex; gap: 6px; }
+  .problemas { list-style: none; margin: 0; padding: 8px 14px; display: grid; gap: 5px; }
+  .problemas li { display: grid; grid-template-columns: 92px 1fr; gap: 8px; align-items: baseline; font-size: .9rem; }
+  .problemas li span:last-child { overflow-wrap: anywhere; }
+  .massa details { padding: 0 14px 10px; }
+  .massa summary { cursor: pointer; color: var(--accent); font-size: .88rem; padding-top: 8px; }
+  .tabela { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; font-size: .86rem; margin-top: 6px; }
+  th, td { text-align: left; padding: 5px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { font-weight: 500; color: var(--muted); font-size: .76rem; text-transform: uppercase; letter-spacing: .05em; }
+  td.v { font-family: "IBM Plex Mono", monospace; font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
+  .obs { margin: 0; padding-left: 18px; color: var(--fg); }
+  .obs li { margin: 2px 0; }
+
+  /* formulário */
+  .form-layout { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 18px; align-items: start; }
+  @media (max-width: 860px) { .form-layout { grid-template-columns: minmax(0, 1fr); } }
+  .lateral { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 12px); display: grid; gap: 12px; }
+  @media (max-width: 860px) { .lateral { position: static; } }
+  fieldset { border: 0; padding: 0; margin: 0; min-width: 0; }
+  legend { padding: 0; }
+  .grupo { display: grid; gap: 6px; }
+  .grupo .nome-grupo { font-size: .88rem; font-weight: 500; }
+  .opcoes { display: flex; flex-wrap: wrap; gap: 6px 14px; }
+  .opcoes label { display: inline-flex; gap: 6px; align-items: baseline; font-size: .9rem; }
+  .bloco { display: grid; gap: 14px; }
+  .bloco + .bloco { border-top: 1px solid var(--line); padding-top: 16px; margin-top: 2px; }
+  .cobs { display: grid; gap: 8px; }
+  .cob { display: grid; grid-template-columns: minmax(0, 1fr) 150px auto; gap: 8px; align-items: start; }
+  .cob .extra { display: flex; gap: 8px; grid-column: 1 / -1; }
+  .cob .extra:empty { display: none; }
+  .cob .extra label { max-width: 170px; }
+  @media (max-width: 520px) { .cob { grid-template-columns: minmax(0, 1fr) auto; } .cob .valor { grid-column: 1; } }
+  .fila { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+  .fila li { display: flex; gap: 8px; align-items: center; font-size: .88rem; border: 1px solid var(--line); border-radius: 7px; padding: 6px 4px 6px 10px; }
+  .fila li span { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+  .vazio { color: var(--muted); font-size: .88rem; }
+
+  .templates { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 12px; }
+  .tpl { display: grid; gap: 8px; align-content: start; }
+  .tpl .arquivo { font-family: "IBM Plex Mono", monospace; font-size: .8rem; color: var(--muted); overflow-wrap: anywhere; }
+  .tpl dl { display: grid; grid-template-columns: auto 1fr; gap: 2px 10px; margin: 0; font-size: .86rem; }
+  .tpl dt { color: var(--muted); }
+  .tpl dd { margin: 0; font-variant-numeric: tabular-nums; }
+
+  footer.rodape { margin-top: 36px; color: var(--muted); font-size: .84rem; border-top: 1px solid var(--line); padding-top: 14px; display: grid; gap: 4px; }
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <h1>Gerador de Massas</h1>
+    <p>Massas de teste de seguro validadas com as mesmas regras da skill.</p>
+    <div class="ramos-linha" aria-label="Ramos atendidos">
+      <span class="tag">Empresarial</span><span class="tag">Residencial</span>
+      <span class="tag">Condomínio Amplo</span><span class="tag">Condomínio Tradicional</span>
+    </div>
+  </header>
+
+  <nav class="abas" role="tablist" aria-label="Modos">
+    <button role="tab" id="aba-corrigir" aria-controls="corrigir" aria-selected="true"><span class="n">01</span>Corrigir planilha</button>
+    <button role="tab" id="aba-texto" aria-controls="texto" aria-selected="false"><span class="n">02</span>Gerar por texto</button>
+    <button role="tab" id="aba-formulario" aria-controls="formulario" aria-selected="false"><span class="n">03</span>Formulário</button>
+    <button role="tab" id="aba-templates" aria-controls="templates" aria-selected="false"><span class="n">04</span>Templates</button>
+  </nav>
+
+  <!-- 01 corrigir -->
+  <section class="painel" id="corrigir" role="tabpanel" aria-labelledby="aba-corrigir">
+    <p class="intro">Envie uma planilha de massas preenchida no formato do template. A página descobre o ramo,
+      valida cada linha (limites, % da básica, dependências, excludentes, questionário), corrige o que dá para
+      corrigir sozinha e devolve o Excel corrigido.</p>
+    <label class="soltar" id="soltar">
+      <input type="file" id="arquivo" accept=".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+      <strong>Solte o .xlsx aqui ou clique para escolher</strong>
+      <span class="dica">Cabeçalho na linha 2, massas a partir da linha 3</span>
+    </label>
+    <div class="status" id="corrigir-status" role="status"></div>
+    <div id="corrigir-resultado" hidden class="painel">
+      <div class="caixa resumo" id="corrigir-resumo"></div>
+      <div class="linha">
+        <button class="btn primario" id="corrigir-baixar">Baixar Excel corrigido</button>
+        <button class="btn" id="corrigir-claude" hidden>Pedir ao Claude para resolver o que sobrou</button>
+        <span class="status" id="corrigir-baixar-status"></span>
+      </div>
+      <div class="massas" id="corrigir-massas"></div>
+    </div>
+  </section>
+
+  <!-- 02 texto -->
+  <section class="painel" id="texto" role="tabpanel" aria-labelledby="aba-texto" hidden>
+    <p class="intro">Descreva as massas como faria no chat. O Claude monta o JSON seguindo o catálogo, as normas e
+      os LMI do ramo, valida com as regras da skill antes de responder, e a página gera o Excel.</p>
+    <div class="caixa painel">
+      <div class="grade2">
+        <label class="campo"><span class="nome">Ramo</span>
+          <select id="texto-ramo"></select></label>
+      </div>
+      <label class="campo"><span class="nome">Pedido</span>
+        <textarea id="texto-pedido" placeholder="Ex.: gera 3 massas de empresarial, atividade Academias, VR 2 milhões, com Incêndio 2 milhões, Danos Elétricos 100 mil, Roubo 50 mil e RC Operações 300 mil, CNPJ aleatório"></textarea></label>
+      <div class="linha">
+        <button class="btn primario" id="texto-gerar">Gerar massas</button>
+        <button class="btn" id="texto-parar" hidden>Parar</button>
+        <span class="status" id="texto-status" role="status"></span>
+      </div>
+    </div>
+    <div id="texto-resultado" hidden class="painel">
+      <div class="caixa painel" id="texto-obs-caixa" hidden>
+        <h3>Observações do Claude</h3>
+        <ul class="obs" id="texto-obs"></ul>
+      </div>
+      <div class="caixa resumo" id="texto-resumo"></div>
+      <div class="linha">
+        <button class="btn primario" id="texto-baixar">Baixar Excel</button>
+        <span class="status" id="texto-baixar-status"></span>
+      </div>
+      <div class="massas" id="texto-massas"></div>
+    </div>
+  </section>
+
+  <!-- 03 formulário -->
+  <section class="painel" id="formulario" role="tabpanel" aria-labelledby="aba-formulario" hidden>
+    <p class="intro">Monte a massa campo a campo. As regras do ramo são conferidas enquanto você digita; adicione
+      quantas massas quiser à lista e baixe tudo num Excel só.</p>
+    <div class="form-layout">
+      <form class="caixa" id="form" autocomplete="off" novalidate>
+        <div class="bloco">
+          <div class="grade2">
+            <label class="campo"><span class="nome">Ramo</span><select id="form-ramo"></select></label>
+          </div>
+        </div>
+        <div id="form-corpo"></div>
+      </form>
+      <aside class="lateral">
+        <div class="caixa">
+          <h3>Massa atual</h3>
+          <div id="form-validacao" aria-live="polite"></div>
+          <div class="linha" style="margin-top:12px">
+            <button class="btn primario" id="form-adicionar" type="button">Adicionar à lista</button>
+            <button class="btn leve" id="form-limpar" type="button">Recomeçar</button>
+          </div>
+        </div>
+        <div class="caixa">
+          <h3>Lista para o Excel</h3>
+          <ul class="fila" id="form-fila"></ul>
+          <label class="opcoes" style="margin:12px 0 10px"><label><input type="checkbox" id="form-corrigir" checked> Aplicar correções automáticas</label></label>
+          <div class="linha">
+            <button class="btn primario" id="form-baixar" type="button">Baixar Excel</button>
+          </div>
+          <div class="status" id="form-status" role="status"></div>
+        </div>
+      </aside>
+    </div>
+    <div id="form-resultado" class="massas"></div>
+  </section>
+
+  <!-- 04 templates -->
+  <section class="painel" id="templates" role="tabpanel" aria-labelledby="aba-templates" hidden>
+    <p class="intro">Os templates originais, do jeito que estão na skill. São a base de todo Excel gerado aqui.</p>
+    <div class="templates" id="lista-templates"></div>
+    <div class="status" id="templates-status" role="status"></div>
+  </section>
+
+  <footer class="rodape">
+    <span>Tokens aceitos em CPF/CNPJ e CEP: <code>#cpf</code> <code>#cnpj</code> <code>#cnpjalfa</code> <code>#cep</code>. Um robô substitui pelo valor real depois.</span>
+    <span>Na planilha, cobertura não contratada fica <code>&lt;IGNORE&gt;</code>. Na pergunta de indenização (empresarial e residencial), <code>&lt;IGNORE&gt;</code> significa “não”.</span>
+  </footer>
+</div>
+
+<datalist id="lista-atividades"></datalist>
+<datalist id="lista-pessoa"><option value="#cnpj"><option value="#cpf"><option value="#cnpjalfa"></datalist>
+<datalist id="lista-cep"><option value="#cep"></datalist>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.4.0/exceljs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script>
+  // Plano B se o cdnjs falhar: o mesmo pacote no jsDelivr.
+  if (!window.ExcelJS) document.write('<script src="https://cdn.jsdelivr.net/npm/exceljs@4.4.0/dist/exceljs.min.js"><\/script>');
+  if (!window.JSZip) document.write('<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"><\/script>');
+</script>
+<script>
+/*NUCLEO*/
+</script>
+<script>
+const D = /*DADOS*/null;
+</script>
+<script>
+"use strict";
+const N = window.Nucleo;
+const IGNORAR = "<IGNORE>";
+
+const RAMOS = {
+  empresarial: "Empresarial",
+  residencial: "Residencial",
+  condominio_amplo: "Condomínio Amplo",
+  condominio_tradicional: "Condomínio Tradicional",
+};
+const TIPOS_COND = [
+  "Condomínio Comercial - Vertical", "Condomínio de Consultórios", "Condomínio de Escritórios",
+  "Condomínio Exclusivamente Residencial - Horizontal", "Condomínio Exclusivamente Residencial - Vertical",
+  "Condomínio Flat / Apart-Hotel", "Condomínio Misto - Vertical", "Condomínio Residencial com Comércio no Térreo",
+];
+const OPCOES = {
+  empresarial: {
+    "Tipo de Construção": ["Superior", "Sólida", "Mista", "Inferior"],
+    "Objeto Segurado": ["Prédio e Conteúdo", "Prédio", "Conteúdo"],
+    "Assistência 24h": ["Assistência Empresarial Plano Superior", "Assistência Empresarial Plano Intermediário",
+      "Assistência Empresarial Plano Básico", "Não Contratado"],
+  },
+  residencial: {
+    "Tipo de Residência": ["Apartamento Desocupado", "Apartamento Habitual", "Apartamento Veraneio", "Casa Desocupada",
+      "Casa em Condomínio Fechado Desocupada", "Casa em Condomínio Fechado Habitual", "Casa em Condomínio Fechado Veraneio",
+      "Casa Habitual", "Casa Veraneio"],
+    "Tipo de Construção": ["Superior / Sólida", "Mista", "Inferior"],
+    "Objeto Segurado": ["Prédio e Conteúdo", "Prédio", "Conteúdo"],
+    "Assistência 24h": ["Assistência Residencial Plano Superior", "Assistência Residencial Plano Intermediário",
+      "Assistência Residencial Plano Básico", "Não Contratado"],
+  },
+  condominio: {
+    "Tipo de Condomínio": TIPOS_COND,
+    "Tipo de Construção": ["Superior / Sólida", "Mista", "Inferior"],
+    "Objeto Segurado": ["Prédio e Conteúdo"],
+    "Assistência 24h INPUT": ["Assistência Condomínio Plano Intermediário", "Assistência Condomínio Plano Básico", "Não Contratado"],
+  },
+};
+const PERFIS = ["Corretor", "Operações", "Subscrição"];
+const PADRAO_GRUPO = {
+  "Existem equipamentos de proteção contra incêndio?": "Não informado sistema de proteção contra incêndio",
+  "Existem equipamentos de proteção contra roubo?": "Não informado sistema de proteção contra roubo",
+  "Equipamentos de Proteção": "Não informado",
+  "Quantidade de Pavimentos (incluindo térreo, garagem e subsolos)?": "Não informado",
+  "Qual a idade do Condomínio?": "Até 5 anos",
+};
+const BOOL_ORFAO = "Residencial Benefícios Essenciais"; // coluna vazada no template empresarial
+const ARQUIVOS = {
+  empresarial: "template_empresarial.xlsx", residencial: "template_residencial.xlsx",
+  condominio_amplo: "template_condominio_amplo.xlsx", condominio_tradicional: "template_condominio_tradicional.xlsx",
+};
+
+// ------------------------------------------------------------------ utilidades
+const $ = (id) => document.getElementById(id);
+function h(tag, attrs, ...filhos) {
+  const el = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs || {})) {
+    if (v === null || v === undefined || v === false) continue;
+    if (k === "class") el.className = v;
+    else if (k.startsWith("on")) el.addEventListener(k.slice(2), v);
+    else if (k in el && typeof v !== "string") el[k] = v;
+    else el.setAttribute(k, v === true ? "" : v);
+  }
+  for (const f of filhos.flat()) if (f !== null && f !== undefined && f !== false) el.append(f instanceof Node ? f : String(f));
+  return el;
+}
+const brl = (v) => "R$ " + N.brl(v);
+function status(el, texto, tipo) { el.textContent = texto || ""; el.className = "status" + (tipo ? " " + tipo : ""); }
+const copia = (x) => JSON.parse(JSON.stringify(x));
+
+function base64ParaBytes(b64) {
+  const bin = atob(b64); const out = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) out[i] = bin.charCodeAt(i);
+  return out;
+}
+const TEMPLATES = Object.fromEntries(Object.entries(D.templates).map(([r, b]) => [r, base64ParaBytes(b)]));
+const tplBuf = (ramo) => TEMPLATES[ramo].slice().buffer;
+const ESTRUTURAS = {};
+async function estruturaDo(ramo) {
+  if (!ESTRUTURAS[ramo]) ESTRUTURAS[ramo] = await N.estruturaTemplate(tplBuf(ramo));
+  return ESTRUTURAS[ramo];
+}
+
+/** Aceita 1000000 · 1.000.000 · 1.000.000,00 · 1000000.50 · "R$ 2 mi" não. */
+function lerValor(texto) {
+  let s = String(texto || "").trim().replace(/^r\$\s*/i, "").replace(/\s+/g, "");
+  if (!s) return null;
+  if (s.includes(",")) s = s.replace(/\./g, "").replace(",", ".");
+  else if ((s.match(/\./g) || []).length === 1 && /\.\d{1,2}$/.test(s)) { /* decimal com ponto */ }
+  else s = s.replace(/\./g, "");
+  const n = Number(s);
+  return Number.isFinite(n) ? n : NaN;
+}
+
+const claudeP = (nome) => (window.claude && typeof window.claude.use === "function"
+  ? window.claude.use(nome).catch(() => null) : Promise.resolve(null));
+const downloadsP = claudeP("downloads");
+const sampleP = claudeP("sample");
+
+async function baixar(nome, bytes, el) {
+  const dl = await downloadsP;
+  if (!dl) { status(el, "Download indisponível nesta visualização. Abra a página pelo claude.ai.", "erro"); return; }
+  status(el, "Confirme o download…");
+  try {
+    await dl.save({ filename: nome, data: new Blob([bytes]) });
+    status(el, "Arquivo salvo: " + nome, "ok");
+  } catch (e) {
+    const msg = {
+      declined: "Download cancelado.", rate_limited: "Já existe um download aguardando confirmação.",
+      too_large: "Arquivo grande demais para esta visualização.",
+    }[e && e.code] || "Não foi possível salvar o arquivo (" + ((e && e.code) || "erro") + ").";
+    status(el, msg, e && e.code === "declined" ? "" : "erro");
+  }
+}
+
+function dataHora() {
+  const d = new Date(), p = (n) => String(n).padStart(2, "0");
+  return `${d.getFullYear()}${p(d.getMonth() + 1)}${p(d.getDate())}_${p(d.getHours())}${p(d.getMinutes())}`;
+}
+
+/** Valida (e corrige) o lote e preenche o template do ramo. */
+async function gerarExcel(dados, corrigir) {
+  const regras = D.regras[dados.ramo];
+  const lote = N.validarLote(dados, regras, corrigir);
+  const { buffer } = await N.preencher(lote.dados, tplBuf(dados.ramo));
+  return { buffer, relatorio: lote.relatorio, erros: lote.erros, dados: lote.dados };
+}
+
+// ------------------------------------------------------------------ relatório
+function principalDa(massa, ramo) {
+  const c = massa.combos || {}, t = massa.texto || {};
+  if (ramo === "empresarial") return [t.Atividade, t["Valor em Risco - Danos Materiais"] ? "VR " + brl(N.num(t["Valor em Risco - Danos Materiais"])) : null].filter(Boolean).join(" · ");
+  if (ramo === "residencial") return [c["Tipo de Residência"], c["Objeto Segurado"]].filter(Boolean).join(" · ");
+  const vr = N.num(c["Valor em Risco Danos Materiais"]);
+  return [c["Tipo de Condomínio"], vr ? "VR " + brl(vr) : null].filter(Boolean).join(" · ");
+}
+
+function contar(relatorio) {
+  const c = { ERRO: 0, AVISO: 0, CORRIGIDO: 0 };
+  for (const r of relatorio) for (const [n] of r.problemas) c[n] = (c[n] || 0) + 1;
+  return c;
+}
+
+function renderResumo(el, ramo, dados, relatorio) {
+  const c = contar(relatorio);
+  el.replaceChildren(
+    h("span", null, h("span", { class: "num" }, dados.massas.length), dados.massas.length === 1 ? " massa" : " massas"),
+    h("span", null, "Ramo ", h("strong", null, RAMOS[ramo])),
+    h("span", null, h("span", { class: "chip CORRIGIDO" }, "CORRIGIDO"), " ", h("span", { class: "num" }, c.CORRIGIDO)),
+    h("span", null, h("span", { class: "chip ERRO" }, "ERRO"), " ", h("span", { class: "num" }, c.ERRO)),
+    h("span", null, h("span", { class: "chip AVISO" }, "AVISO"), " ", h("span", { class: "num" }, c.AVISO)),
+  );
+}
+
+function renderMassas(el, ramo, dados, relatorio) {
+  el.replaceChildren(...dados.massas.map((massa, i) => {
+    const rel = relatorio[i] || { problemas: [], linha: i + 3 };
+    const n = { ERRO: 0, AVISO: 0, CORRIGIDO: 0 };
+    for (const [nv] of rel.problemas) n[nv]++;
+    const chips = n.ERRO ? [h("span", { class: "chip ERRO" }, n.ERRO + (n.ERRO === 1 ? " erro" : " erros"))]
+      : [h("span", { class: "chip OK" }, "OK")];
+    if (n.CORRIGIDO) chips.push(h("span", { class: "chip CORRIGIDO" }, n.CORRIGIDO + (n.CORRIGIDO === 1 ? " correção" : " correções")));
+    const cobs = massa.coberturas || [];
+    const temPer = cobs.some((c) => c.periodo_indenitario), temVid = cobs.some((c) => c.qt_vidas);
+    return h("article", { class: "massa" },
+      h("header", null,
+        h("span", { class: "t" }, `Massa ${i + 1}`),
+        h("span", { class: "sub mono" }, `linha ${rel.linha}`),
+        h("span", { class: "sub" }, principalDa(massa, ramo)),
+        h("span", { class: "chips" }, chips)),
+      rel.problemas.length ? h("ul", { class: "problemas" }, rel.problemas.map(([nv, msg]) =>
+        h("li", null, h("span", null, h("span", { class: "chip " + nv }, nv)), h("span", null, msg)))) : null,
+      h("details", null,
+        h("summary", null, `Coberturas (${cobs.length})`),
+        h("div", { class: "tabela" }, h("table", null,
+          h("thead", null, h("tr", null, h("th", null, "Cobertura"), h("th", { style: "text-align:right" }, "Valor"),
+            temPer ? h("th", null, "Período") : null, temVid ? h("th", null, "Vidas") : null)),
+          h("tbody", null, cobs.map((c) => {
+            let v; try { v = brl(N.num(c.valor)); } catch { v = String(c.valor); }
+            return h("tr", null, h("td", null, c.nome), h("td", { class: "v" }, v),
+              temPer ? h("td", null, c.periodo_indenitario ? c.periodo_indenitario + " meses" : "") : null,
+              temVid ? h("td", null, c.qt_vidas || "") : null);
+          }))))));
+  }));
+}
+
+// ------------------------------------------------------------------ abas
+const ABAS = ["corrigir", "texto", "formulario", "templates"];
+function abrirAba(id) {
+  for (const a of ABAS) {
+    $("aba-" + a).setAttribute("aria-selected", String(a === id));
+    $(a).hidden = a !== id;
+  }
+  try { localStorage.setItem("gm-aba", id); } catch { /* sem storage */ }
+}
+for (const a of ABAS) $("aba-" + a).addEventListener("click", () => abrirAba(a));
+{
+  let inicial = location.hash.replace("#", "");
+  if (!ABAS.includes(inicial)) { try { inicial = localStorage.getItem("gm-aba"); } catch { inicial = null; } }
+  if (ABAS.includes(inicial)) abrirAba(inicial);
+}
+
+function encherSelectRamo(sel, valor) {
+  sel.replaceChildren(...Object.entries(RAMOS).map(([id, nome]) => h("option", { value: id }, nome)));
+  sel.value = valor;
+}
+
+// ------------------------------------------------------------------ Claude (texto e “resolver o que sobrou”)
+function catalogoDo(ramo) { return ramo.startsWith("condominio") ? D.refs["catalogo_condominio.md"] : D.refs[`catalogo_${ramo}.md`]; }
+
+async function montarPrompt(ramo, pedido, comFerramenta) {
+  const est = await estruturaDo(ramo);
+  const partes = [
+    "Você é o gerador de massas de teste de seguro da skill gerador-massas-seguros, rodando dentro de uma página web.",
+    "Siga TODAS as regras da skill abaixo. Onde a skill fala em rodar scripts Python, nesta página isso é a ferramenta " +
+      (comFerramenta ? "validar_massas (chame-a)" : "de validação que roda depois da sua resposta") +
+      "; o Excel é gerado pela página a partir do seu JSON.",
+    "", "=== SKILL.md ===", D.refs["SKILL.md"],
+    "", `=== Catálogo do ramo ${RAMOS[ramo]} ===`, catalogoDo(ramo),
+  ];
+  if (D.refs[`normas_${ramo}.md`]) partes.push("", "=== Normas de subscrição ===", D.refs[`normas_${ramo}.md`]);
+  partes.push("", "=== LMI, dependências e excludentes ===", D.refs[`lmi_${ramo}.md`]);
+  if (ramo === "empresarial") partes.push("", "=== Atividades aceitas (texto exato) ===", D.atividades.join("\n"));
+  partes.push("", "=== Nomes exatos das colunas do template deste ramo ===", JSON.stringify(est));
+  partes.push("",
+    "=== Instruções desta página ===",
+    `- Ramo: ${ramo}. Use exatamente esses nomes de campos, combos, perguntas, grupos, opções e coberturas.`,
+    "- Toda massa precisa ter TODOS os campos, combos" + (est.textos.length ? ", textos (chave \"texto\")" : "") +
+      " e perguntas do template. Valor opcional não informado (ex.: Lucros Cessantes) = \"<IGNORE>\".",
+    "- Valores em número puro (1000000), nunca texto formatado.",
+    "- Aqui não dá para fazer perguntas ao usuário: quando algo for ambíguo, escolha a opção mais plausível e registre a escolha em \"observacoes\".",
+    "- Sem pedido de erro proposital, a massa tem que sair sem nenhum ERRO." +
+      (comFerramenta ? " Chame validar_massas com as massas antes de responder e ajuste até não sobrar ERRO." : ""),
+    "- Responda SOMENTE com um JSON neste formato: {\"ramo\": \"" + ramo + "\", \"massas\": [ ... ], \"observacoes\": [\"...\"]}",
+    "", "=== Pedido do usuário ===", pedido);
+  return partes.join("\n");
+}
+
+function ferramentaValidar(ramo, aoUsar) {
+  return {
+    name: "validar_massas",
+    description: "Valida massas com as regras da skill (mínimo, máximo, % da básica, exige, exclui, sem aceitação, questionário) " +
+      "e testa o preenchimento no template. Retorna os ERROs e AVISOs de cada massa. Chame antes de responder.",
+    inputSchema: {
+      type: "object",
+      properties: { massas: { type: "array", items: { type: "object" }, description: "Lista de massas no formato JSON da skill" } },
+      required: ["massas"],
+    },
+    async execute(input) {
+      aoUsar && aoUsar();
+      if (!Array.isArray(input.massas)) throw new Error("'massas' precisa ser uma lista");
+      const dados = { ramo, massas: input.massas };
+      let lote;
+      try { lote = N.validarLote(dados, D.regras[ramo], false); } catch (e) { throw new Error("massa malformada: " + e.message); }
+      let preenchimento = "ok";
+      try { await N.preencher(lote.dados, tplBuf(ramo)); } catch (e) { preenchimento = e.message; }
+      return {
+        massas: lote.relatorio.map((r) => ({
+          massa: r.massa,
+          erros: r.problemas.filter((p) => p[0] === "ERRO").map((p) => p[1]),
+          avisos: r.problemas.filter((p) => p[0] === "AVISO").map((p) => p[1]),
+        })),
+        preenchimento_do_template: preenchimento,
+      };
+    },
+  };
+}
+
+const MSG_CLAUDE = {
+  not_granted: "O uso do Claude não foi autorizado nesta página.",
+  sampling_disabled: "O Claude não está disponível nesta conta.",
+  rate_limited: "Muitas chamadas seguidas ou limite de uso atingido. Tente de novo daqui a pouco.",
+  session_expired: "Sua sessão expirou. Entre de novo no claude.ai.",
+  refused: "O Claude recusou esse pedido. Reformule o texto.",
+  invalid_json: "A resposta veio fora do formato esperado. Tente de novo.",
+  prompt_too_large: "O pedido ficou grande demais. Peça menos massas por vez.",
+  empty_completion: "O Claude não respondeu nada. Simplifique o pedido.",
+  formato: "A resposta não trouxe a lista de massas. Tente de novo.",
+  indisponivel: "Este modo precisa do Claude: abra a página pelo claude.ai.",
+};
+
+/** Chama o Claude e devolve {massas, observacoes}. */
+async function pedirAoClaude(ramo, pedido, ctl, progresso) {
+  const sample = await sampleP;
+  if (!sample) throw { code: "indisponivel" };
+  const lim = await sample.limits().catch(() => null);
+  const comFerramenta = !!(lim && lim.tools);
+  const prompt = await montarPrompt(ramo, pedido, comFerramenta);
+  progresso("Pensando… (costuma levar de 30 s a 2 min)");
+  const opts = { signal: ctl.signal, modelTier: "default", onText: () => progresso("Escrevendo as massas…") };
+  if (comFerramenta) opts.tools = [ferramentaValidar(ramo, () => progresso("Validando as massas com as regras…"))];
+  else opts.cache = false;
+  const r = await sample.json(prompt, opts);
+  const massas = Array.isArray(r) ? r : r && Array.isArray(r.massas) ? r.massas : null;
+  if (!massas || !massas.length) throw { code: "formato" };
+  return { massas, observacoes: r && Array.isArray(r.observacoes) ? r.observacoes.map(String) : [] };
+}
+
+// ------------------------------------------------------------------ 01 corrigir
+const corrigir = { dados: null, nome: "massa", resultado: null };
+
+async function processarArquivo(file) {
+  const st = $("corrigir-status");
+  $("corrigir-resultado").hidden = true;
+  status($("corrigir-baixar-status"), "");
+  if (!/\.xlsx$/i.test(file.name)) { status(st, "Envie um arquivo .xlsx.", "erro"); return; }
+  status(st, "Lendo " + file.name + "…");
+  try {
+    const bytes = await file.arrayBuffer();
+    const dados = await N.extrair(bytes);
+    if (!dados.massas.length) { status(st, "Nenhuma massa encontrada a partir da linha 3.", "erro"); return; }
+    corrigir.dados = dados;
+    corrigir.nome = file.name.replace(/\.xlsx$/i, "");
+    await mostrarCorrecao(dados);
+    status(st, `${file.name}: ${RAMOS[dados.ramo]}, ${dados.massas.length} ${dados.massas.length === 1 ? "massa" : "massas"}.`, "ok");
+  } catch (e) {
+    console.error(e);
+    status(st, "Não consegui ler a planilha: " + (e.message || e), "erro");
+  }
+}
+
+async function mostrarCorrecao(dados) {
+  const r = await gerarExcel(dados, true);
+  corrigir.resultado = r;
+  renderResumo($("corrigir-resumo"), dados.ramo, r.dados, r.relatorio);
+  renderMassas($("corrigir-massas"), dados.ramo, r.dados, r.relatorio);
+  $("corrigir-claude").hidden = !r.erros;
+  $("corrigir-resultado").hidden = false;
+}
+
+{
+  const zona = $("soltar"), input = $("arquivo");
+  input.addEventListener("change", () => { if (input.files[0]) processarArquivo(input.files[0]); input.value = ""; });
+  zona.addEventListener("dragover", (e) => { e.preventDefault(); zona.classList.add("sobre"); });
+  zona.addEventListener("dragleave", () => zona.classList.remove("sobre"));
+  zona.addEventListener("drop", (e) => {
+    e.preventDefault(); zona.classList.remove("sobre");
+    const f = e.dataTransfer.files && e.dataTransfer.files[0];
+    if (f) processarArquivo(f);
+  });
+  $("corrigir-baixar").addEventListener("click", () => {
+    if (corrigir.resultado) baixar(`${corrigir.nome}_corrigido.xlsx`, corrigir.resultado.buffer, $("corrigir-baixar-status"));
+  });
+  $("corrigir-claude").addEventListener("click", async () => {
+    const btn = $("corrigir-claude"), st = $("corrigir-baixar-status");
+    const r = corrigir.resultado; if (!r) return;
+    const ramo = corrigir.dados.ramo;
+    const pendentes = r.relatorio.filter((x) => x.problemas.some((p) => p[0] === "ERRO"))
+      .map((x) => `massa ${x.massa}: ` + x.problemas.filter((p) => p[0] === "ERRO").map((p) => p[1]).join(" | "));
+    const pedido = "Corrija as massas abaixo para que não sobre nenhum ERRO, mudando o mínimo possível " +
+      "(mantenha a quantidade e a ordem das massas). Registre em observacoes o que você mudou.\n\nERROs que sobraram:\n" +
+      pendentes.join("\n") + "\n\nJSON atual:\n" + JSON.stringify({ ramo, massas: r.dados.massas });
+    btn.disabled = true;
+    const ctl = new AbortController();
+    try {
+      const resp = await pedirAoClaude(ramo, pedido, ctl, (t) => status(st, t));
+      corrigir.dados = { ramo, massas: resp.massas };
+      await mostrarCorrecao(corrigir.dados);
+      status(st, resp.observacoes.length ? "Claude: " + resp.observacoes.join(" · ") : "Massas revisadas pelo Claude.", "ok");
+    } catch (e) {
+      console.error(e);
+      if (e && e.code === "not_granted") btn.hidden = true;
+      status(st, MSG_CLAUDE[e && e.code] || "Falha ao falar com o Claude" + (e && e.message ? ": " + e.message : "."), "erro");
+    } finally { btn.disabled = false; }
+  });
+}
+
+// ------------------------------------------------------------------ 02 texto
+const texto = { resultado: null, ctl: null };
+encherSelectRamo($("texto-ramo"), "empresarial");
+try { const v = localStorage.getItem("gm-texto"); if (v) $("texto-pedido").value = v; } catch { /* sem storage */ }
+$("texto-pedido").addEventListener("input", () => { try { localStorage.setItem("gm-texto", $("texto-pedido").value); } catch { /* sem storage */ } });
+
+$("texto-gerar").addEventListener("click", async () => {
+  const pedido = $("texto-pedido").value.trim(), ramo = $("texto-ramo").value, st = $("texto-status");
+  if (!pedido) { status(st, "Escreva o pedido primeiro.", "erro"); $("texto-pedido").focus(); return; }
+  const btn = $("texto-gerar"), parar = $("texto-parar");
+  btn.disabled = true; parar.hidden = false;
+  $("texto-resultado").hidden = true;
+  texto.ctl = new AbortController();
+  status(st, "Preparando…");
+  try {
+    const resp = await pedirAoClaude(ramo, pedido, texto.ctl, (t) => status(st, t));
+    status(st, "Gerando o Excel…");
+    const r = await gerarExcel({ ramo, massas: resp.massas }, true);
+    texto.resultado = r;
+    $("texto-obs").replaceChildren(...resp.observacoes.map((o) => h("li", null, o)));
+    $("texto-obs-caixa").hidden = !resp.observacoes.length;
+    renderResumo($("texto-resumo"), ramo, r.dados, r.relatorio);
+    renderMassas($("texto-massas"), ramo, r.dados, r.relatorio);
+    status($("texto-baixar-status"), "");
+    $("texto-resultado").hidden = false;
+    status(st, r.erros ? "Pronto, mas ainda há ERRO para ajuste manual (veja abaixo)." : "Pronto. Nenhum erro nas regras.", r.erros ? "erro" : "ok");
+  } catch (e) {
+    console.error(e);
+    if (e && e.code === "cancelled") status(st, "Parado.");
+    else status(st, MSG_CLAUDE[e && e.code] || "Não deu certo: " + ((e && e.message) || "erro desconhecido"), "erro");
+    if (e && ["not_granted", "sampling_disabled", "indisponivel"].includes(e.code)) btn.hidden = true;
+  } finally {
+    btn.disabled = false; parar.hidden = true;
+  }
+});
+$("texto-parar").addEventListener("click", () => texto.ctl && texto.ctl.abort());
+$("texto-baixar").addEventListener("click", () => {
+  if (texto.resultado) baixar(`massas_${$("texto-ramo").value}_${dataHora()}.xlsx`, texto.resultado.buffer, $("texto-baixar-status"));
+});
+
+// ------------------------------------------------------------------ 03 formulário
+const form = { ramo: "empresarial", est: null, fila: [], ler: null };
+encherSelectRamo($("form-ramo"), "empresarial");
+$("lista-atividades").replaceChildren(...D.atividades.map((a) => h("option", { value: a })));
+
+function dicaCobertura(ramo, nome) {
+  const r = D.regras[ramo].coberturas[nome];
+  if (!r) return "";
+  if (r.sem_aceitacao) return "sem aceitação comercial";
+  const p = [];
+  if (r.valor_fixo) p.push("valor fixo " + N.brl(r.min));
+  else p.push(`${N.brl(r.min || 0)} a ${r.max ? N.brl(r.max) : "—"}`);
+  if (r.pct_basica && nome !== D.regras[ramo].basica) p.push(`até ${Number(r.pct_basica)}% da básica`);
+  if (r.exige_uma_de) p.push("exige " + r.exige_uma_de.join(" ou "));
+  return p.join(" · ");
+}
+
+function campoValor(rotulo, valor, opcional) {
+  const input = h("input", { type: "text", inputmode: "decimal", value: valor === null || valor === undefined ? "" : String(valor),
+    placeholder: opcional ? "vazio = não informado" : "ex.: 1000000" });
+  const dica = h("span", { class: "dica" });
+  const atual = () => {
+    const v = lerValor(input.value);
+    dica.textContent = v === null ? "" : Number.isNaN(v) ? "valor inválido" : brl(v);
+  };
+  input.addEventListener("input", atual); atual();
+  return { el: h("label", { class: "campo" }, h("span", { class: "nome" }, rotulo), input, dica), input };
+}
+
+async function montarFormulario(ramo, base) {
+  form.ramo = ramo;
+  const est = form.est = await estruturaDo(ramo);
+  const regras = D.regras[ramo];
+  const corpo = $("form-corpo");
+  const leitores = [];
+  const cond = ramo.startsWith("condominio");
+  const b = base || {};
+
+  // Identificação
+  const ident = h("div", { class: "grade2" });
+  for (const campo of est.campos) {
+    const atual = (b.campos || {})[campo];
+    let ctrl;
+    if (campo === "Perfil") {
+      ctrl = h("select", null, PERFIS.map((p) => h("option", { value: p }, p)));
+      ctrl.value = atual || "Corretor";
+    } else {
+      const padrao = campo === "Tipo Pessoa" ? (ramo === "residencial" ? "#cpf" : "#cnpj") : /^cep/i.test(campo) ? "#cep" : campo === "Corretor" ? "COI" : "";
+      ctrl = h("input", { type: "text", value: atual !== undefined && atual !== null ? String(atual) : padrao,
+        list: campo === "Tipo Pessoa" ? "lista-pessoa" : /^cep/i.test(campo) ? "lista-cep" : null });
+    }
+    ident.append(h("label", { class: "campo" }, h("span", { class: "nome" }, campo), ctrl));
+    leitores.push((m) => { m.campos[campo] = ctrl.value.trim(); });
+  }
+
+  // Características
+  const carac = h("div", { class: "grade2" });
+  const opc = OPCOES[cond ? "condominio" : ramo];
+  for (const combo of est.combos) {
+    const atual = (b.combos || {})[combo];
+    if (opc[combo]) {
+      const sel = h("select", null, opc[combo].map((o) => h("option", { value: o }, o)));
+      if (atual && opc[combo].includes(atual)) sel.value = atual;
+      carac.append(h("label", { class: "campo" }, h("span", { class: "nome" }, combo), sel));
+      leitores.push((m) => { m.combos[combo] = sel.value; });
+    } else {
+      const lim = regras.basica_campo === combo ? regras.basica_limites : null;
+      const cv = campoValor(combo + (lim ? ` (${N.brl(lim.min)} a ${N.brl(lim.max)})` : ""), atual !== undefined ? atual : 5000000);
+      carac.append(cv.el);
+      leitores.push((m) => { const v = lerValor(cv.input.value); m.combos[combo] = v === null || Number.isNaN(v) ? IGNORAR : v; });
+    }
+  }
+  for (const t of est.textos) {
+    const atual = (b.texto || {})[t];
+    if (N.normalizar(t) === "atividade") {
+      const inp = h("input", { type: "text", list: "lista-atividades", value: atual || "Escritório", placeholder: "digite para buscar" });
+      carac.append(h("label", { class: "campo" }, h("span", { class: "nome" }, t), inp));
+      leitores.push((m) => { m.texto[t] = inp.value.trim(); });
+    } else {
+      const opcional = N.normalizar(t).startsWith("lucros");
+      const cv = campoValor(t, atual === IGNORAR ? "" : atual !== undefined ? atual : opcional ? "" : 1000000, opcional);
+      carac.append(cv.el);
+      leitores.push((m) => { const v = lerValor(cv.input.value); m.texto[t] = v === null || Number.isNaN(v) ? IGNORAR : v; });
+    }
+  }
+
+  // Booleanos
+  const bools = est.bools.filter((x) => !(ramo === "empresarial" && x === BOOL_ORFAO));
+  const boolEl = bools.length ? h("div", { class: "grupo" }, h("span", { class: "nome-grupo" }, "Benefícios e inspeções"),
+    h("div", { class: "opcoes" }, bools.map((nome) => {
+      const cb = h("input", { type: "checkbox", checked: (b.bool || []).includes(nome) });
+      leitores.push((m) => { if (cb.checked) m.bool.push(nome); });
+      return h("label", null, cb, nome);
+    }))) : null;
+
+  // Perguntas e questionário
+  const quest = h("div", { class: "bloco" });
+  const perguntasGrade = h("div", { class: "grade2" });
+  let elevadorSel = null, qtdLabel = null;
+  for (const p of est.perguntas) {
+    const atual = (b.perguntas || {})[p];
+    if (N.normalizar(p).startsWith("deseja contratar indenizacao")) {
+      const sel = h("select", null, h("option", { value: "não" }, "Não"), h("option", { value: "sim" }, "Sim"));
+      sel.value = atual && N.normalizar(atual) === "sim" ? "sim" : "não";
+      perguntasGrade.append(h("label", { class: "campo" }, h("span", { class: "nome" }, p), sel));
+      leitores.push((m) => { m.perguntas[p] = sel.value; });
+    } else if (p === "Qual a quantidade de elevadores?") {
+      const inp = h("input", { type: "number", min: "1", step: "1", value: atual && atual !== IGNORAR ? String(atual) : "2" });
+      qtdLabel = h("label", { class: "campo" }, h("span", { class: "nome" }, p), inp);
+      perguntasGrade.append(qtdLabel);
+      leitores.push((m) => { m.perguntas[p] = elevadorSel && elevadorSel.value === "Sim" ? (inp.value.trim() || "") : IGNORAR; });
+    } else {
+      const sel = h("select", null, h("option", { value: "Sim" }, "Sim"), h("option", { value: "Não" }, "Não"));
+      sel.value = atual && N.normalizar(atual) === "nao" ? "Não" : "Sim";
+      if (p === "O Condomínio possui elevador?") elevadorSel = sel;
+      perguntasGrade.append(h("label", { class: "campo" }, h("span", { class: "nome" }, p), sel));
+      leitores.push((m) => { m.perguntas[p] = sel.value; });
+    }
+  }
+  if (elevadorSel && qtdLabel) {
+    const sync = () => { qtdLabel.hidden = elevadorSel.value !== "Sim"; };
+    elevadorSel.addEventListener("change", sync); sync();
+  }
+  quest.append(perguntasGrade);
+  let gid = 0;
+  for (const [g, info] of Object.entries(est.grupos)) {
+    const atual = (b.grupos || {})[g];
+    gid++;
+    if (info.opcoes.length === 1 && !info.obrigatorio) {
+      const cb = h("input", { type: "checkbox", checked: !!(atual && atual.length) });
+      quest.append(h("div", { class: "grupo" }, h("span", { class: "nome-grupo" }, g.replace(/ Condominio$/, "")),
+        h("div", { class: "opcoes" }, h("label", null, cb, "Contratar"))));
+      leitores.push((m) => { m.grupos[g] = cb.checked ? [info.opcoes[0]] : []; });
+      continue;
+    }
+    const tipo = info.modo === "unico" ? "radio" : "checkbox";
+    const marcadas = atual && atual.length ? atual : [PADRAO_GRUPO[g] || info.opcoes[0]];
+    const caixas = info.opcoes.map((o) => h("input", { type: tipo, name: "g" + gid, value: o, checked: marcadas.includes(o) }));
+    if (tipo === "checkbox" && info.nao_informado) {
+      // "Não informado" é exclusiva: marcar ela desmarca as outras e vice-versa.
+      caixas.forEach((cb) => cb.addEventListener("change", () => {
+        if (!cb.checked) return;
+        for (const outro of caixas) if (outro !== cb && (cb.value === info.nao_informado || outro.value === info.nao_informado)) outro.checked = false;
+      }));
+    }
+    quest.append(h("fieldset", { class: "grupo" },
+      h("legend", { class: "nome-grupo" }, g + (info.modo === "unico" ? "" : " (pode marcar várias)")),
+      h("div", { class: "opcoes" }, info.opcoes.map((o, i) => h("label", null, caixas[i], o)))));
+    leitores.push((m) => { m.grupos[g] = caixas.filter((c) => c.checked).map((c) => c.value); });
+  }
+
+  // Coberturas
+  const listaCob = h("div", { class: "cobs" });
+  const datalistId = "cobs-" + ramo;
+  const dl = h("datalist", { id: datalistId }, est.coberturas.map((c) => h("option", { value: c })));
+  const linhas = [];
+  function novaLinha(item) {
+    const nomeInp = h("input", { type: "text", list: datalistId, value: item ? item.nome : "", placeholder: "cobertura (digite para buscar)" });
+    const cv = campoValor("Valor", item ? item.valor : "");
+    cv.el.classList.add("valor");
+    const dica = h("span", { class: "dica" });
+    const extra = h("div", { class: "extra" });
+    let perInp = null, vidInp = null;
+    const remover = h("button", { class: "x", type: "button", title: "Remover cobertura", "aria-label": "Remover cobertura" }, "×");
+    const linha = h("div", { class: "cob" },
+      h("label", { class: "campo" }, h("span", { class: "nome" }, "Cobertura"), nomeInp, dica), cv.el,
+      h("div", { style: "padding-top:22px" }, remover), extra);
+    const canon = () => est.coberturas.find((c) => N.normalizar(c) === N.normalizar(nomeInp.value));
+    const atualizar = () => {
+      const c = canon();
+      dica.textContent = c ? dicaCobertura(ramo, c) : nomeInp.value ? "não existe neste template" : "";
+      const temPer = c && est.periodos.some((p) => N.normalizar(p) === N.normalizar(c));
+      const temVid = c && est.qt_vidas.some((p) => N.normalizar(p) === N.normalizar(c));
+      if (!!perInp !== !!temPer || !!vidInp !== !!temVid) {
+        extra.replaceChildren();
+        perInp = vidInp = null;
+        if (temPer) {
+          perInp = h("input", { type: "number", min: "1", step: "1", value: item && item.periodo_indenitario ? String(item.periodo_indenitario) : "", placeholder: "meses" });
+          extra.append(h("label", { class: "campo" }, h("span", { class: "nome" }, "Período indenitário (meses)"), perInp));
+        }
+        if (temVid) {
+          vidInp = h("input", { type: "number", min: "1", step: "1", value: item && item.qt_vidas ? String(item.qt_vidas) : "", placeholder: "vidas" });
+          extra.append(h("label", { class: "campo" }, h("span", { class: "nome" }, "Qt de vidas"), vidInp));
+        }
+      }
+    };
+    nomeInp.addEventListener("input", atualizar); atualizar();
+    const ref = { linha, ler: () => {
+      if (!nomeInp.value.trim()) return null;
+      const v = lerValor(cv.input.value);
+      const it = { nome: canon() || nomeInp.value.trim(), valor: v === null || Number.isNaN(v) ? 0 : v };
+      if (perInp && perInp.value) it.periodo_indenitario = Number(perInp.value);
+      if (vidInp && vidInp.value) it.qt_vidas = Number(vidInp.value);
+      return it;
+    } };
+    remover.addEventListener("click", () => { linhas.splice(linhas.indexOf(ref), 1); linha.remove(); validarForm(); });
+    linhas.push(ref); listaCob.append(linha);
+    return nomeInp;
+  }
+  const iniciais = b.coberturas && b.coberturas.length ? b.coberturas
+    : regras.basica && est.coberturas.includes(regras.basica) ? [{ nome: regras.basica, valor: Math.max(regras.coberturas[regras.basica].min || 0, 1000000) }] : [];
+  iniciais.forEach((it) => novaLinha(it));
+  if (!iniciais.length) novaLinha(null);
+  const addBtn = h("button", { class: "btn", type: "button", onclick: () => novaLinha(null).focus() }, "+ Cobertura");
+  leitores.push((m) => { m.coberturas = linhas.map((l) => l.ler()).filter(Boolean); });
+
+  corpo.replaceChildren(
+    h("div", { class: "bloco" }, h("h3", null, "Identificação"), ident),
+    h("div", { class: "bloco" }, h("h3", null, "Características do risco"), carac, boolEl),
+    h("div", { class: "bloco" }, h("h3", null, "Perguntas e questionário"), quest),
+    h("div", { class: "bloco" }, h("h3", null, `Coberturas (${est.coberturas.length} no template)`), dl, listaCob, h("div", null, addBtn)),
+  );
+
+  form.ler = () => {
+    const m = { campos: {}, combos: {}, perguntas: {}, grupos: {}, coberturas: [] };
+    if (est.textos.length) m.texto = {};
+    if (est.bools.length) m.bool = [];
+    for (const l of leitores) l(m);
+    return m;
+  };
+  validarForm();
+}
+
+let timerValidar = null;
+function validarForm() {
+  clearTimeout(timerValidar);
+  timerValidar = setTimeout(() => {
+    if (!form.ler) return;
+    const el = $("form-validacao");
+    let probs;
+    try { probs = N.validar(copia(form.ler()), D.regras[form.ramo], false); }
+    catch (e) { probs = [["ERRO", e.message]]; }
+    if (!probs.length) { el.replaceChildren(h("p", { class: "status ok", style: "margin:0" }, h("span", { class: "chip OK" }, "OK"), " Nenhum problema nas regras.")); return; }
+    el.replaceChildren(h("ul", { class: "problemas", style: "padding:0" }, probs.map(([nv, msg]) =>
+      h("li", null, h("span", null, h("span", { class: "chip " + nv }, nv)), h("span", null, msg)))));
+  }, 200);
+}
+$("form").addEventListener("input", validarForm);
+$("form").addEventListener("change", validarForm);
+$("form").addEventListener("submit", (e) => e.preventDefault());
+
+function renderFila() {
+  const ul = $("form-fila");
+  if (!form.fila.length) { ul.replaceChildren(h("li", { class: "vazio", style: "border:0;padding:0" }, "Nenhuma massa ainda. Sem lista, o Excel sai só com a massa atual.")); return; }
+  ul.replaceChildren(...form.fila.map((m, i) => {
+    const rem = h("button", { class: "x", type: "button", title: "Tirar da lista", "aria-label": `Tirar a massa ${i + 1} da lista` }, "×");
+    rem.addEventListener("click", () => { form.fila.splice(i, 1); renderFila(); });
+    const abrir = h("button", { class: "btn leve", type: "button" }, "editar");
+    abrir.addEventListener("click", () => { const [mm] = form.fila.splice(i, 1); renderFila(); montarFormulario(form.ramo, mm); });
+    return h("li", null, h("span", null, h("strong", null, `Linha ${i + 3}`), " · ", principalDa(m, form.ramo) || "massa",
+      ` · ${m.coberturas.length} cob.`), abrir, rem);
+  }));
+}
+
+$("form-ramo").addEventListener("change", async () => {
+  if (form.fila.length) status($("form-status"), "Lista esvaziada: cada Excel é de um ramo só.");
+  form.fila = []; renderFila();
+  await montarFormulario($("form-ramo").value);
+});
+$("form-adicionar").addEventListener("click", () => {
+  if (!form.ler) return;
+  form.fila.push(form.ler()); renderFila();
+  status($("form-status"), `Massa adicionada (linha ${form.fila.length + 2}). O formulário continua com os mesmos dados para você variar.`, "ok");
+});
+$("form-limpar").addEventListener("click", () => montarFormulario(form.ramo));
+$("form-baixar").addEventListener("click", async () => {
+  const st = $("form-status");
+  const massas = form.fila.length ? form.fila : form.ler ? [form.ler()] : [];
+  if (!massas.length) return;
+  status(st, "Gerando…");
+  try {
+    const r = await gerarExcel({ ramo: form.ramo, massas: copia(massas) }, $("form-corrigir").checked);
+    renderMassas($("form-resultado"), form.ramo, r.dados, r.relatorio);
+    await baixar(`massas_${form.ramo}_${dataHora()}.xlsx`, r.buffer, st);
+  } catch (e) {
+    console.error(e);
+    status(st, "Não deu para gerar: " + (e.message || e), "erro");
+  }
+});
+
+// ------------------------------------------------------------------ 04 templates
+async function montarTemplates() {
+  const lista = $("lista-templates");
+  for (const [ramo, nome] of Object.entries(RAMOS)) {
+    const est = await estruturaDo(ramo);
+    const btn = h("button", { class: "btn primario", type: "button" }, "Baixar original");
+    btn.addEventListener("click", () => baixar(ARQUIVOS[ramo], TEMPLATES[ramo].slice(), $("templates-status")));
+    const colunas = est.campos.length + est.combos.length + est.textos.length + est.bools.length + est.perguntas.length +
+      Object.values(est.grupos).reduce((s, g) => s + g.opcoes.length, 0) + est.coberturas.length + est.periodos.length + est.qt_vidas.length;
+    lista.append(h("article", { class: "caixa tpl" },
+      h("h2", null, nome),
+      h("span", { class: "arquivo" }, ARQUIVOS[ramo]),
+      h("dl", null,
+        h("dt", null, "Coberturas"), h("dd", null, est.coberturas.length),
+        h("dt", null, "Colunas mapeadas"), h("dd", null, colunas),
+        h("dt", null, "Básica"), h("dd", null, D.regras[ramo].basica_campo || D.regras[ramo].basica || "—"),
+        h("dt", null, "Tamanho"), h("dd", null, (TEMPLATES[ramo].length / 1024).toFixed(0) + " KB")),
+      h("div", null, btn)));
+  }
+}
+
+// ------------------------------------------------------------------ início
+(async () => {
+  if (!N || !window.ExcelJS || !window.JSZip) {
+    status($("corrigir-status"), "Não consegui carregar a biblioteca de Excel. Recarregue a página.", "erro");
+    return;
+  }
+  renderFila();
+  await montarFormulario("empresarial");
+  await montarTemplates();
+  sampleP.then((s) => {
+    if (!s) {
+      $("texto-gerar").disabled = true;
+      status($("texto-status"), MSG_CLAUDE.indisponivel);
+    }
+  });
+})();
+</script>
